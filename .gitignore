@@ -3,3 +3,7 @@
 Solutions/*
 !Solutions/*.sln
 !Solutions/*.bat
+
+ThirdParty/*
+!ThirdParty/*.cmake
+!ThirdParty/*.bat
