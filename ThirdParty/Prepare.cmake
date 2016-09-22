@@ -9,7 +9,7 @@ if(NOT EXISTS ${GLFW_SOURCE_DIR})
 endif()
 
 function(BuildGlfw Configuration)
-    if(NOT EXISTS ${GLFW_BUILD_DIR}/${Configuration})
+    if(NOT EXISTS ${GLFW_BUILD_DIR}/${Configuration}/${BUILD_ARCHITECTURE})
         #Compile
         execute_process(
             COMMAND ${TOP}/ThirdParty/BuildGlfwWindows.bat GLFW.sln ${Configuration}
@@ -18,11 +18,11 @@ function(BuildGlfw Configuration)
         #copy libraries
         file(
             COPY ${GLFW_BUILD_DIR}/src/${Configuration}/glfw3.lib
-            DESTINATION ${GLFW_DIR}/${Configuration}/${BUILD_ARCHITECTURE}/glfw3/)
+            DESTINATION ${GLFW_DIR}/${Configuration}/${BUILD_ARCHITECTURE}/)
     endif()
 endfunction()
 
-if(NOT EXISTS ${GLFW_DIR}/include/)    
+if(NOT EXISTS ${GLFW_DIR}/Debug/${Configuration}/${BUILD_ARCHITECTURE})    
     if(${BUILD_ARCHITECTURE} STREQUAL X32)
         set(GENERATOR_NAME "Visual Studio 14 2015")
     else()
@@ -36,12 +36,13 @@ if(NOT EXISTS ${GLFW_DIR}/include/)
     endif()
 
     #copy include files
-    file(COPY ${GLFW_SOURCE_DIR}/include DESTINATION ${GLFW_DIR})
+    if(NOT EXISTS ${GLFW_SOURCE_DIR}/include)
+        file(COPY ${GLFW_SOURCE_DIR}/include DESTINATION ${GLFW_DIR})
+    endif()
     
     BuildGlfw(Debug)
     BuildGlfw(Release)
     
-    file(REMOVE_RECURSE ${GLFW_SOURCE_DIR})
     file(REMOVE_RECURSE ${GLFW_BUILD_DIR})
 endif()
 

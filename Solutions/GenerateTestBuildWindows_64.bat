@@ -1,5 +1,5 @@
-if not exist TestBuild mkdir TestBuild
-pushd TestBuild
+if not exist TestBuild_64 mkdir TestBuild_64
+pushd TestBuild_64
 
 set _TOP0=%cd%\..\..
 set _TOP=%_TOP0:\=/%
