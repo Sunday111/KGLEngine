@@ -51,8 +51,3 @@ if(NOT EXISTS ${GLFW_DIR}/Debug/${Configuration}/${BUILD_ARCHITECTURE})
     
     file(REMOVE_RECURSE ${GLFW_BUILD_DIR})
 endif()
-
-#glew
-if(NOT EXISTS ${GLEW_DIR}/Debug/${Configuration}/${BUILD_ARCHITECTURE})
-
-endif()
