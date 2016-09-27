@@ -1,0 +1,31 @@
+#ifndef ${MODULE_NAME}_COMMON_H_INCLUDED
+#define ${MODULE_NAME}_COMMON_H_INCLUDED
+
+//Set compiler dependent semantics for library visibility 
+#if defined(MSVC)
+	//Microsoft
+	#if defined ${MODULE_NAME}_SHARED
+		#define ${MODULE_NAME}_API __declspec(dllexport)
+	#else
+		#define ${MODULE_NAME}_API __declspec(dllimport)
+	#endif
+#elif defined(GNU)
+	//GCC
+	#if defined ${MODULE_NAME}_SHARED
+		#define ${MODULE_NAME}_API __attribute__((visibility("default")))
+	#else
+		#define ${MODULE_NAME}_API
+	#endif
+#else
+	//not implemented
+	#pragma warning Not implemented for this compiler
+#endif
+
+#ifdef ${MODULE_NAME}_SHARED
+	#define ${MODULE_NAME} EXPORT
+#else
+	#define ${MODULE_NAME} IMPORT
+#endif /* ${MODULE_NAME}_SHARED */
+
+
+#endif /* ${MODULE_NAME}_COMMON_H_INCLUDED */
