@@ -32,3 +32,4 @@ target_link_libraries (${projectName} glfw)
 
 #solution folder
 set_target_properties (${projectName} PROPERTIES FOLDER "Projects")
+set_target_properties (glfw PROPERTIES FOLDER "Third Party")
