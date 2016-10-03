@@ -1,4 +1,5 @@
 include(${TOP}/ThirdParty/Prepare.cmake)
+include(${TOP}/Build/Code/KGL_Engine/GatherKGLModuleSources.cmake)
 
 set(ModuleName KGL_Graphics)
 set(MODULE_NAME KGL_GRAPHICS)
@@ -12,7 +13,10 @@ if(NOT EXISTS ${GLEW_BINARY_DIR})
     add_subdirectory(${GLEW_DIR}/build/cmake ${GLEW_BINARY_DIR} EXCLUDE_FROM_ALL)
 endif()
 
-add_library(${ModuleName} SHARED ${TOP}/Code/KGL_Engine/${ModuleName}/src/GraphicsTestFunction.cpp)
+GatherKGLModuleSources(${ModuleName} moduleSources)
+
+add_library(${ModuleName} SHARED ${moduleSources})
+
 target_include_directories(${ModuleName} PUBLIC
     ${TOP}/Code/KGL_Engine/${ModuleName}/include/
     ${CMAKE_CURRENT_BINARY_DIR})
