@@ -1,17 +1,34 @@
 cmake_minimum_required (VERSION 3.5.1)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/")
-project (TestProject CXX)
-include (${TOP}/Build/Modules/CompilerDefinitions.cmake)
-include (${TOP}/Build/Modules/OperatingSystemDefinitions.cmake)
+SET(projectName TestProject)
+SET(USE_KGL_CORE)
+SET(USE_KGL_GRAPHICS)
+project (${projectName} CXX)
+INCLUDE (${TOP}/Build/Modules/CompilerDefinitions.cmake)
+INCLUDE (${TOP}/Build/Modules/OperatingSystemDefinitions.cmake)
+INCLUDE (${TOP}/Build/Code/KGL_Engine/ConfigureKGL.cmake)
+INCLUDE (${TOP}/ThirdParty/glfw.cmake)
 
-add_subdirectory(${TOP}/Build/Code/KGL_Engine/KGL_Core ${CMAKE_BINARY_DIR}/Deps/KGL_Engine/KGL_Core)
-add_subdirectory(${TOP}/Build/Code/KGL_Engine/KGL_Graphics ${CMAKE_BINARY_DIR}/Deps/KGL_Engine/KGL_Graphics)
+add_executable(${projectName} ${TOP}/Code/Projects/${projectName}/main.cpp)
 
-add_executable(TestProject ${TOP}/Code/Projects/TestProject/main.cpp)
-target_compile_definitions(TestProject PRIVATE -D${CMAKE_CXX_COMPILER_ID})
+set(Modules
+    KGL_CORE,
+    KGL_GRAPHICS)
 
-target_include_directories(TestProject PUBLIC ${TOP}/Code/KGL_Engine/KGL_Core/include/)
-target_include_directories(TestProject PUBLIC ${TOP}/Code/KGL_Engine/KGL_Graphics/include/)
+ConfigureKGL(${Modules})
 
-target_link_libraries (TestProject KGL_Core)
-target_link_libraries (TestProject KGL_Graphics)
+add_subdirectory(${GLFW_DIR} ${GLFW_BINARY_DIR} EXCLUDE_FROM_ALL)
+
+target_compile_definitions(${projectName} PRIVATE -D${CMAKE_CXX_COMPILER_ID})
+
+target_include_directories(${projectName} PUBLIC
+    ${TOP}/ThirdParty/glfw/include/
+    ${TOP}/Code/KGL_Engine/KGL_Core/include/
+    ${TOP}/Code/KGL_Engine/KGL_Graphics/include/)
+
+target_link_libraries (${projectName} KGL_Core)
+target_link_libraries (${projectName} KGL_Graphics)
+target_link_libraries (${projectName} glfw)
+
+#solution folder
+set_target_properties (${projectName} PROPERTIES FOLDER "Projects")

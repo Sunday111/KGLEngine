@@ -3,6 +3,9 @@
 #include <iostream>
 #include <string.h>
 
+// GLFW
+#include <GLFW/glfw3.h>
+
 int main(int argc, const char** argv)
 {
 	using namespace KGL::Core;

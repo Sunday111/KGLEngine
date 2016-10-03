@@ -1,4 +1,3 @@
-include(${TOP}/ThirdParty/Prepare.cmake)
 include(${TOP}/Build/Code/KGL_Engine/GatherKGLModuleSources.cmake)
 
 set(ModuleName KGL_Core)
@@ -12,3 +11,6 @@ target_include_directories(${ModuleName} PUBLIC
     ${TOP}/Code/KGL_Engine/${ModuleName}/include/
     ${CMAKE_CURRENT_BINARY_DIR})
 target_compile_definitions(${ModuleName} PRIVATE -DKGL_CORE_SHARED -D${CMAKE_CXX_COMPILER_ID})
+
+#solution folder
+set_target_properties (${ModuleName} PROPERTIES FOLDER "KGL Engine")
