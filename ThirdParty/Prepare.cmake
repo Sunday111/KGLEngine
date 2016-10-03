@@ -25,8 +25,7 @@ if(NOT EXISTS ${GLEW_DIR})
         #download glew sources
         file(
             DOWNLOAD "http://heanet.dl.sourceforge.net/project/glew/glew/2.0.0/glew-2.0.0.tgz" ${GLEW_SOURCE_ARCHIVE}
-            STATUS "Downloading glew"
-            SHOW_PROGRESS)
+            STATUS "Downloading glew")
         
         #unpack glew sources
         execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${GLEW_SOURCE_ARCHIVE}
