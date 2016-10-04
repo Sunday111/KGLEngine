@@ -1,3 +1,4 @@
+#include "KGL_Graphics/Window.h"
 #include "KGL_Graphics/WindowManager.h"
 #include "WindowManagerImpl.h"
 
@@ -19,6 +20,11 @@ WindowManager::~WindowManager()
     {
         delete m_d;
     }
+}
+
+int WindowManager::GetCurrentWindowId()
+{
+    return m_d->GetCurrentWindowId();
 }
 
 } }

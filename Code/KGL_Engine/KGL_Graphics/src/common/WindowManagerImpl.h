@@ -11,19 +11,32 @@ class WindowImpl;
 class WindowManagerImpl
 {
 public:
-    explicit WindowManagerImpl() = default;
+    enum { NoCurrentWindow = -1 };
 
-    void OnCreateWindow(WindowImpl* wnd)
+    explicit WindowManagerImpl();
+    ~WindowManagerImpl();
+
+    void OnCreateWindow(WindowImpl* wnd);
+
+    void OnDestroyWindow(WindowImpl* wnd);
+
+    void SetCurrentWindow(int windowId);
+
+    void Update();
+
+    int GetCurrentWindowId() const
     {
-        m_windows.insert(wnd);
+        return m_currentWindowId;
     }
 
-    void OnDestroyWindow(WindowImpl* wnd)
+    int GenerateWindowId()
     {
-        m_windows.erase(wnd);
+        return m_nextWindowId++;
     }
 
 private:
+    int m_nextWindowId;
+    int m_currentWindowId;
     std::set<WindowImpl*> m_windows;
 };
 

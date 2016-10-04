@@ -1,6 +1,8 @@
 #include <KGL_Graphics/GraphicSystem.h>
+#include <KGL_Graphics/WindowManager.h>
 #include <iostream>
 #include <cassert>
+#include "WindowManagerImpl.h"
 
 // GLEW
 #ifndef GLEW_STATIC
@@ -25,24 +27,15 @@ public:
         glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
         glewExperimental = GL_TRUE;
-
-        GLFWwindow* window = glfwCreateWindow(800, 600, "LearnOpenGL", nullptr, nullptr);
-        if (window == nullptr)
-        {
-            std::cerr << "Failed to create GLFW window" << std::endl;
-            assert(false);
-            return;
-        }
-        glfwMakeContextCurrent(window);
-
-        const auto glewInitResult = glewInit();
-        if (glewInitResult != GLEW_OK)
-        {
-            std::cerr << "Failed to initialize GLEW:"
-                << glewGetErrorString(glewInitResult) << std::endl;
-            assert(false);
-        }
     }
+
+    WindowManager* GetWindowManager()
+    {
+        return &m_windowManager;
+    }
+
+private:
+    WindowManager m_windowManager;
 };
 
 GraphicSystem::GraphicSystem() :
@@ -62,6 +55,16 @@ GraphicSystem::~GraphicSystem()
         delete m_d;
         glfwTerminate();
     }
+}
+
+void GraphicSystem::Update()
+{
+    m_d->GetWindowManager()->GetImpl()->Update();
+}
+
+WindowManager* GraphicSystem::GetWindowManager()
+{
+    return m_d->GetWindowManager();
 }
 
 } }

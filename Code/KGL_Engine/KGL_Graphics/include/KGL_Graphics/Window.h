@@ -34,6 +34,13 @@ public:
      */
     bool RemoveListener(WindowListener* listener);
 
+    bool ShouldClose() const;
+
+    int GetId() const;
+
+    Window& operator= (const Window&) = delete;
+    Window& operator= (Window&& uref);
+
 private:
     WindowImpl* m_d;
 };

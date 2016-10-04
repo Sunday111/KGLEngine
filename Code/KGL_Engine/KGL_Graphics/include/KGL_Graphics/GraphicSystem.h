@@ -5,6 +5,8 @@
 
 namespace KGL { namespace Graphics {
 
+class WindowManager;
+
 class KGL_GRAPHICS_API GraphicSystem
 {
 public:
@@ -13,9 +15,13 @@ public:
     GraphicSystem(GraphicSystem&&);
     ~GraphicSystem();
 
+    void Update();
+
+    WindowManager* GetWindowManager();
+
 private:
     class GraphicSystemImpl;
-    const GraphicSystemImpl* m_d;
+    GraphicSystemImpl* m_d;
 };
 
 }}

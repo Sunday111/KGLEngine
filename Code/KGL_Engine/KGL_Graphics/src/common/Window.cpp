@@ -47,4 +47,33 @@ bool Window::RemoveListener(WindowListener* listener)
     return m_d->RemoveListener(listener);
 }
 
+bool Window::ShouldClose() const
+{
+    if (m_d == nullptr)
+    {
+        assert(!"Attempt to call object with empty definition!");
+        return false;
+    }
+
+    return m_d->ShouldClose();
+}
+
+int Window::GetId() const
+{
+    if (m_d == nullptr)
+    {
+        assert(!"Attempt to call object with empty definition!");
+        return false;
+    }
+
+    return m_d->GetId();
+}
+
+Window& Window::operator= (Window&& uref)
+{
+    m_d = uref.m_d;
+    uref.m_d = nullptr;
+    return *this;
+}
+
 } }
