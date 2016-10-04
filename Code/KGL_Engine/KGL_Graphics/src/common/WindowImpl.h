@@ -23,8 +23,6 @@ public:
     bool ShouldClose() const;
     void Update() const;
 
-    static void PollEvents();
-
 private:
     int m_id;
     GLFWwindow* m_wnd;

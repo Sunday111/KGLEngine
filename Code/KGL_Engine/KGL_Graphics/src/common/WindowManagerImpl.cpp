@@ -48,9 +48,9 @@ void WindowManagerImpl::Update()
     for (WindowImpl* wnd : m_windows)
     {
         wnd->Update();
+        glfwPollEvents();
     }
 
-    glfwPollEvents();
 }
 
 } }

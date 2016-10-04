@@ -71,8 +71,14 @@ int Window::GetId() const
 
 Window& Window::operator= (Window&& uref)
 {
+    if (m_d != nullptr)
+    {
+        delete m_d;
+    }
+
     m_d = uref.m_d;
     uref.m_d = nullptr;
+
     return *this;
 }
 

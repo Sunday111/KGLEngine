@@ -63,6 +63,8 @@ bool WindowImpl::RemoveListener(WindowListener* listener)
 
 bool WindowImpl::ShouldClose() const
 {
+    glfwMakeContextCurrent(m_wnd);
+    m_mgr->SetCurrentWindow(m_id);
     auto result = glfwWindowShouldClose(m_wnd);
     return result != 0;
 }
@@ -72,10 +74,6 @@ void WindowImpl::Update() const
     glfwMakeContextCurrent(m_wnd);
     m_mgr->SetCurrentWindow(m_id);
     glfwSwapBuffers(m_wnd);  // make this loop through all current windows??
-}
-
-void WindowImpl::PollEvents()
-{
 }
 
 } }
