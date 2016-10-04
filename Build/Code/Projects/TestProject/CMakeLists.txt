@@ -7,7 +7,6 @@ project (${projectName} CXX)
 INCLUDE (${TOP}/Build/Modules/CompilerDefinitions.cmake)
 INCLUDE (${TOP}/Build/Modules/OperatingSystemDefinitions.cmake)
 INCLUDE (${TOP}/Build/Code/KGL_Engine/ConfigureKGL.cmake)
-INCLUDE (${TOP}/ThirdParty/glfw.cmake)
 
 add_executable(${projectName} ${TOP}/Code/Projects/${projectName}/main.cpp)
 
@@ -17,19 +16,14 @@ set(Modules
 
 ConfigureKGL(${Modules})
 
-add_subdirectory(${GLFW_DIR} ${GLFW_BINARY_DIR} EXCLUDE_FROM_ALL)
-
 target_compile_definitions(${projectName} PRIVATE -D${CMAKE_CXX_COMPILER_ID})
 
 target_include_directories(${projectName} PUBLIC
-    ${TOP}/ThirdParty/glfw/include/
     ${TOP}/Code/KGL_Engine/KGL_Core/include/
     ${TOP}/Code/KGL_Engine/KGL_Graphics/include/)
 
 target_link_libraries (${projectName} KGL_Core)
 target_link_libraries (${projectName} KGL_Graphics)
-target_link_libraries (${projectName} glfw)
 
 #solution folder
 set_target_properties (${projectName} PROPERTIES FOLDER "Projects")
-set_target_properties (glfw PROPERTIES FOLDER "Third Party")

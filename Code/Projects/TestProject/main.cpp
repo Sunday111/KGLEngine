@@ -1,10 +1,7 @@
 #include <KGL_Core/GetUserName.h>
-#include <KGL_Graphics/GraphicsTestFunction.h>
+#include <KGL_Graphics/GraphicSystem.h>
 #include <iostream>
 #include <string.h>
-
-// GLFW
-#include <GLFW/glfw3.h>
 
 int main(int argc, const char** argv)
 {
@@ -24,7 +21,7 @@ int main(int argc, const char** argv)
 
 	cout << static_cast<const char*>(userName) << endl;
 
-	GraphicsTestFunction();
+    GraphicSystem system;
 
 	return 0;
 }

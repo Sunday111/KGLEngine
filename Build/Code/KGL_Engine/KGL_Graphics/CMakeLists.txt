@@ -15,6 +15,7 @@ target_include_directories(${ModuleName} PUBLIC
     ${CMAKE_CURRENT_BINARY_DIR})
 target_compile_definitions(${ModuleName} PRIVATE -DKGL_GRAPHICS_SHARED -D${CMAKE_CXX_COMPILER_ID})
 target_link_libraries (${ModuleName} glew_s)
+target_link_libraries (${ModuleName} glfw)
 
 #solution folder
 set_target_properties (${ModuleName} PROPERTIES FOLDER "KGL Engine")

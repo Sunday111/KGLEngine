@@ -19,6 +19,13 @@ FUNCTION(ConfigureKGL modules)
         set_target_properties (glew_s PROPERTIES FOLDER "Third Party")
     ENDIF()
     
+    IF(DEFINED USE_KGL_GRAPHICS)
+        message(STATUS "Configure glfw")
+        include(${TOP}/ThirdParty/glfw.cmake)
+        add_subdirectory(${GLFW_DIR} ${GLFW_BINARY_DIR} EXCLUDE_FROM_ALL)
+        set_target_properties (glfw PROPERTIES FOLDER "Third Party")
+    ENDIF()
+    
     IF(DEFINED USE_KGL_CORE)
         message(STATUS "Configure KGL_Core")
         add_subdirectory(${TOP}/Build/Code/KGL_Engine/KGL_Core ${CMAKE_BINARY_DIR}/Deps/KGL_Engine/KGL_Core)
