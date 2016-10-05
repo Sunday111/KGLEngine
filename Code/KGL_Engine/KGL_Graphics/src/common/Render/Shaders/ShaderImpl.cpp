@@ -3,7 +3,7 @@
 #include <fstream>
 #include <vector>
 
-#include "Render/Shaders/Shader.h"
+#include "Render/Shaders/ShaderImpl.h"
 
 namespace KGL { namespace Graphics {
 
@@ -38,7 +38,7 @@ namespace
     }
 }
 
-Shader::Shader(ShaderType type, const char* fileName,
+ShaderImpl::ShaderImpl(ShaderType type, const char* fileName,
     const char* additionalCode, std::ostream* logstream) :
 m_type(type),
 m_id(glCreateShader(GetGLEnum(type)))
@@ -47,12 +47,12 @@ m_id(glCreateShader(GetGLEnum(type)))
     assert(compileResult);
 }
 
-Shader::~Shader()
+ShaderImpl::~ShaderImpl()
 {
     glDeleteShader(m_id);
 }
 
-bool Shader::RecompileShaderWithCode(const char* code,
+bool ShaderImpl::RecompileShaderWithCode(const char* code,
     std::ostream* logstream)
 {
     assert(code != nullptr);
@@ -85,7 +85,7 @@ bool Shader::RecompileShaderWithCode(const char* code,
     return true;
 }
 
-bool Shader::Compile(const char* fileName, const char* additionalCode, std::ostream* logstream)
+bool ShaderImpl::Compile(const char* fileName, const char* additionalCode, std::ostream* logstream)
 {
     using namespace std::tr2::sys;
 

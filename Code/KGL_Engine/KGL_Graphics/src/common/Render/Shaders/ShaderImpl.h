@@ -1,5 +1,5 @@
-#ifndef KGL_GRAPHICS_SHADER_H_INCLUDED
-#define KGL_GRAPHICS_SHADER_H_INCLUDED
+#ifndef KGL_GRAPHICS_SHADER_IMPL_H_INCLUDED
+#define KGL_GRAPHICS_SHADER_IMPL_H_INCLUDED
 
 #include <memory>
 
@@ -16,11 +16,11 @@
 namespace KGL { namespace Graphics {
 
 //This is the base class for shader
-class Shader
+class ShaderImpl
 {
 public:
-    Shader(const Shader&) = delete;
-    ~Shader();
+    ShaderImpl(const ShaderImpl&) = delete;
+    ~ShaderImpl();
 
     ShaderType GetShaderType() const { return m_type; }
     GLuint GetId() const { return m_id; }
@@ -29,7 +29,7 @@ public:
         std::ostream* logstream = nullptr);
 
 protected:
-    explicit Shader(ShaderType type, const char* fileName,
+    explicit ShaderImpl(ShaderType type, const char* fileName,
         const char* additionalCode = nullptr,
         std::ostream* logstream = nullptr);
 
@@ -43,23 +43,6 @@ private:
     std::string m_code;
 };
 
-template<ShaderType shaderType>
-class TShader : public Shader
-{
-public:
-    explicit TShader(const char* fileName,
-        const char* additionalCode = nullptr,
-        std::ostream* logstream = nullptr) :
-        Shader(shaderType, fileName, additionalCode, logstream)
-    {}
-};
-
-using VertexShaderImpl = TShader<ShaderType::Vertex>;
-using VertexShaderImplPtr = std::shared_ptr<VertexShaderImpl>;
-
-using FragmentShaderImpl = TShader<ShaderType::Fragment>;
-using FragmentShaderImplPtr = std::shared_ptr<FragmentShaderImpl>;
-
 } }
 
-#endif /*KGL_GRAPHICS_SHADER_H_INCLUDED*/
+#endif /*KGL_GRAPHICS_SHADER_IMPL_H_INCLUDED*/

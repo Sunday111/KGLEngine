@@ -4,8 +4,8 @@
 
 namespace KGL { namespace Graphics {
 
-ShaderProgramImpl::ShaderProgramImpl(const VertexShaderImplPtr& vertexShader,
-    const FragmentShaderImplPtr& fragmentShader, std::ostream* logstream) :
+ShaderProgramImpl::ShaderProgramImpl(const VertexShaderPtr& vertexShader,
+    const FragmentShaderPtr& fragmentShader, std::ostream* logstream) :
 m_id(glCreateProgram()),
 m_vertexShader(vertexShader),
 m_fragmentShader(fragmentShader)
