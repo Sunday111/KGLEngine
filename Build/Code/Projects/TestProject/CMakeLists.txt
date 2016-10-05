@@ -19,9 +19,11 @@ ConfigureKGL(${Modules})
 target_compile_definitions(${projectName} PRIVATE -D${CMAKE_CXX_COMPILER_ID})
 
 target_include_directories(${projectName} PUBLIC
+    ${TOP}/Code/KGL_Engine/KGL_Base/include/
     ${TOP}/Code/KGL_Engine/KGL_Core/include/
     ${TOP}/Code/KGL_Engine/KGL_Graphics/include/)
 
+target_link_libraries (${projectName} KGL_Base)
 target_link_libraries (${projectName} KGL_Core)
 target_link_libraries (${projectName} KGL_Graphics)
 

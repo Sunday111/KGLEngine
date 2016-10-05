@@ -11,12 +11,14 @@ add_library(${ModuleName} SHARED ${moduleSources})
 
 target_include_directories(${ModuleName} PUBLIC
     ${TOP}/ThirdParty/glew/include/
+    ${TOP}/Code/KGL_Engine/KGL_Base/include/
     ${TOP}/Code/KGL_Engine/KGL_Core/include/
     ${TOP}/Code/KGL_Engine/${ModuleName}/include/
     ${CMAKE_CURRENT_BINARY_DIR})
-target_compile_definitions(${ModuleName} PRIVATE -DKGL_GRAPHICS_SHARED -D${CMAKE_CXX_COMPILER_ID})
+target_compile_definitions(${ModuleName} PRIVATE -D${MODULE_NAME}_SHARED -D${CMAKE_CXX_COMPILER_ID})
 target_link_libraries (${ModuleName} glew_s)
 target_link_libraries (${ModuleName} glfw)
+target_link_libraries (${ModuleName} KGL_Base)
 target_link_libraries (${ModuleName} KGL_Core)
 
 #solution folder

@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <KGL_Base/UnusedVar.h>
 #include <KGL_Core/Application.h>
 #include <KGL_Core/SystemsManager.h>
 #include <KGL_Graphics/GraphicSystem.h>
@@ -30,6 +31,7 @@ public:
 
 int main(int argc, const char** argv)
 {
+    UnusedVar(argc, argv);
     TestApplication application;
     while (application.Update());
 	return 0;
