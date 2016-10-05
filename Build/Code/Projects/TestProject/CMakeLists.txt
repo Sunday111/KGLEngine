@@ -30,3 +30,15 @@ target_link_libraries (${projectName} KGL_Graphics)
 
 #solution folder
 set_target_properties (${projectName} PROPERTIES FOLDER "Projects")
+
+add_custom_command(
+    TARGET ${projectName} POST_BUILD
+    COMMAND 
+        ${CMAKE_COMMAND}                                     #Path to cmake executable file
+        -E                                                   #CMake in command mode
+        copy_directory                                       #CMake command for file copying
+        "${TOP}/Data"                                        #Copy source
+        "$<TARGET_FILE_DIR:${projectName}>/Data"             #Copy destination
+        
+    COMMENT "Copying $<TARGET_FILE_DIR:${projectName}>/${targetFile}"
+)
