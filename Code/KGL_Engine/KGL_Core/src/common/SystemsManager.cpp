@@ -22,6 +22,23 @@ SystemsManager::~SystemsManager()
     }
 }
 
+bool SystemsManager::RegisterSystem(std::unique_ptr<System> system)
+{
+    if (m_d == nullptr)
+    {
+        assert(false);
+        return false;
+    }
+
+    return m_d->RegisterSystem(std::move(system));
+}
+
+bool SystemsManager::Update()
+{
+    assert(m_d != nullptr);
+    return m_d->Update();
+}
+
 SystemsManager& SystemsManager::operator=(SystemsManager&& uref)
 {
     assert(m_d == nullptr);

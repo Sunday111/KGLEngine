@@ -17,10 +17,10 @@ public:
 class KGL_GRAPHICS_API Window
 {
 public:
-    explicit Window(WindowManager*);
-    explicit Window(const Window&) = delete;
-    explicit Window(Window&& uref);
-    ~Window();
+    /* Id of exisiting window created by Window manager
+     */
+    Window();
+    explicit Window(int id, WindowManager* mgr);
 
     /* Add window listener object.
      * Returns false if such listener is already added
@@ -38,11 +38,9 @@ public:
 
     int GetId() const;
 
-    Window& operator= (const Window&) = delete;
-    Window& operator= (Window&& uref);
-
 private:
-    WindowImpl* m_d;
+    int m_id;
+    WindowManager* m_mgr;
 };
 
 } }

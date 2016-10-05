@@ -2,7 +2,8 @@
 #define KGL_GRAPHICS_WINDOW_MANAGER_IMPL_H_INCLUDED
 
 #include "KGL_Graphics/WindowManager.h"
-#include <set>
+#include <memory>
+#include <vector>
 
 namespace KGL { namespace Graphics {
 
@@ -16,13 +17,9 @@ public:
     explicit WindowManagerImpl();
     ~WindowManagerImpl();
 
-    void OnCreateWindow(WindowImpl* wnd);
-
-    void OnDestroyWindow(WindowImpl* wnd);
-
     void SetCurrentWindow(int windowId);
 
-    void Update();
+    bool Update();
 
     int GetCurrentWindowId() const
     {
@@ -34,10 +31,14 @@ public:
         return m_nextWindowId++;
     }
 
+    int CreateWindow();
+
+    WindowImpl* GetWindow(int id);
+
 private:
     int m_nextWindowId;
     int m_currentWindowId;
-    std::set<WindowImpl*> m_windows;
+    std::vector<std::unique_ptr<WindowImpl>> m_windows;
 };
 
 } }

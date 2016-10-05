@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "WindowManagerImpl.h"
 #include "WindowImpl.h"
 
@@ -19,22 +20,8 @@ WindowManagerImpl::WindowManagerImpl() :
 
 WindowManagerImpl::~WindowManagerImpl()
 {
-    for (auto wnd : m_windows)
-    {
-        delete wnd;
-    }
-
+    m_windows.clear();
     glfwTerminate();
-}
-
-void WindowManagerImpl::OnCreateWindow(WindowImpl* wnd)
-{
-    m_windows.insert(wnd);
-}
-
-void WindowManagerImpl::OnDestroyWindow(WindowImpl* wnd)
-{
-    m_windows.erase(wnd);
 }
 
 void WindowManagerImpl::SetCurrentWindow(int windowId)
@@ -43,14 +30,48 @@ void WindowManagerImpl::SetCurrentWindow(int windowId)
     m_currentWindowId = windowId;
 }
 
-void WindowManagerImpl::Update()
+bool WindowManagerImpl::Update()
 {
-    for (WindowImpl* wnd : m_windows)
+    if (m_windows.empty())
     {
-        wnd->Update();
-        glfwPollEvents();
+        return false;
     }
 
+    m_windows.erase(
+        std::remove_if(m_windows.begin(), m_windows.end(),
+            [](const std::unique_ptr<WindowImpl>& wnd)
+            {
+                if(wnd->ShouldClose())
+                {
+                    return true;
+                }
+
+                wnd->Update();
+                return false;
+            }),
+        m_windows.end());
+
+    glfwPollEvents();
+    return true;
+}
+
+int WindowManagerImpl::CreateWindow()
+{
+    m_windows.push_back(std::make_unique<WindowImpl>(this));
+    return m_windows.back()->GetId();
+}
+
+WindowImpl* WindowManagerImpl::GetWindow(int id)
+{
+    for(auto& wnd : m_windows)
+    {
+        if (wnd->GetId() == id)
+        {
+            return wnd.get();
+        }
+    }
+
+    return nullptr;
 }
 
 } }

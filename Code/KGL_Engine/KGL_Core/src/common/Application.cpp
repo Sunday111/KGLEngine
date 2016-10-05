@@ -1,5 +1,8 @@
-#include <KGL_Core/Application.h>
 #include "ApplicationImpl.h"
+#include <cassert>
+#include <KGL_Core/SystemsManager.h>
+
+#include <KGL_Core/Application.h>
 
 namespace KGL { namespace Core {
 
@@ -21,6 +24,13 @@ Application::~Application()
     }
 }
 
+bool Application::Update()
+{
+    assert(m_d != nullptr);
+
+    return m_d->GetSystemsManager()->Update();
+}
+
 Application& Application::operator=(Application&& uref)
 {
     if (m_d != nullptr)
@@ -32,6 +42,17 @@ Application& Application::operator=(Application&& uref)
     uref.m_d = nullptr;
 
     return *this;
+}
+
+SystemsManager* Application::GetSystemsManager()
+{
+    if (m_d == nullptr)
+    {
+        assert(false);
+        return nullptr;
+    }
+
+    return m_d->GetSystemsManager();
 }
 
 } }

@@ -2,6 +2,7 @@
 #define KGL_CORE_SYSTEMS_MANAGER_H_INCLUDED
 
 #include <KGL_Core/Common.h>
+#include <memory>
 
 namespace KGL { namespace Core {
 
@@ -15,6 +16,9 @@ public:
     explicit SystemsManager(const SystemsManager&) = delete;
     explicit SystemsManager(SystemsManager&& uref);
     ~SystemsManager();
+
+    bool RegisterSystem(std::unique_ptr<System> system);
+    bool Update();
 
     SystemsManager& operator=(const SystemsManager&) = delete;
     SystemsManager& operator=(SystemsManager&&);

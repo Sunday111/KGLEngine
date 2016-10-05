@@ -21,7 +21,6 @@ WindowImpl::WindowImpl(WindowManagerImpl* mgr) :
     assert(m_mgr != nullptr);
 
     m_id = m_mgr->GenerateWindowId();
-    m_mgr->OnCreateWindow(this);
 
     m_wnd = glfwCreateWindow(800, 600, "LearnOpenGL", nullptr, nullptr);
     if (m_wnd == nullptr)
@@ -43,8 +42,6 @@ WindowImpl::WindowImpl(WindowManagerImpl* mgr) :
 
 WindowImpl::~WindowImpl()
 {
-    m_mgr->OnDestroyWindow(this);
-
     if (m_wnd != nullptr)
     {
         glfwDestroyWindow(m_wnd);

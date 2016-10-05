@@ -1,4 +1,6 @@
 #include <algorithm>
+#include <KGL_Core/Application.h>
+#include <KGL_Core/SystemsManager.h>
 #include <KGL_Graphics/GraphicSystem.h>
 #include <KGL_Graphics/WindowManager.h>
 #include <KGL_Graphics/Window.h>
@@ -6,29 +8,29 @@
 #include <string.h>
 #include <vector>
 
+using namespace KGL;
+using namespace Graphics;
+using namespace Core;
+
+class TestApplication :
+    public Application
+{
+public:
+    explicit TestApplication() :
+        Application()
+    {
+        auto gs = std::make_unique<GraphicSystem>();
+
+        gs->GetWindowManager()->CreateWindow();
+        gs->GetWindowManager()->CreateWindow();
+
+        GetSystemsManager()->RegisterSystem(std::move(gs));
+    }
+};
+
 int main(int argc, const char** argv)
 {
-    using namespace KGL::Graphics;
-    using namespace std;
-
-    GraphicSystem system;
-
-    WindowManager* wndMgr = system.GetWindowManager();
-
-    std::vector<Window> windows;
-    windows.emplace_back(wndMgr);
-    windows.emplace_back(wndMgr);
-
-    while (!windows.empty())
-    {
-        windows.erase(std::remove_if(windows.begin(), windows.end(),
-            [](const Window& wnd)
-        {
-            return wnd.ShouldClose();
-        }), windows.end());
-
-        system.Update();
-    }
-
+    TestApplication application;
+    while (application.Update());
 	return 0;
 }

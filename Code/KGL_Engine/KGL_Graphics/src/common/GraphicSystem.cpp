@@ -57,9 +57,9 @@ GraphicSystem::~GraphicSystem()
     }
 }
 
-void GraphicSystem::Update()
+bool GraphicSystem::Update()
 {
-    m_d->GetWindowManager()->GetImpl()->Update();
+    return m_d->GetWindowManager()->GetImpl()->Update();
 }
 
 WindowManager* GraphicSystem::GetWindowManager()

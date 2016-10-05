@@ -7,79 +7,64 @@
 
 namespace KGL { namespace Graphics {
 
-Window::Window(WindowManager* mgr) :
-    m_d(new WindowImpl(mgr->GetImpl()))
+
+Window::Window() :
+    m_id(-1),
+    m_mgr(nullptr)
 {}
 
-Window::Window(Window&& uref) :
-    m_d(uref.m_d)
+Window::Window(int id, WindowManager* mgr) :
+    m_id(id),
+    m_mgr(mgr)
 {
-    uref.m_d = nullptr;
-}
-
-Window::~Window()
-{
-    if (m_d != nullptr)
-    {
-        delete m_d;
-    }
+    assert(m_mgr != nullptr && m_id >= 0);
 }
 
 bool Window::AddListener(WindowListener* listener)
 {
-    if (m_d == nullptr)
+    assert(m_mgr != nullptr && m_id >= 0);
+
+    auto impl = m_mgr->GetImpl()->GetWindow(m_id);
+
+    if (impl == nullptr)
     {
-        assert(!"Attempt to call object with empty definition!");
         return false;
     }
 
-    return m_d->AddListener(listener);
+    return impl->AddListener(listener);
 }
 
 bool Window::RemoveListener(WindowListener* listener)
 {
-    if (m_d == nullptr)
+    assert(m_mgr != nullptr && m_id >= 0);
+
+    auto impl = m_mgr->GetImpl()->GetWindow(m_id);
+
+    if (impl == nullptr)
     {
-        assert(!"Attempt to call object with empty definition!");
         return false;
     }
 
-    return m_d->RemoveListener(listener);
+    return impl->RemoveListener(listener);
 }
 
 bool Window::ShouldClose() const
 {
-    if (m_d == nullptr)
+    assert(m_mgr != nullptr && m_id >= 0);
+
+    auto impl = m_mgr->GetImpl()->GetWindow(m_id);
+
+    if (impl == nullptr)
     {
-        assert(!"Attempt to call object with empty definition!");
         return false;
     }
 
-    return m_d->ShouldClose();
+    return impl->ShouldClose();
 }
 
 int Window::GetId() const
 {
-    if (m_d == nullptr)
-    {
-        assert(!"Attempt to call object with empty definition!");
-        return false;
-    }
-
-    return m_d->GetId();
-}
-
-Window& Window::operator= (Window&& uref)
-{
-    if (m_d != nullptr)
-    {
-        delete m_d;
-    }
-
-    m_d = uref.m_d;
-    uref.m_d = nullptr;
-
-    return *this;
+    return m_id;
 }
 
 } }

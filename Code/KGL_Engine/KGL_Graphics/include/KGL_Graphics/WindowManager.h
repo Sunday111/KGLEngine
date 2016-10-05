@@ -20,6 +20,9 @@ public:
     WindowManagerImpl* GetImpl() const { return m_d; }
     int GetCurrentWindowId();
 
+    /* Create window and return it's id */
+    int CreateWindow();
+
 private:
     int m_nextWindowId;
     WindowManagerImpl* m_d;

@@ -1,13 +1,14 @@
 #ifndef KGL_GRAPHIC_SYSTEM_INCLUDED
 #define KGL_GRAPHIC_SYSTEM_INCLUDED
 
+#include <KGL_Core/System.h>
 #include <KGL_Graphics/Common.h>
 
 namespace KGL { namespace Graphics {
 
 class WindowManager;
 
-class KGL_GRAPHICS_API GraphicSystem
+class KGL_GRAPHICS_API GraphicSystem : public Core::System
 {
 public:
     explicit GraphicSystem();
@@ -15,7 +16,7 @@ public:
     GraphicSystem(GraphicSystem&&);
     ~GraphicSystem();
 
-    void Update();
+    bool Update() override;
 
     WindowManager* GetWindowManager();
 

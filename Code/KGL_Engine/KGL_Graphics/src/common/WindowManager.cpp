@@ -1,3 +1,4 @@
+#include <cassert>
 #include "KGL_Graphics/Window.h"
 #include "KGL_Graphics/WindowManager.h"
 #include "WindowManagerImpl.h"
@@ -25,6 +26,17 @@ WindowManager::~WindowManager()
 int WindowManager::GetCurrentWindowId()
 {
     return m_d->GetCurrentWindowId();
+}
+
+int WindowManager::CreateWindow()
+{
+    if (m_d == nullptr)
+    {
+        assert(false);
+        return -1;
+    }
+
+    return m_d->CreateWindow();
 }
 
 } }

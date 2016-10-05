@@ -6,6 +6,7 @@
 namespace KGL { namespace Core {
 
 class ApplicationImpl;
+class SystemsManager;
 
 class KGL_CORE_API Application
 {
@@ -15,8 +16,16 @@ public:
     Application(Application&& uref);
     ~Application();
 
+    /* Update all systems of application
+     * Return false if need exit of application failed
+     */
+    bool Update();
+
     Application& operator=(const Application&) = delete;
     Application& operator=(Application&& uref);
+
+protected:
+    SystemsManager* GetSystemsManager();
 
 private:
     ApplicationImpl* m_d;
