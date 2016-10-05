@@ -14,6 +14,7 @@ target_include_directories(${ModuleName} PUBLIC
     ${TOP}/Code/KGL_Engine/KGL_Base/include/
     ${TOP}/Code/KGL_Engine/KGL_Core/include/
     ${TOP}/Code/KGL_Engine/${ModuleName}/include/
+    ${TOP}/Code/KGL_Engine/${ModuleName}/src/common/
     ${CMAKE_CURRENT_BINARY_DIR})
 message(STATUS "compileOptions: ${compileOptions}")
 target_compile_options(${ModuleName} PUBLIC ${compileOptions})

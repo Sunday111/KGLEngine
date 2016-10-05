@@ -38,6 +38,22 @@ WindowImpl::WindowImpl(WindowManagerImpl* mgr) :
             << glewGetErrorString(glewInitResult) << std::endl;
         assert(false);
     }
+
+    GLfloat vertices[] = {
+        -0.5f, -0.5f, 0.0f,
+         0.5f, -0.5f, 0.0f,
+         0.0f,  0.5f, 0.0f
+    };
+
+    GLuint vboId;
+    /* Create buffer with unique id */
+    glGenBuffers(1, &vboId);
+
+    /* Set buffer type */
+    glBindBuffer(GL_ARRAY_BUFFER, vboId);
+
+    /* Set buffer data */
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 }
 
 WindowImpl::~WindowImpl()
