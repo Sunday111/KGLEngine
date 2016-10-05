@@ -11,6 +11,7 @@
 #include <KGL_Graphics/Render/Shaders/VertexShader.h>
 #include <KGL_Graphics/Render/Shaders/FragmentShader.h>
 #include <iostream>
+#include <memory>
 #include <string.h>
 #include <vector>
 
@@ -40,11 +41,13 @@ public:
                 "Data\\Shaders\\Fragment\\simplest.glsl",
                 nullptr, &std::cout);
 
-        ShaderProgramPtr shaderProgram =
-            std::make_shared<ShaderProgram>(vs, fs, &std::cout);
+        std::unique_ptr<ShaderProgram> shaderProgram =
+            std::make_unique<ShaderProgram>(vs, fs, &std::cout);
 
         const bool useOk = shaderProgram->Use();
         assert(useOk);
+
+        gs->AddShaderProgram(std::move(shaderProgram));
 
         GetSystemsManager()->RegisterSystem(std::move(gs));
     }

@@ -4,7 +4,6 @@
 #include <KGL_Graphics/Common.h>
 #include <KGL_Graphics/Render/Shaders/FragmentShader.h>
 #include <KGL_Graphics/Render/Shaders/VertexShader.h>
-#include <memory>
 
 namespace KGL { namespace Graphics {
 
@@ -29,8 +28,6 @@ public:
 private:
     ShaderProgramImpl* m_d;
 };
-
-using ShaderProgramPtr = std::shared_ptr<ShaderProgram>;
 
 } }
 

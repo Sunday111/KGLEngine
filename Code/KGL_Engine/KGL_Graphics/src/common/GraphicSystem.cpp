@@ -29,6 +29,11 @@ public:
         glewExperimental = GL_TRUE;
     }
 
+    void AddShaderProgram(std::unique_ptr<ShaderProgram> shaderProgram)
+    {
+        m_shaderPrograms.push_back(std::move(shaderProgram));
+    }
+
     WindowManager* GetWindowManager()
     {
         return &m_windowManager;
@@ -36,6 +41,7 @@ public:
 
 private:
     WindowManager m_windowManager;
+    std::vector<std::unique_ptr<ShaderProgram>> m_shaderPrograms;
 };
 
 GraphicSystem::GraphicSystem() :
@@ -59,11 +65,19 @@ GraphicSystem::~GraphicSystem()
 
 bool GraphicSystem::Update()
 {
+    assert(m_d != nullptr);
     return m_d->GetWindowManager()->GetImpl()->Update();
+}
+
+void GraphicSystem::AddShaderProgram(std::unique_ptr<ShaderProgram> shaderProgram)
+{
+    assert(m_d != nullptr);
+    m_d->AddShaderProgram(std::move(shaderProgram));
 }
 
 WindowManager* GraphicSystem::GetWindowManager()
 {
+    assert(m_d != nullptr);
     return m_d->GetWindowManager();
 }
 

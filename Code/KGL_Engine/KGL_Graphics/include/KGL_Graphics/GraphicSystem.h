@@ -3,6 +3,7 @@
 
 #include <KGL_Core/System.h>
 #include <KGL_Graphics/Common.h>
+#include <KGL_Graphics/Render/Shaders/ShaderProgram.h>
 
 namespace KGL { namespace Graphics {
 
@@ -17,6 +18,8 @@ public:
     ~GraphicSystem();
 
     bool Update() override;
+
+    void AddShaderProgram(std::unique_ptr<ShaderProgram> shaderProgram);
 
     WindowManager* GetWindowManager();
 
