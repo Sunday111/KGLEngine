@@ -15,6 +15,8 @@ target_include_directories(${ModuleName} PUBLIC
     ${TOP}/Code/KGL_Engine/KGL_Core/include/
     ${TOP}/Code/KGL_Engine/${ModuleName}/include/
     ${CMAKE_CURRENT_BINARY_DIR})
+message(STATUS "compileOptions: ${compileOptions}")
+target_compile_options(${ModuleName} PUBLIC ${compileOptions})
 target_compile_definitions(${ModuleName} PRIVATE -D${MODULE_NAME}_SHARED -D${CMAKE_CXX_COMPILER_ID})
 target_link_libraries (${ModuleName} glew_s)
 target_link_libraries (${ModuleName} glfw)

@@ -16,6 +16,7 @@ set(Modules
 
 ConfigureKGL(${Modules})
 
+target_compile_options(${projectName} PUBLIC ${compileOptions})
 target_compile_definitions(${projectName} PRIVATE -D${CMAKE_CXX_COMPILER_ID})
 
 target_include_directories(${projectName} PUBLIC

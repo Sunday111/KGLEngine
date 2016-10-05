@@ -8,6 +8,7 @@ add_library(${ModuleName} STATIC ${moduleSources})
 target_include_directories(${ModuleName} PUBLIC
     ${TOP}/Code/KGL_Engine/${ModuleName}/include/
     ${CMAKE_CURRENT_BINARY_DIR})
+target_compile_options(${ModuleName} PUBLIC ${compileOptions})
 target_compile_definitions(${ModuleName} PRIVATE -D${CMAKE_CXX_COMPILER_ID})
 
 #solution folder

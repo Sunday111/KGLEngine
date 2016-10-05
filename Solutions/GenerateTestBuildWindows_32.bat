@@ -1,3 +1,5 @@
+@echo off
+
 if not exist TestBuild_32 mkdir TestBuild_32
 pushd TestBuild_32
 
