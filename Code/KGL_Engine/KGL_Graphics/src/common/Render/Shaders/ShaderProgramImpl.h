@@ -37,8 +37,6 @@ private:
     FragmentShaderPtr m_fragmentShader;
 };
 
-using ShaderProgramPtr = std::shared_ptr<ShaderProgramImpl>;
-
 } }
 
 #endif /* KGL_GRAPHICS_SHADER_PROGRAM_IMPL_H_INCLUDED */
