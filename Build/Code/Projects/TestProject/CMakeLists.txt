@@ -4,9 +4,10 @@ SET(projectName TestProject)
 SET(USE_KGL_CORE)
 SET(USE_KGL_GRAPHICS)
 project (${projectName} CXX)
-INCLUDE (${TOP}/Build/Modules/CompilerDefinitions.cmake)
-INCLUDE (${TOP}/Build/Modules/OperatingSystemDefinitions.cmake)
-INCLUDE (${TOP}/Build/Code/KGL_Engine/ConfigureKGL.cmake)
+include (${TOP}/Build/Modules/CompilerDefinitions.cmake)
+include (${TOP}/Build/Modules/OperatingSystemDefinitions.cmake)
+include (${TOP}/Build/Modules/CreateLauncher.cmake)
+include (${TOP}/Build/Code/KGL_Engine/ConfigureKGL.cmake)
 
 add_executable(${projectName} ${TOP}/Code/Projects/${projectName}/main.cpp)
 
@@ -42,3 +43,5 @@ add_custom_command(
         
     COMMENT "Copying $<TARGET_FILE_DIR:${projectName}>/${targetFile}"
 )
+
+CreateLauncher(${projectName})
