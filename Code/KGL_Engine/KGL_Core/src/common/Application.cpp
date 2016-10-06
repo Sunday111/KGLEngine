@@ -1,5 +1,6 @@
 #include "ApplicationImpl.h"
 #include <cassert>
+#include <KGL_Base/Marco.h>
 #include <KGL_Core/SystemsManager.h>
 
 #include <KGL_Core/Application.h>
@@ -18,10 +19,7 @@ Application::Application(Application&& uref) :
 
 Application::~Application()
 {
-    if (m_d != nullptr)
-    {
-        delete m_d;
-    }
+    SAFE_DELETE(m_d);
 }
 
 bool Application::Update()
@@ -33,11 +31,7 @@ bool Application::Update()
 
 Application& Application::operator=(Application&& uref)
 {
-    if (m_d != nullptr)
-    {
-        delete m_d;
-    }
-
+    SAFE_DELETE(m_d);
     m_d = uref.m_d;
     uref.m_d = nullptr;
 

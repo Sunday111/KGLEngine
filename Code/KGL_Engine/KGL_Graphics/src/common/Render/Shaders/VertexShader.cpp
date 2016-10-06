@@ -1,4 +1,5 @@
 #include <cassert>
+#include <KGL_Base/Marco.h>
 #include <KGL_Graphics/Render/Shaders/VertexShader.h>
 #include "VertexShaderImpl.h"
 
@@ -17,10 +18,7 @@ VertexShader::VertexShader(VertexShader&& uref) :
 
 VertexShader::~VertexShader()
 {
-    if (m_d != nullptr)
-    {
-        delete m_d;
-    }
+    SAFE_DELETE(m_d);
 }
 
 unsigned int VertexShader::GetId() const
@@ -38,11 +36,7 @@ bool VertexShader::RecompileShaderWithCode(
 
 VertexShader& VertexShader::operator=(VertexShader&& uref)
 {
-    if (m_d != nullptr)
-    {
-        delete m_d;
-    }
-
+    SAFE_DELETE(m_d);
     m_d = uref.m_d;
     uref.m_d = nullptr;
 

@@ -1,4 +1,5 @@
 #include <cassert>
+#include <KGL_Base/Marco.h>
 #include <KGL_Core/SystemsManager.h>
 #include "SystemsManagerImpl.h"
 
@@ -16,10 +17,7 @@ SystemsManager::SystemsManager(SystemsManager&& uref) :
 
 SystemsManager::~SystemsManager()
 {
-    if (m_d != nullptr)
-    {
-        delete m_d;
-    }
+    SAFE_DELETE(m_d);
 }
 
 bool SystemsManager::RegisterSystem(std::unique_ptr<System> system)

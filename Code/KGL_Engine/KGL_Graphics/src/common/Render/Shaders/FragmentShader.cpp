@@ -1,4 +1,5 @@
 #include <cassert>
+#include <KGL_Base/Marco.h>
 #include <KGL_Graphics/Render/Shaders/FragmentShader.h>
 #include "FragmentShaderImpl.h"
 
@@ -17,10 +18,7 @@ FragmentShader::FragmentShader(FragmentShader&& uref) :
 
 FragmentShader::~FragmentShader()
 {
-    if (m_d != nullptr)
-    {
-        delete m_d;
-    }
+    SAFE_DELETE(m_d);
 }
 
 unsigned int FragmentShader::GetId() const
@@ -38,11 +36,7 @@ bool FragmentShader::RecompileShaderWithCode(
 
 FragmentShader& FragmentShader::operator=(FragmentShader&& uref)
 {
-    if (m_d != nullptr)
-    {
-        delete m_d;
-    }
-
+    SAFE_DELETE(m_d);
     m_d = uref.m_d;
     uref.m_d = nullptr;
 
