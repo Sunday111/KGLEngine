@@ -16,10 +16,15 @@ if(NOT EXISTS ${GLEW_DIR})
         execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${GLEW_SOURCE_ARCHIVE}
             WORKING_DIRECTORY ${GLEW_DIR})
         
-        #gather files names
-        file(GLOB GLEW_FILES ${GLEW_DIR}/glew-2.0.0/*)
+        SET(GLEW_SRC_FOLDER_NAME "glew-2.0.0")
         
-        #copy files
-        file(COPY ${GLEW_FILES} DESTINATION ${GLEW_DIR})
+        #gather files names
+        file(GLOB glewFiles ${GLEW_DIR}/${GLEW_SRC_FOLDER_NAME}/*)
+        
+        #move files
+        foreach(oldName ${glewFiles})
+            string(REPLACE ${GLEW_SRC_FOLDER_NAME} "" newName ${oldName})
+            file(RENAME ${oldName} ${newName})
+        endforeach()
     endif()
 endif()

@@ -51,7 +51,10 @@ bool WindowManagerImpl::Update()
             }),
         m_windows.end());
 
+    /* Check if any events have been activiated (key pressed, mouse moved etc.)
+     * and call corresponding response functions */
     glfwPollEvents();
+
     return true;
 }
 
