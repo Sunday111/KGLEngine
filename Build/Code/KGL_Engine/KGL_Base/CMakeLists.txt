@@ -6,6 +6,7 @@ GatherKGLModuleSources(${ModuleName} moduleSources)
 add_library(${ModuleName} STATIC ${moduleSources})
 
 target_include_directories(${ModuleName} PUBLIC
+    ${TOP}/ThirdParty/eigen/
     ${TOP}/Code/KGL_Engine/${ModuleName}/include/
     ${CMAKE_CURRENT_BINARY_DIR})
 target_compile_options(${ModuleName} PUBLIC ${compileOptions})

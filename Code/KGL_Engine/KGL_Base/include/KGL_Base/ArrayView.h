@@ -1,8 +1,9 @@
 #ifndef KGL_BASE_ARRAY_VIEW_H_INCLUDED
 #define KGL_BASE_ARRAY_VIEW_H_INCLUDED
 
-#include <type_traits>
+#include <cassert>
 #include <iterator>
+#include <type_traits>
 
 namespace KGL {
 

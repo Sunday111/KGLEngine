@@ -1,4 +1,5 @@
-#pragma once
+#ifndef KGL_BASE_ENUM_FLAGS_H_INCLUDED
+#define KGL_BASE_ENUM_FLAGS_H_INCLUDED
 
 #include <type_traits>
 
@@ -38,7 +39,9 @@ namespace KGL
 #define KGL_ENUM_FLAG_OPERATORS(ET_) \
     _KGL_ENUM_FLAG_OPERATORS(inline, ET_)
 
-#define KGL_ENUM_FLAG_OPERATORS(ET_) \
+#define KGL_ENUM_FLAG_OPERATORS_CLASS(ET_) \
     _KGL_ENUM_FLAG_OPERATORS(friend inline, ET_)
 
 }
+
+#endif /* KGL_BASE_ENUM_FLAGS_H_INCLUDED */
