@@ -1,7 +1,8 @@
 #include <algorithm>
 #include <cassert>
 #include <KGL_Base/UnusedVar.h>
-#include <KGL_Core/Application.h>
+#include <KGL_Core/IApplication.h>
+#include <KGL_Core/CreateInstance.h>
 #include <KGL_Core/SystemsManager.h>
 #include <KGL_Graphics/GraphicSystem.h>
 #include <KGL_Graphics/WindowManager.h>
@@ -15,26 +16,30 @@ using namespace KGL;
 using namespace Graphics;
 using namespace Core;
 
-class TestApplication :
-    public Application
+class AppListener : public IApplicationListener
 {
 public:
-    explicit TestApplication() :
-        Application()
-    {
-        auto gs = std::make_unique<GraphicSystem>();
-
-        gs->GetWindowManager()->CreateWindow();
-        gs->GetWindowManager()->CreateWindow();
-
-        GetSystemsManager()->RegisterSystem(std::move(gs));
-    }
+	void OnInitialize(IApplication* app) override
+	{
+		auto gs = std::make_unique<GraphicSystem>();
+		
+		gs->GetWindowManager()->CreateWindow();
+		gs->GetWindowManager()->CreateWindow();
+		
+		app->
+		GetSystemsManager()->RegisterSystem(std::move(gs));
+	}
 };
 
 int main(int argc, const char** argv)
 {
-    UnusedVar(argc, argv);
-    TestApplication application;
-    while (application.Update());
+	UnusedVar(argc, argv);
+	IApplicationPtr app;
+	CreateInstance(app);
+
+	app->AddListener(new AppListener(), true);
+	app->Initialize();
+
+	while (app->Update());
 	return 0;
 }
