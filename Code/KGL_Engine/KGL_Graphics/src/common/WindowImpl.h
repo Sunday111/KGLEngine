@@ -9,7 +9,7 @@ struct GLFWwindow;
 
 namespace KGL { namespace Graphics {
 
-class ShaderProgram;
+class IShaderProgram;
 class WindowListener;
 class WindowManagerImpl;
 
@@ -31,7 +31,7 @@ private:
     WindowManagerImpl* m_mgr;
     std::set<WindowListener*> m_listeners;
 
-    std::unique_ptr<ShaderProgram> testShader;
+    std::unique_ptr<IShaderProgram> testShader;
     unsigned int VBO, VAO, EBO;
 };
 

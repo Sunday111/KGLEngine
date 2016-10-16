@@ -12,16 +12,12 @@
 #include <string.h>
 #include <vector>
 
-using namespace KGL;
-using namespace Graphics;
-using namespace Core;
-
-class AppListener : public IApplicationListener
+class AppListener : public KGL::Core::IApplicationListener
 {
 public:
-	void OnInitialize(IApplication* app) override
+	void OnInitialize(KGL::Core::IApplication* app) override
 	{
-		auto gs = std::make_unique<GraphicSystem>();
+		auto gs = std::make_unique<KGL::Graphics::GraphicSystem>();
 		
 		gs->GetWindowManager()->CreateWindow();
 		gs->GetWindowManager()->CreateWindow();
@@ -37,8 +33,11 @@ public:
 
 int main(int argc, const char** argv)
 {
+	using namespace KGL;
+	using namespace KGL::Core;
+
 	UnusedVar(argc, argv);
-	auto app = InstanceCreator<IApplication, PointerType::Unique>::CreateInstance();
+	auto app = InstanceCreator<IApplication,PointerType::Unique>::CreateInstance();
 
 	app->AddListener(new AppListener(), true);
 	app->Initialize();

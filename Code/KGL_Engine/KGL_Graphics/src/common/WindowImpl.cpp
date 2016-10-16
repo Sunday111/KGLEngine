@@ -1,7 +1,8 @@
 #include <iostream>
-#include <KGL_Graphics/Render/Shaders/FragmentShader.h>
-#include <KGL_Graphics/Render/Shaders/ShaderProgram.h>
-#include <KGL_Graphics/Render/Shaders/VertexShader.h>
+#include <KGL_Graphics/CreateInstance.h>
+#include <KGL_Graphics/Render/Shaders/ShaderType.h>
+#include <KGL_Graphics/Render/Shaders/IShader.h>
+#include <KGL_Graphics/Render/Shaders/IShaderProgram.h>
 #include "WindowManagerImpl.h"
 #include "WindowImpl.h"
 
@@ -42,20 +43,27 @@ WindowImpl::WindowImpl(WindowManagerImpl* mgr) :
         assert(false);
     }
 
-    /* Load and compile vertex shader */
-    VertexShaderPtr vs =
-        std::make_shared<VertexShader>(
-            "Data\\Shaders\\Vertex\\simplest.glsl",
-            nullptr, &std::cout);
+	auto vs = InstanceCreator<IShader, PointerType::Unique, ShaderType>::CreateInstance(ShaderType::Vertex);
+	const bool vsCompileOk = vs->Compile("Data\\Shaders\\Vertex\\simplest.glsl", nullptr, &std::cout);
+	assert(vsCompileOk);
 
-    /* Load and compile fragment shader */
-    FragmentShaderPtr fs =
-        std::make_shared<FragmentShader>(
-            "Data\\Shaders\\Fragment\\simplest.glsl",
-            nullptr, &std::cout);
+	auto fs = InstanceCreator<IShader, PointerType::Unique, ShaderType>::CreateInstance(ShaderType::Fragment);
+	const bool fsCompileOk = fs->Compile("Data\\Shaders\\Fragment\\simplest.glsl", nullptr, &std::cout);
+	assert(fsCompileOk);
 
-    /* Link shaders into shader prgram */
-    testShader = std::make_unique<ShaderProgram>(vs, fs, &std::cout);
+	/* Create shader program instance */
+	testShader = InstanceCreator<IShaderProgram, PointerType::Unique>::CreateInstance();
+
+	/* Add vertex shader to shader program */
+	const bool addVsOk = testShader->AddShader(std::move(vs), false);
+	assert(addVsOk);
+
+	/* Add fragment shader to shader program */
+	const bool addFsOk = testShader->AddShader(std::move(fs), false);
+	assert(addVsOk);
+
+	/* Link shaders into shader prgram */
+	testShader->Link(&std::cout);
 
     GLfloat vertices[] = {
         0.5f,  0.5f, 0.0f,  // Top Right
@@ -135,8 +143,7 @@ void WindowImpl::Update() const
     glClear(GL_COLOR_BUFFER_BIT);
 
     // Draw
-    const bool useOk = testShader->Use();
-    assert(useOk);
+    testShader->Use();
     glBindVertexArray(VAO);
 
     //glDrawArrays(GL_TRIANGLES, 0, 6);
