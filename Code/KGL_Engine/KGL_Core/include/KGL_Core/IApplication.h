@@ -5,6 +5,8 @@
 
 namespace KGL { namespace Core {
 
+class IApplication;
+
 class KGL_CORE_API IApplicationListener : public IObject
 {
 public:

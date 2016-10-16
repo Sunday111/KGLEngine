@@ -3,7 +3,6 @@
 
 #include <cassert>
 #include "KGL_Core/Common.h"
-#include "KGL_Core/FwdDecl.h"
 
 namespace KGL { namespace Core {
 
@@ -16,13 +15,5 @@ protected:
 };
 
 } }
-
-#define KGL_CORE_CREATEOBJ(T) \
-    template<typename... U>\
-    static T##Ptr Create(U&&... args)\
-    {\
-        T##Ptr::NoAddRef noAddRef;\
-        return T##Ptr(new T(std::forward<U>(args)...), noAddRef);\
-    }
 
 #endif /* KGL_CORE_IOBJECT_H_INCLUDED */

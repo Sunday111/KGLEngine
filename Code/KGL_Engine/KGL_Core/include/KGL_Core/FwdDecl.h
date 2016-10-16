@@ -1,13 +1,14 @@
 #ifndef KGL_CORE_FWDDECL_H_INCLUDED
 #define KGL_CORE_FWDDECL_H_INCLUDED
 
-#include <KGL_Core/References.h>
-#include "KGL_Base/Reference.h"
+#include <memory>
 
 #define KGL_CORE_FWDDECLOBJ(T) \
     class T;\
-    typedef Reference<T> T##Ptr;\
-    typedef Reference<const T> T##ConstPtr
+    typedef std::shared_ptr<T> T##SharedPtr;\
+    typedef std::shared_ptr<const T> T##ConstSharedPtr;\
+    typedef std::unique_ptr<T> T##UniquePtr;\
+    typedef std::unique_ptr<const T> T##ConstUniquePtr;
 
 namespace KGL { namespace Core {
 

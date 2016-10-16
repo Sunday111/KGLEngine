@@ -1,8 +1,8 @@
 #include <algorithm>
 #include <cassert>
 #include <KGL_Base/UnusedVar.h>
-#include <KGL_Core/IApplication.h>
 #include <KGL_Core/CreateInstance.h>
+#include <KGL_Core/IApplication.h>
 #include <KGL_Core/ISystemsManager.h>
 #include <KGL_Graphics/GraphicSystem.h>
 #include <KGL_Graphics/WindowManager.h>
@@ -38,8 +38,7 @@ public:
 int main(int argc, const char** argv)
 {
 	UnusedVar(argc, argv);
-	IApplicationPtr app;
-	CreateInstance(app);
+	auto app = InstanceCreator<IApplication, PointerType::Unique>::CreateInstance();
 
 	app->AddListener(new AppListener(), true);
 	app->Initialize();
