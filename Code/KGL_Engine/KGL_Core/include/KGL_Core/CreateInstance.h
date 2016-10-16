@@ -6,15 +6,13 @@
 
 namespace KGL { namespace Core {
 
-class IApplication;
-
-template<class T, PointerType pt>
+template<class T, PointerType pt, typename... U>
 class KGL_CORE_API InstanceCreator
 {
 public:
 	using Pointer = typename PointerTypeHelper<T, pt>::Pointer;
 
-	static Pointer CreateInstance();
+	static Pointer CreateInstance(U&&...);
 };
 
 } }

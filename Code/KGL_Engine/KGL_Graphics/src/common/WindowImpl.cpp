@@ -43,24 +43,24 @@ WindowImpl::WindowImpl(WindowManagerImpl* mgr) :
         assert(false);
     }
 
-	auto vs = InstanceCreator<IShader, PointerType::Unique, ShaderType>::CreateInstance(ShaderType::Vertex);
-	const bool vsCompileOk = vs->Compile("Data\\Shaders\\Vertex\\simplest.glsl", nullptr, &std::cout);
-	assert(vsCompileOk);
-
-	auto fs = InstanceCreator<IShader, PointerType::Unique, ShaderType>::CreateInstance(ShaderType::Fragment);
-	const bool fsCompileOk = fs->Compile("Data\\Shaders\\Fragment\\simplest.glsl", nullptr, &std::cout);
-	assert(fsCompileOk);
-
 	/* Create shader program instance */
 	testShader = InstanceCreator<IShaderProgram, PointerType::Unique>::CreateInstance();
+
+	auto vs = InstanceCreator<IShader, PointerType::Unique, ShaderType&&>::CreateInstance(ShaderType::Vertex);
+	const bool vsCompileOk = vs->Compile("Data\\Shaders\\Vertex\\simplest.glsl", nullptr, &std::cout);
+	assert(vsCompileOk);
 
 	/* Add vertex shader to shader program */
 	const bool addVsOk = testShader->AddShader(std::move(vs), false);
 	assert(addVsOk);
 
+	auto fs = InstanceCreator<IShader, PointerType::Unique, ShaderType&&>::CreateInstance(ShaderType::Fragment);
+	const bool fsCompileOk = fs->Compile("Data\\Shaders\\Fragment\\simplest.glsl", nullptr, &std::cout);
+	assert(fsCompileOk);
+
 	/* Add fragment shader to shader program */
 	const bool addFsOk = testShader->AddShader(std::move(fs), false);
-	assert(addVsOk);
+	assert(addFsOk);
 
 	/* Link shaders into shader prgram */
 	testShader->Link(&std::cout);

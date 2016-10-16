@@ -1,5 +1,7 @@
 #include <KGL_Graphics/Render/Shaders/IShader.h>
 
+#include <cassert>
+
 // GLEW
 #ifndef GLEW_STATIC
 #define GLEW_STATIC
@@ -12,7 +14,8 @@ namespace KGL { namespace Graphics {
 
 ShaderProgram::ShaderProgram() :
 	m_id(glCreateProgram())
-{}
+{
+}
 
 ShaderProgram::~ShaderProgram()
 {

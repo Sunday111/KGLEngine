@@ -10,7 +10,7 @@ template<class T, PointerType pt, typename... U>
 class KGL_GRAPHICS_API InstanceCreator
 {
 public:
-	using Pointer = typename PointerTypeHelper<pt>::Pointer<T>;
+	using Pointer = typename PointerTypeHelper<T, pt>::Pointer;
 
 	static Pointer CreateInstance(U&&...);
 };

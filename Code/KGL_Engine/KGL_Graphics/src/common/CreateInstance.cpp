@@ -4,16 +4,16 @@
 #include "Render/Shaders/Shader.h"
 #include "Render/Shaders/ShaderProgram.h"
 
-InstanceCreatorInstantiationBothPointers(KGL::Graphics::InstanceCreator, KGL::Graphics::IShaderProgram, KGL::Graphics::ShaderProgram);
+InstanceCreatorInstantiationBothPointers(
+	KGL::Graphics::InstanceCreator,
+	KGL::Graphics::IShaderProgram,
+	KGL::Graphics::ShaderProgram);
 
 namespace KGL { namespace Graphics {
 
-namespace
-{
-
 template<PointerType pt>
-typename InstanceCreator<IShader, pt, ShaderType>::Pointer
-CreateShaderByType(ShaderType st)
+static typename PointerTypeHelper<IShader, pt>::Pointer
+CreateShaderByType(ShaderType&& st)
 {
 	switch (st)
 	{
@@ -29,20 +29,10 @@ CreateShaderByType(ShaderType st)
 	}
 }
 
-}
-
-InstanceCreatorInstantiationExBothPointers(
+InstanceCreatorInstantiationBothPointersEx(
 	KGL::Graphics::InstanceCreator,
 	KGL::Graphics::IShader,
-	KGL::Graphics::Shader<ShaderType::Vertex>,
-	CreateShaderByType<PointerType::Unique>,
-	ShaderType::Vertex);
-
-InstanceCreatorInstantiationExBothPointers(
-	KGL::Graphics::InstanceCreator,
-	KGL::Graphics::IShader,
-	KGL::Graphics::Shader<ShaderType::Fragment>,
-	CreateShaderByType<PointerType::Unique>,
-	ShaderType::Fragment);
+	KGL::Graphics::CreateShaderByType,
+	KGL::Graphics::ShaderType);
 
 } }

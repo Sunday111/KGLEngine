@@ -46,9 +46,15 @@ public:
 
 template<ShaderType shaderType>
 Shader<shaderType>::Shader() :
-	m_id(ShaderTypeHelper<shaderType>::GL_ShaderType)
+	m_id(glCreateShader(ShaderTypeHelper<shaderType>::GL_ShaderType))
 {
-	glDeleteShader(m_id);
+	GLint success;
+	glGetProgramiv(m_id, GL_LINK_STATUS, &success);
+
+	if (!success)
+	{
+		(assert(false));
+	}
 }
 
 template<ShaderType shaderType>
