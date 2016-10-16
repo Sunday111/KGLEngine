@@ -1,4 +1,5 @@
 #include <iostream>
+#include <KGL_Base/Marco.h>
 #include <KGL_Graphics/CreateInstance.h>
 #include <KGL_Graphics/Render/Shaders/ShaderType.h>
 #include <KGL_Graphics/Render/Shaders/IShader.h>
@@ -47,23 +48,19 @@ WindowImpl::WindowImpl(WindowManagerImpl* mgr) :
 	testShader = InstanceCreator<IShaderProgram, PointerType::Unique>::CreateInstance();
 
 	auto vs = InstanceCreator<IShader, PointerType::Unique, ShaderType&&>::CreateInstance(ShaderType::Vertex);
-	const bool vsCompileOk = vs->Compile("Data\\Shaders\\Vertex\\simplest.glsl", nullptr, &std::cout);
-	assert(vsCompileOk);
+	assertexpr(vs->Compile("Data\\Shaders\\Vertex\\simplest.glsl", nullptr, &std::cout));
 
 	/* Add vertex shader to shader program */
-	const bool addVsOk = testShader->AddShader(std::move(vs), false);
-	assert(addVsOk);
+	assertexpr(testShader->AddShader(std::move(vs), false));
 
 	auto fs = InstanceCreator<IShader, PointerType::Unique, ShaderType&&>::CreateInstance(ShaderType::Fragment);
-	const bool fsCompileOk = fs->Compile("Data\\Shaders\\Fragment\\simplest.glsl", nullptr, &std::cout);
-	assert(fsCompileOk);
+	assertexpr(fs->Compile("Data\\Shaders\\Fragment\\simplest.glsl", nullptr, &std::cout));
 
 	/* Add fragment shader to shader program */
-	const bool addFsOk = testShader->AddShader(std::move(fs), false);
-	assert(addFsOk);
+	assertexpr(testShader->AddShader(std::move(fs), false));
 
 	/* Link shaders into shader prgram */
-	testShader->Link(&std::cout);
+	assertexpr(testShader->Link(&std::cout));
 
     GLfloat vertices[] = {
         0.5f,  0.5f, 0.0f,  // Top Right

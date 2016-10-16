@@ -15,7 +15,7 @@ public:
 	virtual int GetId() = 0;
 	virtual bool AddShader(std::unique_ptr<IShader> shader, bool replace) = 0;
 	virtual bool Link(std::ostream* logstream) = 0;
-	virtual void Use() = 0;
+	virtual bool Use() = 0;
 	virtual int GetVariableLocation(const char* name) = 0;
 };
 

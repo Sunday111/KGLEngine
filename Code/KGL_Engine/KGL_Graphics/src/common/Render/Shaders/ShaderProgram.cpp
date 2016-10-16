@@ -13,9 +13,9 @@
 namespace KGL { namespace Graphics {
 
 ShaderProgram::ShaderProgram() :
-	m_id(glCreateProgram())
-{
-}
+	m_id(glCreateProgram()),
+	m_linked(false)
+{}
 
 ShaderProgram::~ShaderProgram()
 {
@@ -30,6 +30,9 @@ bool ShaderProgram::AddShader(std::unique_ptr<IShader> shader, bool replace)
 		{
 			if (replace)
 			{
+				glDetachShader(m_id, s->GetId());
+				m_linked = false;
+
 				std::swap(s, shader);
 				return true;
 			}
@@ -44,6 +47,8 @@ bool ShaderProgram::AddShader(std::unique_ptr<IShader> shader, bool replace)
 
 bool ShaderProgram::Link(std::ostream* logstream)
 {
+	m_linked = false;
+
 	for (auto& s : m_shaders)
 	{
 		glAttachShader(m_id, s->GetId());
@@ -51,8 +56,10 @@ bool ShaderProgram::Link(std::ostream* logstream)
 
 	glLinkProgram(m_id);
 
-	GLint success;
+	GLint success = -1;
 	glGetProgramiv(m_id, GL_LINK_STATUS, &success);
+
+	m_linked = success == -1;
 
 	if (!success) {
 		if (logstream != nullptr)
@@ -62,16 +69,19 @@ bool ShaderProgram::Link(std::ostream* logstream)
 			*logstream << "ERROR::SHADER_PROGRAM::" << m_id
 				<< "::LINK_FAILED\n" << infoLog << std::endl;
 		}
-
-		return false;
 	}
 
-	return true;
+	return m_linked;
 }
 
-void ShaderProgram::Use()
+bool ShaderProgram::Use()
 {
-	glUseProgram(m_id);
+	if (m_linked)
+	{
+		glUseProgram(m_id);
+	}
+
+	return m_linked;
 }
 
 int ShaderProgram::GetVariableLocation(const char* name)

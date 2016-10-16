@@ -19,12 +19,13 @@ public:
 	int GetId() override { return m_id; }
 	bool AddShader(std::unique_ptr<IShader> shader, bool replace) override;
 	bool Link(std::ostream* logstream) override;
-	void Use() override;
+	bool Use() override;
 	int GetVariableLocation(const char* name) override;
 
 private:
 
 	int m_id;
+	bool m_linked;
 	std::vector<std::unique_ptr<IShader>> m_shaders;
 };
 
