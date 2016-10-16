@@ -1,48 +1,35 @@
 #include <cassert>
 #include <KGL_Base/Marco.h>
-#include <KGL_Core/SystemsManager.h>
-#include "SystemsManagerImpl.h"
+#include <KGL_Core/ISystem.h>
+#include "SystemsManager.h"
 
 namespace KGL { namespace Core {
 
-SystemsManager::SystemsManager() :
-    m_d(new SystemsManagerImpl())
-{}
-
-SystemsManager::SystemsManager(SystemsManager&& uref) :
-    m_d(uref.m_d)
+bool SystemsManager::RegisterSystem(std::unique_ptr<ISystem> system)
 {
-    uref.m_d = nullptr;
-}
+	for (auto& s : m_systems)
+	{
+		if (s == system)
+		{
+			return false;
+		}
+	}
 
-SystemsManager::~SystemsManager()
-{
-    SAFE_DELETE(m_d);
-}
-
-bool SystemsManager::RegisterSystem(std::unique_ptr<System> system)
-{
-    if (m_d == nullptr)
-    {
-        assert(false);
-        return false;
-    }
-
-    return m_d->RegisterSystem(std::move(system));
+	m_systems.push_back(std::move(system));
+	return true;
 }
 
 bool SystemsManager::Update()
 {
-    assert(m_d != nullptr);
-    return m_d->Update();
-}
+	for (auto& s : m_systems)
+	{
+		if (!s->Update())
+		{
+			return false;
+		}
+	}
 
-SystemsManager& SystemsManager::operator=(SystemsManager&& uref)
-{
-    assert(m_d == nullptr);
-    m_d = uref.m_d;
-    uref.m_d = nullptr;
-    return *this;
+	return true;
 }
 
 } }

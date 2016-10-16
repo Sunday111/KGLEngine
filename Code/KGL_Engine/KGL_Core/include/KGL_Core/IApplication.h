@@ -11,7 +11,7 @@ public:
 	virtual void OnInitialize(IApplication*) = 0;
 };
 
-class SystemsManager;
+class ISystemsManager;
 
 class KGL_CORE_API IApplication : public IObject
 {
@@ -27,7 +27,7 @@ public:
 	 */
 	virtual bool AddListener(IApplicationListener* listener, bool destroy) = 0;
 
-	virtual SystemsManager* GetSystemsManager() = 0;
+	virtual ISystemsManager* GetSystemsManager() = 0;
 
 	virtual void Initialize() = 0;
 };

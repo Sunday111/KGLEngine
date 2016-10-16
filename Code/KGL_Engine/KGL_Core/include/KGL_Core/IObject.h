@@ -7,13 +7,12 @@
 
 namespace KGL { namespace Core {
 
-// Base class for Sg objects
 class KGL_CORE_API IObject
 {
 public:
 
 protected:
-    virtual ~IObject() = default;
+    virtual ~IObject() = 0;
 };
 
 } }

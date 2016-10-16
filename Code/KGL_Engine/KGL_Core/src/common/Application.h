@@ -9,7 +9,7 @@
 
 namespace KGL { namespace Core {
 
-class SystemsManager;
+class ISystemsManager;
 
 class Application :
 	public virtual IApplication,
@@ -19,14 +19,14 @@ public:
     explicit Application();
     ~Application();
 
-    SystemsManager* GetSystemsManager();
+	ISystemsManager* GetSystemsManager() override;
 	bool Update() override;
 	bool AddListener(IApplicationListener* listener, bool destroy) override;
 	void Initialize() override;
 
 private:
 	std::vector<std::pair<bool,IApplicationListener*>> m_listeners;
-    std::unique_ptr<SystemsManager>  m_systemsManager;
+    std::unique_ptr<ISystemsManager>  m_systemsManager;
 };
 
 } }

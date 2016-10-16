@@ -3,7 +3,7 @@
 #include <KGL_Base/UnusedVar.h>
 #include <KGL_Core/IApplication.h>
 #include <KGL_Core/CreateInstance.h>
-#include <KGL_Core/SystemsManager.h>
+#include <KGL_Core/ISystemsManager.h>
 #include <KGL_Graphics/GraphicSystem.h>
 #include <KGL_Graphics/WindowManager.h>
 #include <KGL_Graphics/Window.h>
@@ -25,9 +25,13 @@ public:
 		
 		gs->GetWindowManager()->CreateWindow();
 		gs->GetWindowManager()->CreateWindow();
-		
-		app->
-		GetSystemsManager()->RegisterSystem(std::move(gs));
+
+		for (int i = 0; i < 10; ++i)
+		{
+			gs->GetWindowManager()->CreateWindow();
+		}
+
+		app->GetSystemsManager()->RegisterSystem(std::move(gs));
 	}
 };
 

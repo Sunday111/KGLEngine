@@ -1,6 +1,7 @@
 #include "Application.h"
 #include <KGL_Base/Marco.h>
-#include <KGL_Core/SystemsManager.h>
+#include <KGL_Core/ISystem.h>
+#include "SystemsManager.h"
 
 namespace KGL { namespace Core {
 
@@ -19,7 +20,7 @@ Application::~Application()
 	}
 }
 
-SystemsManager* Application::GetSystemsManager()
+ISystemsManager* Application::GetSystemsManager()
 {
     return m_systemsManager.get();
 }

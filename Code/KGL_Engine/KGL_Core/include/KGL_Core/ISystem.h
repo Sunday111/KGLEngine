@@ -5,11 +5,11 @@
 
 namespace KGL { namespace Core {
 
-class KGL_CORE_API System
+class KGL_CORE_API ISystem
 {
 public:
     virtual bool Update() = 0;
-    virtual ~System() = default;
+    virtual ~ISystem() = 0;
 };
 
 } }
