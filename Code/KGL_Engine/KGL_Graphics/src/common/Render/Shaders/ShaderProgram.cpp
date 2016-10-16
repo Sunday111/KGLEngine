@@ -56,12 +56,12 @@ bool ShaderProgram::Link(std::ostream* logstream)
 
 	glLinkProgram(m_id);
 
-	GLint success = -1;
+	GLint success;
 	glGetProgramiv(m_id, GL_LINK_STATUS, &success);
 
-	m_linked = success == -1;
+	m_linked = success == 1;
 
-	if (!success) {
+	if (!m_linked) {
 		if (logstream != nullptr)
 		{
 			GLchar infoLog[512];

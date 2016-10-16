@@ -47,15 +47,7 @@ public:
 template<ShaderType shaderType>
 Shader<shaderType>::Shader() :
 	m_id(glCreateShader(ShaderTypeHelper<shaderType>::GL_ShaderType))
-{
-	GLint success = -1;
-	glGetProgramiv(m_id, GL_LINK_STATUS, &success);
-
-	if (success != -1)
-	{
-		(assert(false));
-	}
-}
+{}
 
 template<ShaderType shaderType>
 Shader<shaderType>::~Shader()
