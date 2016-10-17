@@ -7,7 +7,8 @@ namespace KGL { namespace Core {
 
 class IApplication;
 
-class KGL_CORE_API IApplicationListener : public IObject
+class KGL_CORE_API IApplicationListener :
+    public IObject
 {
 public:
 	virtual void OnInitialize(IApplication*) = 0;
@@ -15,7 +16,8 @@ public:
 
 class ISystemsManager;
 
-class KGL_CORE_API IApplication : public IObject
+class KGL_CORE_API IApplication :
+    public IObject
 {
 public:
 	/* Update all systems of application

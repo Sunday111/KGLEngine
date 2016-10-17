@@ -9,9 +9,7 @@ namespace KGL { namespace Core {
 class KGL_CORE_API IObject
 {
 public:
-
-protected:
-    virtual ~IObject() = 0;
+    virtual ~IObject() {};
 };
 
 } }

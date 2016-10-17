@@ -9,7 +9,7 @@ namespace KGL { namespace Graphics {
 class KGL_GRAPHICS_API IObject : public Core::IObject
 {
 public:
-	virtual ~IObject() = 0;
+    virtual ~IObject() {};
 };
 
 } }
