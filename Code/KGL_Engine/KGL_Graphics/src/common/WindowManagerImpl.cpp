@@ -1,6 +1,6 @@
 #include <algorithm>
-#include "WindowManagerImpl.h"
 #include "WindowImpl.h"
+#include "WindowManagerImpl.h"
 
 // GLEW
 #ifndef GLEW_STATIC

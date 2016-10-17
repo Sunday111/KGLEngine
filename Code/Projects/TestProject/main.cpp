@@ -7,7 +7,6 @@
 #include <KGL_Graphics/CreateInstance.h>
 #include <KGL_Graphics/IGraphicSystem.h>
 #include <KGL_Graphics/WindowManager.h>
-#include <KGL_Graphics/Window.h>
 #include <iostream>
 #include <memory>
 #include <string.h>

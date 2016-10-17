@@ -1,6 +1,5 @@
 #include <cassert>
 #include <KGL_Base/Marco.h>
-#include "KGL_Graphics/Window.h"
 #include "KGL_Graphics/WindowManager.h"
 #include "WindowManagerImpl.h"
 
