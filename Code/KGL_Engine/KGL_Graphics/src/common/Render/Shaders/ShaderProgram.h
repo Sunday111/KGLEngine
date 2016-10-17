@@ -10,7 +10,7 @@ namespace KGL { namespace Graphics {
 
 class ShaderProgram :
 	public virtual IShaderProgram,
-	public virtual IObject
+    public virtual Core::IObject
 {
 public:
 	ShaderProgram();

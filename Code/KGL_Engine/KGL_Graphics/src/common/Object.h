@@ -1,11 +1,11 @@
 #ifndef KGL_GRAPHICS_OBJECT_H_INCLUDED
 #define KGL_GRAPHICS_OBJECT_H_INCLUDED
 
-#include <KGL_Graphics/IObject.h>
+#include <KGL_Core/IObject.h>
 
 namespace KGL { namespace Graphics {
 
-class Object : public IObject
+class Object : public Core::IObject
 {
 public:
 	Object() = default;

@@ -2,12 +2,12 @@
 #define KGL_GRAPHICS_ISHADER_H_INCLUDED
 
 #include <ostream>
-#include <KGL_Graphics/IObject.h>
+#include <KGL_Core/IObject.h>
 #include <KGL_Graphics/Render/Shaders/ShaderType.h>
 
 namespace KGL { namespace Graphics {
 
-class KGL_GRAPHICS_API IShader : public IObject
+class KGL_GRAPHICS_API IShader : public Core::IObject
 {
 public:
 	virtual int GetId() = 0;
