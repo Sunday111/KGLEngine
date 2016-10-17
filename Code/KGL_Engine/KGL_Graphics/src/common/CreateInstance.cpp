@@ -3,11 +3,17 @@
 #include "KGL_Graphics/CreateInstance.h"
 #include "Render/Shaders/Shader.h"
 #include "Render/Shaders/ShaderProgram.h"
+#include "GraphicSystem.h"
 
 InstanceCreatorInstantiationBothPointers(
 	KGL::Graphics::InstanceCreator,
 	KGL::Graphics::IShaderProgram,
 	KGL::Graphics::ShaderProgram);
+
+InstanceCreatorInstantiationBothPointers(
+    KGL::Graphics::InstanceCreator,
+    KGL::Graphics::IGraphicSystem,
+    KGL::Graphics::GraphicSystem);
 
 namespace KGL { namespace Graphics {
 

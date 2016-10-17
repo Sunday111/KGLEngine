@@ -1,5 +1,4 @@
-#include <KGL_Graphics/GraphicSystem.h>
-#include <KGL_Graphics/WindowManager.h>
+#include <GraphicSystem.h>
 #include <iostream>
 #include <cassert>
 #include "WindowManagerImpl.h"
@@ -15,70 +14,30 @@
 
 namespace KGL { namespace Graphics {
 
-class GraphicSystem::GraphicSystemImpl
+GraphicSystem::GraphicSystem()
 {
-public:
-    explicit GraphicSystemImpl()
-    {
-        glfwInit();
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-        glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+    glfwInit();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-        glewExperimental = GL_TRUE;
-    }
-
-    void AddShaderProgram(std::unique_ptr<IShaderProgram> shaderProgram)
-    {
-        m_shaderPrograms.push_back(std::move(shaderProgram));
-    }
-
-    WindowManager* GetWindowManager()
-    {
-        return &m_windowManager;
-    }
-
-private:
-    WindowManager m_windowManager;
-    std::vector<std::unique_ptr<IShaderProgram>> m_shaderPrograms;
-};
-
-GraphicSystem::GraphicSystem() :
-    m_d(new GraphicSystemImpl())
-{}
-
-GraphicSystem::GraphicSystem(GraphicSystem&& uref) :
-    m_d(uref.m_d)
-{
-    uref.m_d = nullptr;
+    glewExperimental = GL_TRUE;
 }
 
 GraphicSystem::~GraphicSystem()
 {
-    if (m_d != nullptr)
-    {
-        delete m_d;
-        glfwTerminate();
-    }
+    glfwTerminate();
 }
 
 bool GraphicSystem::Update()
 {
-    assert(m_d != nullptr);
-    return m_d->GetWindowManager()->GetImpl()->Update();
+    return m_windowManager.GetImpl()->Update();
 }
 
 void GraphicSystem::AddShaderProgram(std::unique_ptr<IShaderProgram> shaderProgram)
 {
-    assert(m_d != nullptr);
-    m_d->AddShaderProgram(std::move(shaderProgram));
-}
-
-WindowManager* GraphicSystem::GetWindowManager()
-{
-    assert(m_d != nullptr);
-    return m_d->GetWindowManager();
+    m_shaderPrograms.push_back(std::move(shaderProgram));
 }
 
 } }

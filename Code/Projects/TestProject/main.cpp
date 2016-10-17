@@ -4,7 +4,8 @@
 #include <KGL_Core/CreateInstance.h>
 #include <KGL_Core/IApplication.h>
 #include <KGL_Core/ISystemsManager.h>
-#include <KGL_Graphics/GraphicSystem.h>
+#include <KGL_Graphics/CreateInstance.h>
+#include <KGL_Graphics/IGraphicSystem.h>
 #include <KGL_Graphics/WindowManager.h>
 #include <KGL_Graphics/Window.h>
 #include <iostream>
@@ -17,7 +18,9 @@ class AppListener : public KGL::Core::IApplicationListener
 public:
 	void OnInitialize(KGL::Core::IApplication* app) override
 	{
-		auto gs = std::make_unique<KGL::Graphics::GraphicSystem>();
+        auto gs = KGL::Graphics::InstanceCreator<
+            KGL::Graphics::IGraphicSystem,
+            KGL::PointerType::Unique>::CreateInstance();
 		
 		gs->GetWindowManager()->CreateWindow();
 		gs->GetWindowManager()->CreateWindow();
