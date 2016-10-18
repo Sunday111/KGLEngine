@@ -109,7 +109,7 @@ bool Shader<shaderType>::Compile(const char* fileName, const char* additionalCod
 	{
 		// get length of file :
 		is.seekg(0, is.end);
-		size_t length = is.tellg();
+        size_t length = static_cast<size_t>(is.tellg());
 		is.seekg(0, is.beg);
 
 		m_code.resize(length + 1);
