@@ -6,6 +6,7 @@
 
 #include <KGL_Core/IApplication.h>
 #include "Object.h"
+#include <KGL_Core/RTTI.h>
 
 namespace KGL { namespace Core {
 
@@ -23,6 +24,8 @@ public:
 	bool Update() override;
 	bool AddListener(IApplicationListener* listener, bool destroy) override;
 	void Initialize() override;
+
+    DECLARE_SUPPORT_RTTI(Application, Object)
 
 private:
 	std::vector<std::pair<bool,IApplicationListener*>> m_listeners;

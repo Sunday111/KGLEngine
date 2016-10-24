@@ -9,6 +9,8 @@ namespace KGL { namespace Core {
 class KGL_CORE_API IObject
 {
 public:
+    virtual int GetTypeId() const = 0;
+    virtual bool IsTypeOf(int typeId) const = 0;
     virtual ~IObject() {};
 };
 

@@ -5,6 +5,8 @@
 
 namespace KGL { namespace Core {
 
+DEFINE_SUPPORT_RTTI(SystemsManager, Object)
+
 bool SystemsManager::RegisterSystem(std::unique_ptr<ISystem> system)
 {
 	for (auto& s : m_systems)

@@ -12,6 +12,8 @@
 
 namespace KGL { namespace Graphics {
 
+DEFINE_SUPPORT_RTTI(ShaderProgram, Graphics::Object)
+
 ShaderProgram::ShaderProgram() :
 	m_id(glCreateProgram()),
 	m_linked(false)

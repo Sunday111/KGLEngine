@@ -161,6 +161,9 @@ bool Shader<shaderType>::Compile(const char* fileName, const char* additionalCod
 	return true;
 }
 
+DEFINE_SUPPORT_RTTI(Shader<ShaderType::Vertex>, Graphics::Object)
+DEFINE_SUPPORT_RTTI(Shader<ShaderType::Fragment>, Graphics::Object)
+
 template class Shader<ShaderType::Vertex>;
 template class Shader<ShaderType::Fragment>;
 

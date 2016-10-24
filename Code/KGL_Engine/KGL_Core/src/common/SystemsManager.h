@@ -3,16 +3,20 @@
 
 #include <KGL_Core/ISystemsManager.h>
 #include <memory>
+#include "Object.h"
 #include <vector>
 
 namespace KGL { namespace Core {
 
-class SystemsManager : public ISystemsManager
+class SystemsManager :
+    public virtual ISystemsManager,
+    public virtual Object
 {
 public:
 	bool RegisterSystem(std::unique_ptr<ISystem> system) override;
 	bool Update() override;
 
+    DECLARE_SUPPORT_RTTI(SystemsManager, Object)
 private:
 	std::vector<std::unique_ptr<ISystem>> m_systems;
 };

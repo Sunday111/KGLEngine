@@ -1,8 +1,8 @@
 #include "CoreModule.h"
 
-namespace KGL { namespace Core { namespace {
+namespace KGL { namespace Core {
 
-}
+DEFINE_SUPPORT_RTTI(CoreModule, Object)
 
 int CoreModule::GetModuleId()
 {

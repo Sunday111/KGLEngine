@@ -14,6 +14,8 @@
 
 namespace KGL { namespace Graphics {
 
+DEFINE_SUPPORT_RTTI(GraphicSystem, Graphics::Object)
+
 GraphicSystem::GraphicSystem()
 {
     glfwInit();

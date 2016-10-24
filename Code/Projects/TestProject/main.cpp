@@ -1,9 +1,12 @@
 #include <algorithm>
 #include <cassert>
+#include <KGL_Base/Marco.h>
 #include <KGL_Base/UnusedVar.h>
 #include <KGL_Core/CreateInstance.h>
 #include <KGL_Core/IApplication.h>
 #include <KGL_Core/ISystemsManager.h>
+#include <KGL_Core/RTTI.h>
+#include <KGL_Core/ITypeRegistry.h>
 #include <KGL_Graphics/CreateInstance.h>
 #include <KGL_Graphics/IGraphicSystem.h>
 #include <KGL_Graphics/WindowManager.h>
@@ -11,8 +14,10 @@
 #include <memory>
 #include <string.h>
 #include <vector>
+#include <typeinfo>
 
-class AppListener : public KGL::Core::IApplicationListener
+class AppListener :
+    public KGL::Core::IApplicationListener
 {
 public:
 	void OnInitialize(KGL::Core::IApplication* app) override
@@ -31,7 +36,11 @@ public:
 
 		app->GetSystemsManager()->RegisterSystem(std::move(gs));
 	}
+
+    DECLARE_SUPPORT_RTTI(AppListener)
 };
+
+DEFINE_SUPPORT_RTTI(AppListener)
 
 int main(int argc, const char** argv)
 {
@@ -41,7 +50,9 @@ int main(int argc, const char** argv)
 	UnusedVar(argc, argv);
 	auto app = InstanceCreator<IApplication,PointerType::Unique>::CreateInstance();
 
-	app->AddListener(new AppListener(), true);
+    auto listener = new AppListener();
+
+	app->AddListener(listener, true);
 	app->Initialize();
 
 	while (app->Update());

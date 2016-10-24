@@ -5,6 +5,8 @@
 
 namespace KGL { namespace Core {
 
+DEFINE_SUPPORT_RTTI(Application, Object)
+
 Application::Application() :
     m_systemsManager(std::make_unique<SystemsManager>())
 {}

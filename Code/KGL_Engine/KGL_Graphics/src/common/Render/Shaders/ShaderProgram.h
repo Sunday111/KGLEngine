@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <vector>
+#include <KGL_Core/RTTI.h>
 #include <KGL_Graphics/Render/Shaders/IShaderProgram.h>
 #include "Object.h"
 
@@ -10,7 +11,7 @@ namespace KGL { namespace Graphics {
 
 class ShaderProgram :
 	public virtual IShaderProgram,
-    public virtual Core::IObject
+    public virtual Graphics::Object
 {
 public:
 	ShaderProgram();
@@ -21,6 +22,8 @@ public:
 	bool Link(std::ostream* logstream) override;
 	bool Use() override;
 	int GetVariableLocation(const char* name) override;
+
+    DECLARE_SUPPORT_RTTI(ShaderProgram, Graphics::Object)
 
 private:
 

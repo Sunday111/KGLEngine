@@ -3,6 +3,8 @@
 
 namespace KGL { namespace Graphics {
 
+DEFINE_SUPPORT_RTTI(GraphicsModule, Graphics::Object)
+
 int GraphicsModule::GetModuleId()
 {
 	return m_id;
