@@ -57,16 +57,19 @@ public:
 			std::swap(m_shared, e.m_shared);
 		}
 
+		friend bool operator== (const Element& lhs, const Unique& rhs)
+		{
+			return static_cast<const T*>(lhs) == rhs.get();
+		}
+		friend bool operator== (const Element& lhs, const Shared& rhs)
+		{
+			return static_cast<const T*>(lhs) == rhs.get();
+		}
 		friend bool operator== (const Element& lhs, const Element& rhs)
 		{
-			if (&lhs == &rhs)
-			{
-				return true;
-			}
-
 			return
-				lhs.m_shared == rhs.m_shared &&
-				lhs.m_unique == rhs.m_unique;
+				static_cast<const T*>(lhs) ==
+				static_cast<const T*>(rhs);
 		}
 		friend bool operator != (const Element& lhs, const Element& rhs)
 		{
@@ -91,8 +94,23 @@ public:
 		{
 			return Get();
 		}
+
+		operator T*()
+		{
+			return Get();
+		}
+
+		operator const T*() const
+		{
+			return Get();
+		}
 		
 		T* Get()
+		{
+			return const_cast<T*>(const_cast<const Element*>(this)->Get());
+		}
+
+		const T* Get() const
 		{
 			assert(m_unique != nullptr ^ m_shared != nullptr);
 
@@ -104,10 +122,6 @@ public:
 			return m_shared.get();
 		}
 
-		const T* Get() const
-		{
-			return const_cast<PointersArray*>(this)->Get();
-		}
 	private:
 		Shared m_shared;
 		Unique m_unique;
@@ -116,16 +130,25 @@ public:
     using Collection = std::vector<Element>;
 	using iterator = typename Collection::iterator;
 	using const_iterator = typename Collection::const_iterator;
-    
-    void PushBack(Unique&& p)
-    {
-        m_pointers.push_back(Element(std::move(p)));
-    }
 
-    void PushBack(const Shared& p)
-    {
-		m_pointers.push_back(Element(p));
-    }
+	template<class T>
+	void Add(T p)
+	{
+		m_pointers.push_back(Element(std::forward<T&&>(p)));
+	}
+
+	template<class T>
+	bool AddUnique(T p)
+	{
+		if (std::find(m_pointers.begin(), m_pointers.end(), p)
+			!= m_pointers.end())
+		{
+			return false;
+		}
+
+		Add(std::forward<T&&>(p));
+		return true;
+	}
 
     iterator begin()
     {
@@ -156,6 +179,7 @@ public:
 	{
 		return m_pointers[index].Get();
 	}
+
 private:
 
     std::vector<Element> m_pointers;

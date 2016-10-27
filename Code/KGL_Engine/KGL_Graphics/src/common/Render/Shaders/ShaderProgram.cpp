@@ -10,46 +10,14 @@
 
 #include "ShaderProgram.h"
 
-namespace KGL { namespace Graphics {
-
-DEFINE_SUPPORT_RTTI(ShaderProgram, Graphics::Object)
-
-ShaderProgram::ShaderProgram() :
-	m_id(glCreateProgram()),
-	m_linked(false)
-{}
-
-ShaderProgram::~ShaderProgram()
+namespace KGL { namespace Graphics { namespace
 {
-	glDeleteProgram(m_id);
-}
 
-bool ShaderProgram::AddShader(std::unique_ptr<IShader> shader, bool replace)
-{
-	for(int i = 0; i < m_shaders.Size(); ++i)
-	{
-		auto s = m_shaders[i];
-
-		if (s->GetType() == shader->GetType())
-		{
-			if (replace)
-			{
-				glDetachShader(m_id, s->GetId());
-				m_linked = false;
-				m_shaders.Erase(i);
-			}
-			else
-			{
-				return false;
-			}
-		}
-	}
-
-	m_shaders.PushBack(std::move(shader));
-	return true;
-}
-
-bool ShaderProgram::AddShader(std::shared_ptr<IShader> shader, bool replace)
+template<class T>
+bool Add(
+	PointersArray<IShader>& m_shaders,
+	int& m_id, bool& m_linked,
+	T shader, bool replace)
 {
 	for (int i = 0; i < m_shaders.Size(); ++i)
 	{
@@ -70,8 +38,31 @@ bool ShaderProgram::AddShader(std::shared_ptr<IShader> shader, bool replace)
 		}
 	}
 
-	m_shaders.PushBack(shader);
-	return true;
+	return m_shaders.AddUnique(std::forward<T&&>(shader));
+}
+
+}
+
+DEFINE_SUPPORT_RTTI(ShaderProgram, Graphics::Object)
+
+ShaderProgram::ShaderProgram() :
+	m_id(glCreateProgram()),
+	m_linked(false)
+{}
+
+ShaderProgram::~ShaderProgram()
+{
+	glDeleteProgram(m_id);
+}
+
+bool ShaderProgram::AddShader(std::unique_ptr<IShader> shader, bool replace)
+{
+	return Add(m_shaders, m_id, m_linked, std::move(shader), replace);
+}
+
+bool ShaderProgram::AddShader(std::shared_ptr<IShader> shader, bool replace)
+{
+	return Add(m_shaders, m_id, m_linked, shader, replace);
 }
 
 bool ShaderProgram::Link(std::ostream* logstream)
