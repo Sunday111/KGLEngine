@@ -16,20 +16,21 @@
 #include <vector>
 #include <typeinfo>
 
+using namespace KGL;
+using namespace Core;
+using namespace Graphics;
+
 class AppListener :
-    public KGL::Core::IApplicationListener
+    public IApplicationListener
 {
 public:
-	void OnInitialize(KGL::Core::IApplication* app) override
+	void OnInitialize(IApplication* app) override
 	{
-        auto gs = KGL::Graphics::InstanceCreator<
-            KGL::Graphics::IGraphicSystem,
-            KGL::PointerType::Unique>::CreateInstance();
-		
-		gs->GetWindowManager()->CreateWindow();
-		gs->GetWindowManager()->CreateWindow();
+        auto gs = Graphics::InstanceCreator<
+            Graphics::IGraphicSystem,
+            PointerType::Unique>::CreateInstance();
 
-		for (int i = 0; i < 10; ++i)
+		for (int i = 0; i < 2; ++i)
 		{
 			gs->GetWindowManager()->CreateWindow();
 		}
@@ -44,11 +45,8 @@ DEFINE_SUPPORT_RTTI(AppListener)
 
 int main(int argc, const char** argv)
 {
-	using namespace KGL;
-	using namespace KGL::Core;
-
 	UnusedVar(argc, argv);
-	auto app = InstanceCreator<IApplication,PointerType::Unique>::CreateInstance();
+	auto app = Core::InstanceCreator<IApplication,PointerType::Unique>::CreateInstance();
 
     auto listener = new AppListener();
 

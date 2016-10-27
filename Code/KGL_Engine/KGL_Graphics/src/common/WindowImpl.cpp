@@ -18,6 +18,19 @@
 
 namespace KGL { namespace Graphics {
 
+namespace
+{
+
+template<ShaderType st, PointerType pt = PointerType::Unique>
+decltype(auto) CreateShader(const char* file)
+{
+    auto shader = InstanceCreator<IShader, pt, ShaderType&&>::CreateInstance(st);
+    assertexpr(shader->Compile(file, nullptr, &std::cout));
+    return shader;
+}
+
+}
+
 WindowImpl::WindowImpl(WindowManagerImpl* mgr) :
     m_mgr(mgr),
     m_wnd(nullptr),
@@ -47,17 +60,20 @@ WindowImpl::WindowImpl(WindowManagerImpl* mgr) :
 	/* Create shader program instance */
 	testShader = InstanceCreator<IShaderProgram, PointerType::Unique>::CreateInstance();
 
-	auto vs = InstanceCreator<IShader, PointerType::Unique, ShaderType&&>::CreateInstance(ShaderType::Vertex);
-	assertexpr(vs->Compile("Data\\Shaders\\Vertex\\simplest.glsl", nullptr, &std::cout));
+    std::shared_ptr<IShader> vs = CreateShader<ShaderType::Vertex, PointerType::Shared>("Data\\Shaders\\Vertex\\simplest.glsl");
+    std::shared_ptr<IShader> fs = CreateShader<ShaderType::Fragment, PointerType::Shared>("Data\\Shaders\\Fragment\\simplest.glsl");
+
+	//auto vs = InstanceCreator<IShader, PointerType::Unique, ShaderType&&>::CreateInstance(ShaderType::Vertex);
+	//assertexpr(vs->Compile("Data\\Shaders\\Vertex\\simplest.glsl", nullptr, &std::cout));
 
 	/* Add vertex shader to shader program */
-	assertexpr(testShader->AddShader(std::move(vs), false));
+	assertexpr(testShader->AddShader(vs, false));
 
-	auto fs = InstanceCreator<IShader, PointerType::Unique, ShaderType&&>::CreateInstance(ShaderType::Fragment);
-	assertexpr(fs->Compile("Data\\Shaders\\Fragment\\simplest.glsl", nullptr, &std::cout));
+	//auto fs = InstanceCreator<IShader, PointerType::Unique, ShaderType&&>::CreateInstance(ShaderType::Fragment);
+	//assertexpr(fs->Compile("Data\\Shaders\\Fragment\\simplest.glsl", nullptr, &std::cout));
 
 	/* Add fragment shader to shader program */
-	assertexpr(testShader->AddShader(std::move(fs), false));
+	assertexpr(testShader->AddShader(fs, false));
 
 	/* Link shaders into shader prgram */
 	assertexpr(testShader->Link(&std::cout));

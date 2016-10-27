@@ -26,24 +26,51 @@ ShaderProgram::~ShaderProgram()
 
 bool ShaderProgram::AddShader(std::unique_ptr<IShader> shader, bool replace)
 {
-	for (auto& s : m_shaders)
+	for(int i = 0; i < m_shaders.Size(); ++i)
 	{
+		auto s = m_shaders[i];
+
 		if (s->GetType() == shader->GetType())
 		{
 			if (replace)
 			{
 				glDetachShader(m_id, s->GetId());
 				m_linked = false;
-
-				std::swap(s, shader);
-				return true;
+				m_shaders.Erase(i);
 			}
-
-			return false;
+			else
+			{
+				return false;
+			}
 		}
 	}
 
-	m_shaders.push_back(std::move(shader));
+	m_shaders.PushBack(std::move(shader));
+	return true;
+}
+
+bool ShaderProgram::AddShader(std::shared_ptr<IShader> shader, bool replace)
+{
+	for (int i = 0; i < m_shaders.Size(); ++i)
+	{
+		auto s = m_shaders[i];
+
+		if (s->GetType() == shader->GetType())
+		{
+			if (replace)
+			{
+				glDetachShader(m_id, s->GetId());
+				m_linked = false;
+				m_shaders.Erase(i);
+			}
+			else
+			{
+				return false;
+			}
+		}
+	}
+
+	m_shaders.PushBack(shader);
 	return true;
 }
 

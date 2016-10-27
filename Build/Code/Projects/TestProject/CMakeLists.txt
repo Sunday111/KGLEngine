@@ -11,11 +11,7 @@ include (${TOP}/Build/Code/KGL_Engine/ConfigureKGL.cmake)
 
 add_executable(${projectName} ${TOP}/Code/Projects/${projectName}/main.cpp)
 
-set(Modules
-    KGL_CORE,
-    KGL_GRAPHICS)
-
-ConfigureKGL(${Modules})
+ConfigureKGL("KGL_Core;KGL_Graphics")
 
 target_compile_options(${projectName} PUBLIC ${compileOptions})
 target_compile_definitions(${projectName} PRIVATE -D${CMAKE_CXX_COMPILER_ID})

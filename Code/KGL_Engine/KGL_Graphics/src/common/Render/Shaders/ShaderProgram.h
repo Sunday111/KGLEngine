@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <vector>
+#include <KGL_Base/PointersVector.h>
 #include <KGL_Core/RTTI.h>
 #include <KGL_Graphics/Render/Shaders/IShaderProgram.h>
 #include "Object.h"
@@ -18,7 +19,8 @@ public:
 	~ShaderProgram();
 
 	int GetId() override { return m_id; }
-	bool AddShader(std::unique_ptr<IShader> shader, bool replace) override;
+    bool AddShader(std::unique_ptr<IShader> shader, bool replace) override;
+    bool AddShader(std::shared_ptr<IShader> shader, bool replace) override;
 	bool Link(std::ostream* logstream) override;
 	bool Use() override;
 	int GetVariableLocation(const char* name) override;
@@ -29,7 +31,7 @@ private:
 
 	int m_id;
 	bool m_linked;
-	std::vector<std::unique_ptr<IShader>> m_shaders;
+    PointersArray<IShader> m_shaders;
 };
 
 } }

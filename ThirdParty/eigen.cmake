@@ -1,5 +1,6 @@
-SET(EIGEN_DIR ${TOP}/ThirdParty/eigen/)
+message(STATUS "Configure eigen")
 
+SET(EIGEN_DIR ${TOP}/ThirdParty/eigen/)
 
 IF(NOT EXISTS ${EIGEN_DIR})
     SET(EIGEN_SOURCE_ARCHIVE ${EIGEN_DIR}/eigen.tgz)

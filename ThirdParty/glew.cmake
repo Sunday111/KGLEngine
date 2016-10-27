@@ -1,3 +1,5 @@
+message(STATUS "Configure glew")
+
 set(GLEW_DIR ${TOP}/ThirdParty/glew/)
 set(GLEW_BINARY_DIR ${CMAKE_BINARY_DIR}/Deps/ThirdParty/glew)
 
@@ -28,3 +30,6 @@ if(NOT EXISTS ${GLEW_DIR})
         endforeach()
     endif()
 endif()
+
+add_subdirectory(${GLEW_DIR}/build/cmake ${GLEW_BINARY_DIR} EXCLUDE_FROM_ALL)
+set_target_properties (glew_s PROPERTIES FOLDER "Third Party")

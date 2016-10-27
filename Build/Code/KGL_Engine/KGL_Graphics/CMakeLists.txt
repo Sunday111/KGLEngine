@@ -1,4 +1,3 @@
-include(${TOP}/ThirdParty/glew.cmake)
 include(${TOP}/Build/Code/KGL_Engine/GatherKGLModuleSources.cmake)
 
 set(ModuleName KGL_Graphics)

@@ -33,6 +33,11 @@ public:
 
     int CreateWindow();
 
+    size_t GetWindowsCount() const
+    {
+        return static_cast<int>(m_windows.size());
+    }
+
     WindowImpl* GetWindow(int id);
 
 private:
