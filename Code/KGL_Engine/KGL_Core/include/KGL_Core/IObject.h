@@ -14,6 +14,10 @@ public:
     virtual ~IObject() {};
 };
 
+KGL_CORE_API void AddReference(const IObject* p);
+KGL_CORE_API void RemoveReference(const IObject* p);
+KGL_CORE_API int GetReferencesCount(const IObject* p);
+
 } }
 
 #endif /* KGL_CORE_IOBJECT_H_INCLUDED */

@@ -12,11 +12,18 @@ class ITypeRegistry;
 class Object :
     public IObject
 {
+	DECLARE_SUPPORT_RTTI(Object)
+
 public:
 	Object();
     Object(const Object&) = delete;
 
-    DECLARE_SUPPORT_RTTI(Object)
+private:
+	friend void AddReference(const IObject* p);
+	friend void RemoveReference(const IObject* p);
+	friend int GetReferencesCount(const IObject* p);
+
+	mutable int m_referencesCount;
 };
 
 
