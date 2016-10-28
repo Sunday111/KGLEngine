@@ -3,16 +3,17 @@
 
 #include <KGL_Base/SmartPointers.h>
 #include <KGL_Core/Common.h>
+#include <KGL_Core/Ptr.h>
 
 namespace KGL { namespace Core {
 
-template<class T, PointerType pt, typename... U>
+template<class T, typename... U>
 class KGL_CORE_API InstanceCreator
 {
 public:
-	using Pointer = typename PointerTypeHelper<T, pt>::Pointer;
+	using Pointer = Ptr<T>;
 
-	static Pointer CreateInstance(U&&...);
+	static Pointer CreateInstance(U...);
 };
 
 } }

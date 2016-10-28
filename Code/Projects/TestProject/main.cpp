@@ -46,7 +46,7 @@ DEFINE_SUPPORT_RTTI(AppListener)
 int main(int argc, const char** argv)
 {
 	UnusedVar(argc, argv);
-	auto app = Core::InstanceCreator<IApplication,PointerType::Unique>::CreateInstance();
+	auto app = Core::InstanceCreator<IApplication>::CreateInstance();
 
     auto listener = new AppListener();
 

@@ -2,7 +2,7 @@
 #define KGL_CORE_PTR_H_INCUDED
 
 #include <cassert>
-#include <KGL_Core/AddRef.h>
+#include <KGL_Core/IObject.h>
 
 namespace KGL { namespace Core {
 
@@ -10,7 +10,7 @@ template<class T>
 class Ptr
 {
 public:
-	explicit Ptr(T* p) :
+	Ptr(T* p) :
 		m_p(p)
 	{
 		assert(p != nullptr);
@@ -27,6 +27,11 @@ public:
 		m_p(ptr.m_p)
 	{
 		AddReference(p);
+	}
+
+	~Ptr()
+	{
+		RemoveReference(m_p);
 	}
 
 	Ptr& operator=(const Ptr& ptr)
@@ -74,6 +79,15 @@ public:
 		return m_p;
 	}
 	operator const T*() const
+	{
+		return m_p;
+	}
+
+	T* operator->()
+	{
+		return m_p;
+	}
+	const T* operator->() const
 	{
 		return m_p;
 	}

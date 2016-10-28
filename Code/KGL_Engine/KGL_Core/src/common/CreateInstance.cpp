@@ -1,5 +1,15 @@
-#include "KGL_Base/Marco.h"
 #include "KGL_Core/CreateInstance.h"
 #include "Application.h"
 
-InstanceCreatorInstantiationBothPointers(KGL::Core::InstanceCreator, KGL::Core::IApplication, KGL::Core::Application);
+namespace KGL { namespace Core {
+
+template<>
+typename InstanceCreator<KGL::Core::IApplication>::Pointer
+InstanceCreator<KGL::Core::IApplication>::CreateInstance()
+{
+	return Ptr<IApplication>(new Application());
+}
+
+template class InstanceCreator<KGL::Core::IApplication>;
+
+} }

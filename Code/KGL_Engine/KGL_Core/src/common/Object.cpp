@@ -3,7 +3,9 @@
 
 namespace KGL { namespace Core {
 
-Object::Object() = default;
+Object::Object() :
+	m_referencesCount(0)
+{}
 
 DEFINE_SUPPORT_RTTI(Object)
 
