@@ -1,41 +1,61 @@
-#include "Application.h"
-#include <KGL_Base/Marco.h>
+#include <KGL_Core/Application.h>
+#include <KGL_Core/ApplicationListener.h>
 #include <KGL_Core/ISystem.h>
-#include "SystemsManager.h"
+#include <KGL_Core/ITypeRegistry.h>
+#include <KGL_Core/RTTI.h>
+#include <KGL_Core/SystemsManager.h>
 
 namespace KGL { namespace Core {
+
+class Application::Impl
+{
+public:
+	Impl() :
+		m_systemsManager(std::make_unique<SystemsManager>())
+	{}
+
+	std::unique_ptr<SystemsManager> m_systemsManager;
+	std::vector<std::pair<bool, ApplicationListener*>> m_listeners;
+};
 
 DEFINE_SUPPORT_RTTI(Application, Object)
 
 Application::Application() :
-    m_systemsManager(std::make_unique<SystemsManager>())
+    m_d(new Impl)
 {}
 
 Application::~Application()
 {
-	for (auto& l : m_listeners)
+	assert(m_d != nullptr);
+
+	for (auto& l : m_d->m_listeners)
 	{
 		if (l.first)
 		{
 			SAFE_DELETE(l.second);
 		}
 	}
+
+	delete m_d;
 }
 
-ISystemsManager* Application::GetSystemsManager()
+SystemsManager* Application::GetSystemsManager()
 {
-    return m_systemsManager.get();
+	assert(m_d != nullptr);
+	return m_d->m_systemsManager.get();
 }
 
 bool Application::Update()
 {
-	assert(m_systemsManager != nullptr);
-	return m_systemsManager->Update();
+	assert(m_d != nullptr && m_d->m_systemsManager != nullptr);
+	return m_d->m_systemsManager->Update();
 }
 
-bool Application::AddListener(IApplicationListener* listener, bool destroy)
+bool Application::AddListener(ApplicationListener* listener, bool destroy)
 {
-	for (auto& l : m_listeners)
+	assert(m_d != nullptr);
+
+	for (auto& l : m_d->m_listeners)
 	{
 		if (l.second == listener)
 		{
@@ -43,15 +63,18 @@ bool Application::AddListener(IApplicationListener* listener, bool destroy)
 		}
 	}
 
-	m_listeners.push_back(std::make_pair(destroy, listener));
+	m_d->m_listeners.push_back(std::make_pair(destroy, listener));
 
 	return true;
 }
 
 void Application::Initialize()
 {
-	for (auto k : m_listeners)
+	assert(m_d != nullptr);
+
+	for (auto k : m_d->m_listeners)
 	{
+		assert(k.second != nullptr);
 		k.second->OnInitialize(this);
 	}
 }

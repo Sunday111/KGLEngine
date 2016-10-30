@@ -2,8 +2,8 @@
 #define KGL_CORE_TYPE_REGISTRY_H_INCLUDED
 
 #include <KGL_Core/ITypeRegistry.h>
+#include <KGL_Core/Object.h>
 #include <KGL_Core/RTTI.h>
-#include "Object.h"
 #include <vector>
 #include <unordered_map>
 

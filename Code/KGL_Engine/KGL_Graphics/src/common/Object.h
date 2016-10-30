@@ -3,13 +3,13 @@
 
 #include <KGL_Base/Marco.h>
 #include <KGL_Core/ITypeRegistry.h>
-#include <KGL_Core/IObject.h>
+#include <KGL_Core/Object.h>
 #include <KGL_Core/RTTI.h>
 
 namespace KGL { namespace Graphics {
 
 class Object :
-    public Core::IObject
+    public Core::Object
 {
 public:
 	Object();

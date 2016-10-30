@@ -1,12 +1,12 @@
 #ifndef KGL_CORE_ITYPE_REGISTRY_H_INCLUDED
 #define KGL_CORE_ITYPE_REGISTRY_H_INCLUDED
 
-#include <KGL_Core/IObject.h>
+#include <KGL_Core/Object.h>
 #include <vector>
 
 namespace KGL { namespace Core {
 
-class KGL_CORE_API ITypeRegistry : public IObject
+class KGL_CORE_API ITypeRegistry : public Object
 {
 public:
     virtual bool TypeRegistered(int typeId) const = 0;

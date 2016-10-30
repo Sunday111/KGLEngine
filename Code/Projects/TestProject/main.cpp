@@ -2,11 +2,12 @@
 #include <cassert>
 #include <KGL_Base/Marco.h>
 #include <KGL_Base/UnusedVar.h>
+#include <KGL_Core/ApplicationListener.h>
+#include <KGL_Core/Application.h>
 #include <KGL_Core/CreateInstance.h>
-#include <KGL_Core/IApplication.h>
-#include <KGL_Core/ISystemsManager.h>
-#include <KGL_Core/RTTI.h>
 #include <KGL_Core/ITypeRegistry.h>
+#include <KGL_Core/RTTI.h>
+#include <KGL_Core/SystemsManager.h>
 #include <KGL_Graphics/CreateInstance.h>
 #include <KGL_Graphics/IGraphicSystem.h>
 #include <KGL_Graphics/WindowManager.h>
@@ -21,10 +22,10 @@ using namespace Core;
 using namespace Graphics;
 
 class AppListener :
-    public IApplicationListener
+    public ApplicationListener
 {
 public:
-	void OnInitialize(IApplication* app) override
+	void OnInitialize(Core::Application* app) override
 	{
         auto gs = Graphics::InstanceCreator<
             Graphics::IGraphicSystem,
@@ -37,22 +38,18 @@ public:
 
 		app->GetSystemsManager()->RegisterSystem(std::move(gs));
 	}
-
-    DECLARE_SUPPORT_RTTI(AppListener)
 };
-
-DEFINE_SUPPORT_RTTI(AppListener)
 
 int main(int argc, const char** argv)
 {
 	UnusedVar(argc, argv);
-	auto app = Core::InstanceCreator<IApplication>::CreateInstance();
+	Core::Application app;
 
     auto listener = new AppListener();
 
-	app->AddListener(listener, true);
-	app->Initialize();
+	app.AddListener(listener, true);
+	app.Initialize();
 
-	while (app->Update());
+	while (app.Update());
 	return 0;
 }

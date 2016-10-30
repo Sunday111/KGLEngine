@@ -2,9 +2,8 @@
 #define KGL_CORE_CORE_MODULE_H_INCLUDED
 
 #include <KGL_Core/ICoreModule.h>
+#include <KGL_Core/Object.h>
 #include <KGL_Core/RTTI.h>
-
-#include "Object.h"
 
 namespace KGL { namespace Core {
 

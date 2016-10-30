@@ -2,7 +2,7 @@
 #define KGL_CORE_PTR_H_INCUDED
 
 #include <cassert>
-#include <KGL_Core/IObject.h>
+#include <KGL_Core/Object.h>
 
 namespace KGL { namespace Core {
 

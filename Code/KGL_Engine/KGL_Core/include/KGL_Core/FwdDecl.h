@@ -12,7 +12,7 @@
 
 namespace KGL { namespace Core {
 
-KGL_CORE_FWDDECLOBJ(IObject);
+KGL_CORE_FWDDECLOBJ(Object);
 KGL_CORE_FWDDECLOBJ(IApplication);
 
 } }

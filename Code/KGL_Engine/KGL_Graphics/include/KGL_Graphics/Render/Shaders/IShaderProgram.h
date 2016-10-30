@@ -1,7 +1,7 @@
 #ifndef KGL_GRAPHICS_ISHADER_PROGRAM_H_INCLUDED
 #define KGL_GRAPHICS_ISHADER_PROGRAM_H_INCLUDED
 
-#include <KGL_Core/IObject.h>
+#include <KGL_Core/Object.h>
 #include <memory>
 #include <ostream>
 
@@ -9,7 +9,7 @@ namespace KGL { namespace Graphics {
 
 class IShader;
 
-class IShaderProgram : public Core::IObject
+class IShaderProgram : public Core::Object
 {
 public:
 	virtual int GetId() = 0;

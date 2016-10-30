@@ -2,12 +2,12 @@
 #define KGL_CORE_SYSTEM_H_INCLUDED
 
 #include <KGL_Core/Common.h>
-#include <KGL_Core/IObject.h>
+#include <KGL_Core/Object.h>
 
 namespace KGL { namespace Core {
 
 class KGL_CORE_API ISystem :
-    public IObject
+    public Object
 {
 public:
     virtual bool Update() = 0;
