@@ -97,4 +97,4 @@ private:
 
 } }
 
-#endif /* KGL_CORE_PTR_H_INCUDED */
+#endif

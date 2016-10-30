@@ -1,5 +1,5 @@
-#ifndef KGL_CORE_ITYPE_REGISTRY_H_INCLUDED
-#define KGL_CORE_ITYPE_REGISTRY_H_INCLUDED
+#ifndef KGL_CORE_TYPE_REGISTRY_H_INCLUDED
+#define KGL_CORE_TYPE_REGISTRY_H_INCLUDED
 
 #include <KGL_Core/Object.h>
 #include <vector>
@@ -31,4 +31,4 @@ private:
 } }
 
 
-#endif /*KGL_CORE_ITYPE_REGISTRY__H_INCLUDED*/
+#endif

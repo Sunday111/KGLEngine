@@ -5,10 +5,11 @@
 #include <KGL_Core/TypeRegistry.h>
 #include <KGL_Core/Object.h>
 #include <KGL_Core/RTTI.h>
+#include <KGL_Graphics/Common.h>
 
 namespace KGL { namespace Graphics {
 
-class Object :
+class KGL_GRAPHICS_API Object :
     public Core::Object
 {
 public:
@@ -20,4 +21,4 @@ public:
 
 } }
 
-#endif /* KGL_GRAPHICS_OBJECT_H_INCLUDED */
+#endif

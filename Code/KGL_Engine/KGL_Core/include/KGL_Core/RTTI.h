@@ -33,4 +33,4 @@ struct RttiHelper<Head>
 } }
 
 
-#endif /* KGL_CORE_RTTI_H_INCLUDED */
+#endif

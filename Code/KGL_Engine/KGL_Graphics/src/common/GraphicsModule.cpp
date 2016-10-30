@@ -1,13 +1,31 @@
-#include "GraphicsModule.h"
-#include <KGL_Graphics/IModule.h>
+#include <KGL_Graphics/GraphicsModule.h>
 
 namespace KGL { namespace Graphics {
 
-DEFINE_SUPPORT_RTTI(GraphicsModule, Graphics::Object)
+DEFINE_SUPPORT_RTTI(GraphicsModule, Core::Module)
+
+class GraphicsModule::Impl
+{
+public:
+	explicit Impl() :
+		m_id(Core::CoreModule::GetInstance()->GetNextModuleId())
+	{
+
+	}
+
+	const int m_id;
+};
+
+
+GraphicsModule::~GraphicsModule()
+{
+	assert(m_d != nullptr);
+}
 
 int GraphicsModule::GetModuleId()
 {
-	return m_id;
+	assert(m_d != nullptr);
+	return m_d->m_id;
 }
 
 GraphicsModule* GraphicsModule::Instance()
@@ -17,12 +35,7 @@ GraphicsModule* GraphicsModule::Instance()
 }
 
 GraphicsModule::GraphicsModule() :
-	m_id(Core::CoreModule::GetInstance()->GetNextModuleId())
+	m_d(new Impl)
 {}
-
-Core::Module* GetModule()
-{
-	return GraphicsModule::Instance();
-}
 
 } }

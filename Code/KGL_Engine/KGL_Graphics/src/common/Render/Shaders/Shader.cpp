@@ -1,4 +1,6 @@
-#include "Shader.h"
+#include <KGL_Core/RTTI.h>
+#include <KGL_Core/TypeRegistry.h>
+#include <KGL_Graphics/Render/Shaders/Shader.h>
 #include <cassert>
 #include <fstream>
 #include <filesystem>
@@ -9,7 +11,7 @@
 #endif
 #include <GL/glew.h>
 
-namespace KGL { namespace Graphics {
+namespace KGL { namespace Graphics { namespace {
 
 template<ShaderType shaderType>
 class ShaderTypeHelper;
@@ -44,40 +46,60 @@ public:
 	}
 };
 
+}
+
+template<ShaderType shaderType>
+class Shader<shaderType>::Impl
+{
+public:
+	Impl() :
+		m_id(glCreateShader(ShaderTypeHelper<shaderType>::GL_ShaderType))
+	{}
+
+	~Impl()
+	{
+		glDeleteShader(m_id);
+	}
+
+	const int m_id;
+	std::string m_code;
+};
+
 template<ShaderType shaderType>
 Shader<shaderType>::Shader() :
-	m_id(glCreateShader(ShaderTypeHelper<shaderType>::GL_ShaderType))
+	m_d(new Impl)
 {}
 
 template<ShaderType shaderType>
 Shader<shaderType>::~Shader()
 {
-	glDeleteShader(m_id);
+	assert(m_d != nullptr);
+	delete m_d;
 }
 
 template<ShaderType shaderType>
 bool Shader<shaderType>::RecompileShaderWithCode(const char* code, std::ostream* logstream)
 {
-	assert(code != nullptr);
+	assert(m_d != nullptr && code != nullptr);
 
 	const char * codePointers[2]
 	{
 		code,
-		m_code.data()
+		m_d->m_code.data()
 	};
 
-	glShaderSource(m_id, 2, codePointers, NULL);
-	glCompileShader(m_id);
+	glShaderSource(m_d->m_id, 2, codePointers, NULL);
+	glCompileShader(m_d->m_id);
 
 	GLint success;
-	glGetShaderiv(m_id, GL_COMPILE_STATUS, &success);
+	glGetShaderiv(m_d->m_id, GL_COMPILE_STATUS, &success);
 
 	if (!success)
 	{
 		if (logstream != nullptr)
 		{
 			GLchar infoLog[512];
-			glGetShaderInfoLog(m_id, 512, NULL, infoLog);
+			glGetShaderInfoLog(m_d->m_id, 512, NULL, infoLog);
 			*logstream << "ERROR::SHADER::" << ShaderTypeHelper<shaderType>::GetName()
 				<< "::COMPILATION_FAILED\n" << infoLog << std::endl;
 		}
@@ -92,6 +114,8 @@ template<ShaderType shaderType>
 bool Shader<shaderType>::Compile(const char* fileName, const char* additionalCode, std::ostream* logstream)
 {
 	using namespace std::tr2::sys;
+
+	assert(m_d != nullptr);
 
 	if (!exists(fileName))
 	{
@@ -112,8 +136,8 @@ bool Shader<shaderType>::Compile(const char* fileName, const char* additionalCod
         size_t length = static_cast<size_t>(is.tellg());
 		is.seekg(0, is.beg);
 
-		m_code.resize(length + 1);
-		if (!is.read(&m_code[0], length) && logstream != nullptr)
+		m_d->m_code.resize(length + 1);
+		if (!is.read(&m_d->m_code[0], length) && logstream != nullptr)
 		{
 			*logstream << "WARNING::SHADER::"
 				<< ShaderTypeHelper<shaderType>::GetName()
@@ -127,30 +151,30 @@ bool Shader<shaderType>::Compile(const char* fileName, const char* additionalCod
 	//Compile vertex shader
 	if (additionalCode == nullptr)
 	{
-		const GLchar* shaderCodePtr = m_code.data();
-		glShaderSource(m_id, 1, &shaderCodePtr, NULL);
+		const GLchar* shaderCodePtr = m_d->m_code.data();
+		glShaderSource(m_d->m_id, 1, &shaderCodePtr, NULL);
 	}
 	else
 	{
 		const char * codePointers[2]
 		{
 			additionalCode,
-			m_code.data()
+			m_d->m_code.data()
 		};
 
-		glShaderSource(m_id, 2, codePointers, NULL);
+		glShaderSource(m_d->m_id, 2, codePointers, NULL);
 	}
 
-	glCompileShader(m_id);
+	glCompileShader(m_d->m_id);
 	GLint success;
-	glGetShaderiv(m_id, GL_COMPILE_STATUS, &success);
+	glGetShaderiv(m_d->m_id, GL_COMPILE_STATUS, &success);
 
 	if (!success)
 	{
 		if (logstream != nullptr)
 		{
 			GLchar infoLog[512];
-			glGetShaderInfoLog(m_id, 512, NULL, infoLog);
+			glGetShaderInfoLog(m_d->m_id, 512, NULL, infoLog);
 			*logstream << "ERROR::SHADER::" << ShaderTypeHelper<shaderType>::GetName()
 				<< "::COMPILATION_FAILED\n" << infoLog << std::endl;
 		}
@@ -161,10 +185,18 @@ bool Shader<shaderType>::Compile(const char* fileName, const char* additionalCod
 	return true;
 }
 
-DEFINE_SUPPORT_RTTI(Shader<ShaderType::Vertex>, Graphics::Object)
-DEFINE_SUPPORT_RTTI(Shader<ShaderType::Fragment>, Graphics::Object)
+template<ShaderType shaderType>
+int Shader<shaderType>::GetId() const
+{
+	assert(m_d != nullptr);
+	return m_d->m_id;
+}
 
+
+DEFINE_SUPPORT_RTTI(Shader<ShaderType::Vertex>, Object)
 template class Shader<ShaderType::Vertex>;
+
+DEFINE_SUPPORT_RTTI(Shader<ShaderType::Fragment>, Object)
 template class Shader<ShaderType::Fragment>;
 
 } }

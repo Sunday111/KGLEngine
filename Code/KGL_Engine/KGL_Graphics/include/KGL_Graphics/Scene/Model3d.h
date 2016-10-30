@@ -33,4 +33,4 @@ private:
 
 } }
 
-#endif /* KGL_GRAPHICS_MODEL_3D_H_INCLUDED */
+#endif

@@ -15,4 +15,4 @@ public:
 
 } }
 
-#endif /* KGL_CORE_SYSTEM_H_INCLUDED */
+#endif

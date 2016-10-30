@@ -30,4 +30,4 @@ private:
 
 } }
 
-#endif /*KGL_GRAPHICS_WINDOW_MANAGER_H_INCLUDED*/
+#endif

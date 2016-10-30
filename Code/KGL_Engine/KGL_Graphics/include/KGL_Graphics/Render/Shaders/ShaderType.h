@@ -9,9 +9,9 @@ enum class ShaderType
 {
     Vertex,
     Fragment,
-    Geometry
+    __last
 };
 
 } }
 
-#endif /* KGL_GRAPHICS_SHADER_TYPE_H_INCLUDED */
+#endif

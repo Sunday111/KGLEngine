@@ -80,7 +80,7 @@ pragma error "Already defined IMPLEMENT_INTERFACE_DTOR"
 #ifndef DECLARE_SUPPORT_RTTI
 #define DECLARE_SUPPORT_RTTI(type, ...) \
         public: \
-            int GetTypeId() const override { return type::TypeId(); } \
+            int GetTypeId() const override; \
             static int TypeId(); \
             bool IsTypeOf(int typeId) const override;
 #else
@@ -106,7 +106,8 @@ pragma error "Already defined IMPLEMENT_INTERFACE_DTOR"
                     pTr->RegisterType(thisTypeId, std::move(parents)); \
                 } \
                 return pTr->IsTypeOf(thisTypeId, typeId); \
-            }
+            } \
+            int type::GetTypeId() const { return type::TypeId(); }
 #else
     pragma error "Already defined DEFINE_SUPPORT_RTTI"
 #endif 

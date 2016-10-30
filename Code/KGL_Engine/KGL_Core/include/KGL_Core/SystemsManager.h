@@ -25,4 +25,4 @@ private:
 
 } }
 
-#endif /*KGL_CORE_SYSTEMS_MANAGER_H_INCLUDED*/
+#endif

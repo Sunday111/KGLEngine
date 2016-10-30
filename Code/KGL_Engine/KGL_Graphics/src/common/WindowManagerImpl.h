@@ -48,4 +48,4 @@ private:
 
 } }
 
-#endif /* KGL_GRAPHICS_WINDOW_MANAGER_IMPL_H_INCLUDED */
+#endif

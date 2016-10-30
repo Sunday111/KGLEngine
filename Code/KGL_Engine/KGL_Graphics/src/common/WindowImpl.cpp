@@ -1,9 +1,8 @@
 #include <iostream>
 #include <KGL_Base/Marco.h>
-#include <KGL_Graphics/CreateInstance.h>
 #include <KGL_Graphics/Render/Shaders/ShaderType.h>
-#include <KGL_Graphics/Render/Shaders/IShader.h>
-#include <KGL_Graphics/Render/Shaders/IShaderProgram.h>
+#include <KGL_Graphics/Render/Shaders/Shader.h>
+#include <KGL_Graphics/Render/Shaders/ShaderProgram.h>
 #include "WindowManagerImpl.h"
 #include "WindowImpl.h"
 
@@ -21,10 +20,10 @@ namespace KGL { namespace Graphics {
 namespace
 {
 
-template<ShaderType st, PointerType pt = PointerType::Unique>
+template<ShaderType st>
 decltype(auto) CreateShader(const char* file)
 {
-    auto shader = InstanceCreator<IShader, pt, ShaderType&&>::CreateInstance(st);
+	auto shader = std::make_shared<Shader<st>>();
     assertexpr(shader->Compile(file, nullptr, &std::cout));
     return shader;
 }
@@ -57,20 +56,14 @@ WindowImpl::WindowImpl(WindowManagerImpl* mgr) :
         assert(false);
     }
 
+    auto vs = CreateShader<ShaderType::Vertex>("Data\\Shaders\\Vertex\\simplest.glsl");
+    auto fs = CreateShader<ShaderType::Fragment>("Data\\Shaders\\Fragment\\simplest.glsl");
+
 	/* Create shader program instance */
-	testShader = InstanceCreator<IShaderProgram, PointerType::Unique>::CreateInstance();
-
-    std::shared_ptr<IShader> vs = CreateShader<ShaderType::Vertex, PointerType::Shared>("Data\\Shaders\\Vertex\\simplest.glsl");
-    std::shared_ptr<IShader> fs = CreateShader<ShaderType::Fragment, PointerType::Shared>("Data\\Shaders\\Fragment\\simplest.glsl");
-
-	//auto vs = InstanceCreator<IShader, PointerType::Unique, ShaderType&&>::CreateInstance(ShaderType::Vertex);
-	//assertexpr(vs->Compile("Data\\Shaders\\Vertex\\simplest.glsl", nullptr, &std::cout));
+	testShader = std::make_unique<ShaderProgram>();
 
 	/* Add vertex shader to shader program */
 	assertexpr(testShader->AddShader(vs, false));
-
-	//auto fs = InstanceCreator<IShader, PointerType::Unique, ShaderType&&>::CreateInstance(ShaderType::Fragment);
-	//assertexpr(fs->Compile("Data\\Shaders\\Fragment\\simplest.glsl", nullptr, &std::cout));
 
 	/* Add fragment shader to shader program */
 	assertexpr(testShader->AddShader(fs, false));

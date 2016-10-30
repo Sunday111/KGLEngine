@@ -1,4 +1,6 @@
-#include <KGL_Graphics/Render/Shaders/IShader.h>
+#include <KGL_Core/RTTI.h>
+#include <KGL_Graphics/Render/Shaders/Shader.h>
+#include <KGL_Graphics/Render/Shaders/ShaderProgram.h>
 
 #include <cassert>
 
@@ -8,105 +10,141 @@
 #endif
 #include <GL/glew.h>
 
-#include "ShaderProgram.h"
+namespace KGL {
+namespace Graphics {
 
-namespace KGL { namespace Graphics { namespace
+class ShaderProgram::Impl
 {
+public:
+	Impl() :
+		m_id(glCreateProgram()),
+		m_linked(false)
+	{}
 
-template<class T>
-bool Add(
-	PointersArray<IShader>& m_shaders,
-	int& m_id, bool& m_linked,
-	T shader, bool replace)
-{
-	for (int i = 0; i < m_shaders.Size(); ++i)
+	~Impl()
 	{
-		auto s = m_shaders[i];
-
-		if (s->GetType() == shader->GetType())
-		{
-			if (replace)
-			{
-				glDetachShader(m_id, s->GetId());
-				m_linked = false;
-				m_shaders.Erase(i);
-			}
-			else
-			{
-				return false;
-			}
-		}
+		glDeleteProgram(m_id);
 	}
 
-	return m_shaders.AddUnique(std::forward<T&&>(shader));
-}
+	template<ShaderType st>
+	std::shared_ptr<Shader<st>>& GetShader();
 
-}
+	template<>
+	std::shared_ptr<Shader<ShaderType::Vertex>>& GetShader()
+	{
+		return m_vertexShader;
+	}
 
-DEFINE_SUPPORT_RTTI(ShaderProgram, Graphics::Object)
+	template<>
+	std::shared_ptr<Shader<ShaderType::Fragment>>& GetShader()
+	{
+		return m_fragmentShader;
+	}
+
+	template<ShaderType st>
+	bool Attach()
+	{
+		auto& sh = GetShader<st>();
+		if (sh == nullptr)
+		{
+			return false;
+		}
+
+		glAttachShader(m_id, sh->GetId());
+		return true;
+	}
+
+	int m_id;
+	bool m_linked;
+	std::shared_ptr<Shader<ShaderType::Vertex>> m_vertexShader;
+	std::shared_ptr<Shader<ShaderType::Fragment>> m_fragmentShader;
+};
+
+DEFINE_SUPPORT_RTTI(ShaderProgram, Object)
 
 ShaderProgram::ShaderProgram() :
-	m_id(glCreateProgram()),
-	m_linked(false)
+	m_d(new Impl)
 {}
 
 ShaderProgram::~ShaderProgram()
 {
-	glDeleteProgram(m_id);
+	assert(m_d != nullptr);
+	delete m_d;
 }
 
-bool ShaderProgram::AddShader(std::unique_ptr<IShader> shader, bool replace)
+int ShaderProgram::GetId() const
 {
-	return Add(m_shaders, m_id, m_linked, std::move(shader), replace);
+	assert(m_d != nullptr);
+	return m_d->m_id;
 }
 
-bool ShaderProgram::AddShader(std::shared_ptr<IShader> shader, bool replace)
+template<ShaderType st>
+bool ShaderProgram::AddShader(std::shared_ptr<Shader<st>> shader, bool replace)
 {
-	return Add(m_shaders, m_id, m_linked, shader, replace);
+	assert(m_d != nullptr);
+
+	auto& sh = m_d->GetShader<st>();
+
+	if (sh == nullptr || replace)
+	{
+		sh = shader;
+		return true;
+	}
+
+	return false;
 }
 
 bool ShaderProgram::Link(std::ostream* logstream)
 {
-	m_linked = false;
+	assert(m_d != nullptr);
 
-	for (auto& s : m_shaders)
-	{
-		glAttachShader(m_id, s->GetId());
-	}
+	m_d->m_linked = false;
 
-	glLinkProgram(m_id);
+	static_assert((int)(ShaderType::__last) == 2,
+		"Extend here for new shader types");
+
+	m_d->Attach<ShaderType::Vertex>();
+	m_d->Attach<ShaderType::Fragment>();
+
+	glLinkProgram(m_d->m_id);
 
 	GLint success;
-	glGetProgramiv(m_id, GL_LINK_STATUS, &success);
+	glGetProgramiv(m_d->m_id, GL_LINK_STATUS, &success);
 
-	m_linked = success == 1;
+	m_d->m_linked = success == 1;
 
-	if (!m_linked) {
+	if (!m_d->m_linked) {
 		if (logstream != nullptr)
 		{
 			GLchar infoLog[512];
-			glGetProgramInfoLog(m_id, 512, NULL, infoLog);
-			*logstream << "ERROR::SHADER_PROGRAM::" << m_id
+			glGetProgramInfoLog(m_d->m_id, 512, NULL, infoLog);
+			*logstream << "ERROR::SHADER_PROGRAM::" << m_d->m_id
 				<< "::LINK_FAILED\n" << infoLog << std::endl;
 		}
 	}
 
-	return m_linked;
+	return m_d->m_linked;
 }
 
 bool ShaderProgram::Use()
 {
-	if (m_linked)
+	if (m_d->m_linked)
 	{
-		glUseProgram(m_id);
+		glUseProgram(m_d->m_id);
 	}
 
-	return m_linked;
+	return m_d->m_linked;
 }
 
 int ShaderProgram::GetVariableLocation(const char* name)
 {
-	return glGetUniformLocation(m_id, name);
+	return glGetUniformLocation(m_d->m_id, name);
 }
+
+#define INSTANTIATE_ADD_SHADER(shaderType)\
+template bool ShaderProgram::AddShader<shaderType>(std::shared_ptr<Shader<shaderType>> shader, bool replace);
+
+INSTANTIATE_ADD_SHADER(ShaderType::Vertex);
+INSTANTIATE_ADD_SHADER(ShaderType::Fragment);
 
 } }

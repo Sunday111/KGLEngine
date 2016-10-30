@@ -1,27 +1,28 @@
 #ifndef KGL_GRAPHICS_GRAPHICS_MODULE_H_INCLUDED
 #define KGL_GRAPHICS_GRAPHICS_MODULE_H_INCLUDED
 
-#include "Object.h"
 #include <KGL_Core/CoreModule.h>
 #include <KGL_Core/RTTI.h>
+#include <KGL_Graphics/Object.h>
 
 namespace KGL { namespace Graphics {
 
-class GraphicsModule :
-    public virtual Core::Module,
-    public virtual Graphics::Object
+class GraphicsModule : public Core::Module
 {
 public:
+	~GraphicsModule();
+
 	int GetModuleId() override;
 	static GraphicsModule* Instance();
 
-    DECLARE_SUPPORT_RTTI(GraphicsModule, Graphics::Object)
+    DECLARE_SUPPORT_RTTI(GraphicsModule, Core::Module)
 private:
 	GraphicsModule();
 
-	const int m_id;
+	class Impl;
+	Impl* m_d;
 };
 
 } }
 
-#endif /* KGL_GRAPHICS_GRAPHICS_MODULE_H_INCLUDED */
+#endif

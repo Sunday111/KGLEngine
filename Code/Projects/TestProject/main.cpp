@@ -7,8 +7,7 @@
 #include <KGL_Core/TypeRegistry.h>
 #include <KGL_Core/RTTI.h>
 #include <KGL_Core/SystemsManager.h>
-#include <KGL_Graphics/CreateInstance.h>
-#include <KGL_Graphics/IGraphicSystem.h>
+#include <KGL_Graphics/GraphicSystem.h>
 #include <KGL_Graphics/WindowManager.h>
 #include <iostream>
 #include <memory>
@@ -26,9 +25,7 @@ class AppListener :
 public:
 	void OnInitialize(Core::Application* app) override
 	{
-        auto gs = Graphics::InstanceCreator<
-            Graphics::IGraphicSystem,
-            PointerType::Unique>::CreateInstance();
+		auto gs = std::make_unique<Graphics::GraphicSystem>();
 
 		for (int i = 0; i < 2; ++i)
 		{

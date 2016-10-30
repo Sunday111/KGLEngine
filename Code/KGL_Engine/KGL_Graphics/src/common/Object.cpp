@@ -1,4 +1,4 @@
-#include "Object.h"
+#include <KGL_Graphics/Object.h>
 
 namespace KGL { namespace Graphics {
 
