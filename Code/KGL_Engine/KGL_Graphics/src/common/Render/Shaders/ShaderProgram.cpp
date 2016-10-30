@@ -27,16 +27,16 @@ public:
 	}
 
 	template<ShaderType st>
-	std::shared_ptr<Shader<st>>& GetShader();
+	Ptr<Shader<st>>& GetShader();
 
 	template<>
-	std::shared_ptr<Shader<ShaderType::Vertex>>& GetShader()
+	Ptr<Shader<ShaderType::Vertex>>& GetShader()
 	{
 		return m_vertexShader;
 	}
 
 	template<>
-	std::shared_ptr<Shader<ShaderType::Fragment>>& GetShader()
+	Ptr<Shader<ShaderType::Fragment>>& GetShader()
 	{
 		return m_fragmentShader;
 	}
@@ -56,8 +56,8 @@ public:
 
 	int m_id;
 	bool m_linked;
-	std::shared_ptr<Shader<ShaderType::Vertex>> m_vertexShader;
-	std::shared_ptr<Shader<ShaderType::Fragment>> m_fragmentShader;
+	Ptr<Shader<ShaderType::Vertex>> m_vertexShader;
+	Ptr<Shader<ShaderType::Fragment>> m_fragmentShader;
 };
 
 DEFINE_SUPPORT_RTTI(ShaderProgram, Object)
@@ -79,7 +79,7 @@ int ShaderProgram::GetId() const
 }
 
 template<ShaderType st>
-bool ShaderProgram::AddShader(std::shared_ptr<Shader<st>> shader, bool replace)
+bool ShaderProgram::AddShader(Ptr<Shader<st>> shader, bool replace)
 {
 	assert(m_d != nullptr);
 
@@ -142,7 +142,7 @@ int ShaderProgram::GetVariableLocation(const char* name)
 }
 
 #define INSTANTIATE_ADD_SHADER(shaderType)\
-template bool ShaderProgram::AddShader<shaderType>(std::shared_ptr<Shader<shaderType>> shader, bool replace);
+template bool ShaderProgram::AddShader<shaderType>(Ptr<Shader<shaderType>> shader, bool replace);
 
 INSTANTIATE_ADD_SHADER(ShaderType::Vertex);
 INSTANTIATE_ADD_SHADER(ShaderType::Fragment);

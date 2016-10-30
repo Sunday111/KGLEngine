@@ -26,7 +26,7 @@ public:
 	}
 
 	WindowManager m_windowManager;
-	std::vector<std::unique_ptr<ShaderProgram>> m_shaderPrograms;
+	std::vector<Ptr<ShaderProgram>> m_shaderPrograms;
 };
 
 GraphicSystem::GraphicSystem() :
@@ -53,10 +53,10 @@ bool GraphicSystem::Update()
     return m_d->m_windowManager.GetImpl()->Update();
 }
 
-void GraphicSystem::AddShaderProgram(std::unique_ptr<ShaderProgram> shaderProgram)
+void GraphicSystem::AddShaderProgram(const Ptr<ShaderProgram>& shaderProgram)
 {
 	assert(m_d != nullptr);
-	m_d->m_shaderPrograms.push_back(std::move(shaderProgram));
+	m_d->m_shaderPrograms.push_back(shaderProgram);
 }
 
 WindowManager* GraphicSystem::GetWindowManager()

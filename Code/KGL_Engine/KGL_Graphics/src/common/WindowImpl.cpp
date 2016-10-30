@@ -23,7 +23,7 @@ namespace
 template<ShaderType st>
 decltype(auto) CreateShader(const char* file)
 {
-	auto shader = std::make_shared<Shader<st>>();
+	auto shader = Ptr<Shader<st>>(new Shader<st>());
     assertexpr(shader->Compile(file, nullptr, &std::cout));
     return shader;
 }

@@ -1,6 +1,7 @@
 #ifndef KGL_GRAPHICS_SHADER_PROGRAM_H_INCLUDED
 #define KGL_GRAPHICS_SHADER_PROGRAM_H_INCLUDED
 
+#include <KGL_Base/Ptr.h>
 #include <KGL_Graphics/Object.h>
 #include <KGL_Graphics/Render/Shaders/ShaderType.h>
 #include <memory>
@@ -22,7 +23,7 @@ public:
 	int GetId() const;
 
 	template<ShaderType st>
-    bool AddShader(std::shared_ptr<Shader<st>> shader, bool replace);
+    bool AddShader(Ptr<Shader<st>> shader, bool replace);
 
 	bool Link(std::ostream* logstream);
 	bool Use();

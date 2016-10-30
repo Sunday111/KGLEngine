@@ -33,9 +33,16 @@ void AddReference(const Object* p)
 	++p->m_d->m_referencesCount;
 }
 
-void RemoveReference(const Object* p)
+int RemoveReference(const Object* p)
 {
-	--p->m_d->m_referencesCount;
+	int result = --p->m_d->m_referencesCount;
+
+	if (result == 0)
+	{
+		delete p;
+	}
+
+	return result;
 }
 
 int GetReferencesCount(const Object* p)
