@@ -2,13 +2,13 @@
 #define KGL_GRAPHICS_GRAPHICS_MODULE_H_INCLUDED
 
 #include "Object.h"
-#include <KGL_Core/ICoreModule.h>
+#include <KGL_Core/CoreModule.h>
 #include <KGL_Core/RTTI.h>
 
 namespace KGL { namespace Graphics {
 
 class GraphicsModule :
-    public virtual Core::IModule,
+    public virtual Core::Module,
     public virtual Graphics::Object
 {
 public:

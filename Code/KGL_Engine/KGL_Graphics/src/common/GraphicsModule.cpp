@@ -17,10 +17,10 @@ GraphicsModule* GraphicsModule::Instance()
 }
 
 GraphicsModule::GraphicsModule() :
-	m_id(Core::GetCoreModule()->GetNextModuleId())
+	m_id(Core::CoreModule::GetInstance()->GetNextModuleId())
 {}
 
-Core::IModule* GetModule()
+Core::Module* GetModule()
 {
 	return GraphicsModule::Instance();
 }

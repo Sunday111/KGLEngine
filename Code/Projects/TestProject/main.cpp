@@ -4,8 +4,7 @@
 #include <KGL_Base/UnusedVar.h>
 #include <KGL_Core/ApplicationListener.h>
 #include <KGL_Core/Application.h>
-#include <KGL_Core/CreateInstance.h>
-#include <KGL_Core/ITypeRegistry.h>
+#include <KGL_Core/TypeRegistry.h>
 #include <KGL_Core/RTTI.h>
 #include <KGL_Core/SystemsManager.h>
 #include <KGL_Graphics/CreateInstance.h>

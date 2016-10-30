@@ -2,11 +2,11 @@
 #define KGL_GRAPHICS_IMODULE_H_INCLUDED
 
 #include <KGL_Graphics/Common.h>
-#include <KGL_Core/IModule.h>
+#include <KGL_Core/Module.h>
 
 namespace KGL { namespace Graphics {
 
-KGL_GRAPHICS_API Core::IModule* GetModule();
+KGL_GRAPHICS_API Core::Module* GetModule();
 
 } }
 

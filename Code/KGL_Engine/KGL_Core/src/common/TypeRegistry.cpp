@@ -1,6 +1,20 @@
-#include "TypeRegistry.h"
+#include <KGL_Core/TypeRegistry.h>
+#include <KGL_Core/RTTI.h>
+#include <unordered_map>
 
 namespace KGL { namespace Core {
+
+class TypeRegistry::Impl
+{
+public:
+	explicit Impl() :
+		m_nextTypeId(0)
+	{}
+
+	std::unordered_map<int, std::vector<int>> typeMap;
+	int m_nextTypeId;
+};
+
 
 DEFINE_SUPPORT_RTTI(TypeRegistry, Object)
 
@@ -10,21 +24,32 @@ TypeRegistry* TypeRegistry::GetInstance()
     return &instance;
 }
 
+TypeRegistry::TypeRegistry() :
+	m_d(new Impl)
+{}
+
+TypeRegistry::~TypeRegistry()
+{
+	assert(m_d != nullptr);
+	delete m_d;
+}
+
 bool TypeRegistry::TypeRegistered(int typeId) const
 {
-    return typeMap.find(typeId) != typeMap.end();
+	assert(m_d != nullptr);
+    return m_d->typeMap.find(typeId) != m_d->typeMap.end();
 }
 
 void TypeRegistry::RegisterType(int typeId, std::vector<int>&& parents)
 {
-    typeMap[typeId] = std::move(parents);
+	m_d->typeMap[typeId] = std::move(parents);
 }
 
 bool TypeRegistry::IsTypeOf(int targetTypeId, int checkFor) const
 {
-    auto iTypeToParents = typeMap.find(targetTypeId);
+    auto iTypeToParents = m_d->typeMap.find(targetTypeId);
 
-    assert(iTypeToParents != typeMap.end());
+    assert(iTypeToParents != m_d->typeMap.end());
 
     for(int parent : iTypeToParents->second)
     {
@@ -39,12 +64,7 @@ bool TypeRegistry::IsTypeOf(int targetTypeId, int checkFor) const
 
 int TypeRegistry::GetNextTypeId()
 {
-    return m_nextTypeId++;
-}
-
-ITypeRegistry* GetTypeRegistry()
-{
-    return TypeRegistry::GetInstance();
+    return m_d->m_nextTypeId++;
 }
 
 } }

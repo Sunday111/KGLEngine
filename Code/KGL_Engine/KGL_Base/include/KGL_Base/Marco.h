@@ -91,14 +91,14 @@ pragma error "Already defined IMPLEMENT_INTERFACE_DTOR"
     #define DEFINE_SUPPORT_RTTI(type, ...) \
             int type::TypeId() \
             { \
-                static const int typeId = KGL::Core::GetTypeRegistry()->GetNextTypeId(); \
+                static const int typeId = KGL::Core::TypeRegistry::GetInstance()->GetNextTypeId(); \
                 return typeId; \
             } \
             \
             bool type::IsTypeOf(int typeId) const \
             { \
                 const int thisTypeId = type::TypeId(); \
-                auto pTr = KGL::Core::GetTypeRegistry(); \
+                auto pTr = KGL::Core::TypeRegistry::GetInstance(); \
                 if(!pTr->TypeRegistered(thisTypeId)) \
                 { \
                     std::vector<int> parents; \

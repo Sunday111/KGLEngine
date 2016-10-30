@@ -1,7 +1,7 @@
 #include <KGL_Core/Application.h>
 #include <KGL_Core/ApplicationListener.h>
-#include <KGL_Core/ISystem.h>
-#include <KGL_Core/ITypeRegistry.h>
+#include <KGL_Core/System.h>
+#include <KGL_Core/TypeRegistry.h>
 #include <KGL_Core/RTTI.h>
 #include <KGL_Core/SystemsManager.h>
 

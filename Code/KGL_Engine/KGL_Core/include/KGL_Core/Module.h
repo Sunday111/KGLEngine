@@ -5,14 +5,12 @@
 
 namespace KGL { namespace Core {
 
-class KGL_CORE_API IModule :
+class KGL_CORE_API Module :
     public Object
 {
 public:
 	virtual int GetModuleId() = 0;
 };
-
-KGL_CORE_API IModule* GetModule();
 
 } }
 

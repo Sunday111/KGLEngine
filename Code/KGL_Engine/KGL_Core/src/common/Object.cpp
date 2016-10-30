@@ -1,5 +1,5 @@
 #include <KGL_Core/Object.h>
-#include <KGL_Core/ITypeRegistry.h>
+#include <KGL_Core/TypeRegistry.h>
 
 namespace KGL { namespace Core {
 
@@ -9,8 +9,6 @@ public:
 	Impl() :
 		m_referencesCount(0)
 	{}
-
-
 
 	int m_referencesCount;
 };
@@ -22,7 +20,7 @@ Object::~Object()
 
 int Object::TypeId()
 {
-	static const int typeId = KGL::Core::GetTypeRegistry()->GetNextTypeId();
+	static const int typeId = TypeRegistry::GetInstance()->GetNextTypeId();
 	return typeId;
 }
 

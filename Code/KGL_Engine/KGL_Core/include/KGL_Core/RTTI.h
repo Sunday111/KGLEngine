@@ -1,7 +1,7 @@
 #ifndef KGL_CORE_RTTI_H_INCLUDED
 #define KGL_CORE_RTTI_H_INCLUDED
 
-#include <KGL_Core/ITypeRegistry.h>
+#include <KGL_Core/TypeRegistry.h>
 
 #include <cassert>
 #include <vector>

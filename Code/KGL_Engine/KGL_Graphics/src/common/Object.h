@@ -2,7 +2,7 @@
 #define KGL_GRAPHICS_OBJECT_H_INCLUDED
 
 #include <KGL_Base/Marco.h>
-#include <KGL_Core/ITypeRegistry.h>
+#include <KGL_Core/TypeRegistry.h>
 #include <KGL_Core/Object.h>
 #include <KGL_Core/RTTI.h>
 

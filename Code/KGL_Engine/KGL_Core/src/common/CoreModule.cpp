@@ -1,38 +1,53 @@
-#include "CoreModule.h"
+#include <KGL_Core/CoreModule.h>
+#include <KGL_Core/RTTI.h>
 
 namespace KGL { namespace Core {
 
-DEFINE_SUPPORT_RTTI(CoreModule, Object)
+DEFINE_SUPPORT_RTTI(CoreModule, Module)
+
+class CoreModule::Impl
+{
+public:
+	explicit Impl() :
+		m_nextModuleId(1),
+		m_id(0)
+	{}
+
+	int m_nextModuleId;
+	int m_id;
+};
 
 int CoreModule::GetModuleId()
 {
-	return m_id;
+	assert(m_d != nullptr);
+	return m_d->m_id;
 }
 
 int CoreModule::GetNextModuleId()
 {
-	return m_nextModuleId++;
+	assert(m_d != nullptr);
+	return m_d->m_nextModuleId++;
 }
 
-CoreModule* CoreModule::Instance()
+CoreModule* CoreModule::GetInstance()
 {
 	static CoreModule instance;
 	return &instance;
 }
 
 CoreModule::CoreModule() :
-	m_nextModuleId(1),
-	m_id(0)
+	m_d(new Impl)
 {}
 
-IModule* GetModule()
+CoreModule::~CoreModule()
 {
-	return CoreModule::Instance();
+	assert(m_d != nullptr);
+	delete m_d;
 }
 
-ICoreModule* GetCoreModule()
+Module* GetModule()
 {
-	return CoreModule::Instance();
+	return CoreModule::GetInstance();
 }
 
 } }

@@ -6,7 +6,7 @@
 
 namespace KGL { namespace Core {
 
-class KGL_CORE_API ISystem :
+class KGL_CORE_API System :
     public Object
 {
 public:

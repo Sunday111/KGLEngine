@@ -1,7 +1,7 @@
-#ifndef KGL_CORE_ISYSTEMS_MANAGER_H_INCLUDED
-#define KGL_CORE_ISYSTEMS_MANAGER_H_INCLUDED
+#ifndef KGL_CORE_SYSTEMS_MANAGER_H_INCLUDED
+#define KGL_CORE_SYSTEMS_MANAGER_H_INCLUDED
 
-#include <KGL_Core/ISystem.h>
+#include <KGL_Core/System.h>
 #include <memory>
 
 namespace KGL { namespace Core {
@@ -15,7 +15,7 @@ public:
 	explicit SystemsManager();
 	~SystemsManager();
 
-	virtual bool RegisterSystem(std::unique_ptr<ISystem> system);
+	virtual bool RegisterSystem(std::unique_ptr<System> system);
 	virtual bool Update();
 
 private:
@@ -25,4 +25,4 @@ private:
 
 } }
 
-#endif /*KGL_CORE_ISYSTEMS_MANAGER_H_INCLUDED*/
+#endif /*KGL_CORE_SYSTEMS_MANAGER_H_INCLUDED*/

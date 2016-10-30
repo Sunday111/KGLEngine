@@ -1,8 +1,8 @@
 #include <cassert>
 #include <KGL_Base/Marco.h>
-#include <KGL_Core/ISystem.h>
+#include <KGL_Core/System.h>
 #include <KGL_Core/SystemsManager.h>
-#include <KGL_Core/ITypeRegistry.h>
+#include <KGL_Core/TypeRegistry.h>
 #include <KGL_Core/RTTI.h>
 
 namespace KGL { namespace Core {
@@ -10,7 +10,7 @@ namespace KGL { namespace Core {
 class SystemsManager::Impl
 {
 public:
-	std::vector<std::unique_ptr<ISystem>> m_systems;
+	std::vector<std::unique_ptr<System>> m_systems;
 };
 
 SystemsManager::SystemsManager() :
@@ -25,7 +25,7 @@ SystemsManager::~SystemsManager()
 
 DEFINE_SUPPORT_RTTI(SystemsManager, Object)
 
-bool SystemsManager::RegisterSystem(std::unique_ptr<ISystem> system)
+bool SystemsManager::RegisterSystem(std::unique_ptr<System> system)
 {
 	assert(m_d != nullptr);
 
