@@ -14,7 +14,7 @@ class Shader;
 
 class ShaderProgram : public Object
 {
-	DECLARE_SUPPORT_RTTI(ShaderProgram, Object)
+	DECLARE_CLASS_RTTI(ShaderProgram, Object)
 
 public:
 	ShaderProgram();

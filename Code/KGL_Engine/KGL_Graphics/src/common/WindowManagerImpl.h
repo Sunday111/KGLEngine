@@ -5,6 +5,12 @@
 #include <memory>
 #include <vector>
 
+namespace KGL { namespace Core {
+
+class Application;
+
+} }
+
 namespace KGL { namespace Graphics {
 
 class WindowImpl;
@@ -31,7 +37,7 @@ public:
         return m_nextWindowId++;
     }
 
-    int CreateWindow();
+    int CreateWindow(Core::Application* app);
 
     size_t GetWindowsCount() const
     {

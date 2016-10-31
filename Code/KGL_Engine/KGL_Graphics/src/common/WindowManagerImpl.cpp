@@ -58,9 +58,9 @@ bool WindowManagerImpl::Update()
     return true;
 }
 
-int WindowManagerImpl::CreateWindow()
+int WindowManagerImpl::CreateWindow(Core::Application* app)
 {
-    m_windows.push_back(std::make_unique<WindowImpl>(this));
+    m_windows.push_back(std::make_unique<WindowImpl>(this, app));
     return m_windows.back()->GetId();
 }
 

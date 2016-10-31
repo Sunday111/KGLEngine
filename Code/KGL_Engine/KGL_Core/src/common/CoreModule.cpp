@@ -3,7 +3,7 @@
 
 namespace KGL { namespace Core {
 
-DEFINE_SUPPORT_RTTI(CoreModule, Module)
+DEFINE_CLASS_RTTI(CoreModule, Module)
 
 class CoreModule::Impl
 {

@@ -12,7 +12,7 @@ class WindowManager;
 
 class KGL_GRAPHICS_API GraphicSystem : public Core::System
 {
-	DECLARE_SUPPORT_RTTI(GraphicSystem, Core::System)
+	DECLARE_CLASS_RTTI(GraphicSystem, Core::System)
 
 public:
 	GraphicSystem();

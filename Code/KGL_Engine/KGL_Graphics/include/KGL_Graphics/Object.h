@@ -16,7 +16,7 @@ public:
 	Object();
 	Object(const Object&) = delete;
 
-    DECLARE_SUPPORT_RTTI(Graphics::Object)
+    DECLARE_CLASS_RTTI(Graphics::Object)
 };
 
 } }

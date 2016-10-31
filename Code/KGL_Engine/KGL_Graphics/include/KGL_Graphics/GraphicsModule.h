@@ -15,7 +15,7 @@ public:
 	int GetModuleId() override;
 	static GraphicsModule* Instance();
 
-    DECLARE_SUPPORT_RTTI(GraphicsModule, Core::Module)
+    DECLARE_CLASS_RTTI(GraphicsModule, Core::Module)
 private:
 	GraphicsModule();
 

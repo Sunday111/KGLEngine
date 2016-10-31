@@ -1,5 +1,6 @@
 #include <KGL_Core/Application.h>
 #include <KGL_Core/ApplicationListener.h>
+#include <KGL_Core/ResourceManager.h>
 #include <KGL_Core/System.h>
 #include <KGL_Core/TypeRegistry.h>
 #include <KGL_Core/RTTI.h>
@@ -10,15 +11,12 @@ namespace KGL { namespace Core {
 class Application::Impl
 {
 public:
-	Impl() :
-		m_systemsManager(std::make_unique<SystemsManager>())
-	{}
-
-	std::unique_ptr<SystemsManager> m_systemsManager;
+	ResourceManager m_resourceManager;
+	SystemsManager m_systemsManager;
 	std::vector<std::pair<bool, ApplicationListener*>> m_listeners;
 };
 
-DEFINE_SUPPORT_RTTI(Application, Object)
+DEFINE_CLASS_RTTI(Application, Object)
 
 Application::Application() :
     m_d(new Impl)
@@ -42,13 +40,19 @@ Application::~Application()
 SystemsManager* Application::GetSystemsManager()
 {
 	assert(m_d != nullptr);
-	return m_d->m_systemsManager.get();
+	return &m_d->m_systemsManager;
+}
+
+ResourceManager* Application::GetResouceManager()
+{
+	assert(m_d != nullptr);
+	return &m_d->m_resourceManager;
 }
 
 bool Application::Update()
 {
-	assert(m_d != nullptr && m_d->m_systemsManager != nullptr);
-	return m_d->m_systemsManager->Update();
+	assert(m_d != nullptr);
+	return m_d->m_systemsManager.Update();
 }
 
 bool Application::AddListener(ApplicationListener* listener, bool destroy)

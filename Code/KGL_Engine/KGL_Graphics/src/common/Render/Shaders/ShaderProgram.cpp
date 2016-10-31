@@ -60,7 +60,7 @@ public:
 	Ptr<Shader<ShaderType::Fragment>> m_fragmentShader;
 };
 
-DEFINE_SUPPORT_RTTI(ShaderProgram, Object)
+DEFINE_CLASS_RTTI(ShaderProgram, Object)
 
 ShaderProgram::ShaderProgram() :
 	m_d(new Impl)

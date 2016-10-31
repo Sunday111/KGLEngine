@@ -2,7 +2,7 @@
 
 namespace KGL { namespace Graphics {
 
-DEFINE_SUPPORT_RTTI(Graphics::Object)
+DEFINE_CLASS_RTTI(Graphics::Object)
 
 Object::Object() = default;
 

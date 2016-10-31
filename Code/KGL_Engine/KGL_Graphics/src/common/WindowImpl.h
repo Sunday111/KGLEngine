@@ -6,6 +6,11 @@
 #include <set>
 
 struct GLFWwindow;
+namespace KGL { namespace Core {
+
+class Application;
+
+} }
 
 namespace KGL { namespace Graphics {
 
@@ -16,7 +21,7 @@ class WindowManagerImpl;
 class WindowImpl
 {
 public:
-    explicit WindowImpl(WindowManagerImpl* mgr);
+    explicit WindowImpl(WindowManagerImpl* mgr, Core::Application* app);
     ~WindowImpl();
 
     int GetId() const { return m_id; }

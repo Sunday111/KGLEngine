@@ -27,9 +27,9 @@ public:
 	{
 		auto gs = std::make_unique<Graphics::GraphicSystem>();
 
-		for (int i = 0; i < 2; ++i)
+		for (int i = 0; i < 1; ++i)
 		{
-			gs->GetWindowManager()->CreateWindow();
+			gs->GetWindowManager()->CreateWindow(app);
 		}
 
 		app->GetSystemsManager()->RegisterSystem(std::move(gs));

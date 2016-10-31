@@ -15,7 +15,7 @@
 
 namespace KGL { namespace Graphics {
 
-DEFINE_SUPPORT_RTTI(GraphicSystem, Core::System)
+DEFINE_CLASS_RTTI(GraphicSystem, Core::System)
 
 class GraphicSystem::Impl
 {

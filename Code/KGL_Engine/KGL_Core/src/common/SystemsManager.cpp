@@ -23,7 +23,7 @@ SystemsManager::~SystemsManager()
 	delete m_d;
 }
 
-DEFINE_SUPPORT_RTTI(SystemsManager, Object)
+DEFINE_CLASS_RTTI(SystemsManager, Object)
 
 bool SystemsManager::RegisterSystem(std::unique_ptr<System> system)
 {

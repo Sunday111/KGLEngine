@@ -6,11 +6,14 @@
 namespace KGL { namespace Core {
 
 class ApplicationListener;
+class ResourceManager;
 class SystemsManager;
 
 class KGL_CORE_API Application :
 	public Object
 {
+	DECLARE_CLASS_RTTI(Application, Object)
+
 public:
 	explicit Application();
 	~Application();
@@ -24,13 +27,14 @@ public:
 	* Returns false if such a listener is already added
 	* If boo variable is true, Application will delete listener in destructor
 	*/
-	virtual bool AddListener(ApplicationListener* listener, bool destroy);
+	bool AddListener(ApplicationListener* listener, bool destroy);
 
-	virtual SystemsManager* GetSystemsManager();
+	SystemsManager* GetSystemsManager();
 
-	virtual void Initialize();
+	ResourceManager* GetResouceManager();
 
-	DECLARE_SUPPORT_RTTI(Application, Object)
+	void Initialize();
+
 
 private:
 	class Impl;

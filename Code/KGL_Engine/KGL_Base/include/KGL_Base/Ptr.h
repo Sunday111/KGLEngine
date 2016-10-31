@@ -69,6 +69,11 @@ public:
 		return *this;
 	}
 
+	T* Get() const
+	{
+		return m_p;
+	}
+
 	template<typename U>
 	Ptr<U> StaticCast() const
 	{
@@ -94,10 +99,7 @@ public:
 	{
 		if (this != &ptr)
 		{
-			if (m_p != nullptr)
-			{
-				RemoveReference(m_p);
-			}
+			RemoveReference();
 
 			m_p = ptr.m_p;
 			ptr.m_p = nullptr;

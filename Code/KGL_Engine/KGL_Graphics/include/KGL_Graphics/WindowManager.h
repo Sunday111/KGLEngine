@@ -3,8 +3,16 @@
 
 #include "KGL_Graphics/Common.h"
 
+namespace KGL { namespace Core {
+
+class Application;
+
+} }
+
 namespace KGL { namespace Graphics {
 
+class Application;
+class GraphicSystem;
 class Window;
 class WindowManagerImpl;
 
@@ -21,7 +29,7 @@ public:
     int GetCurrentWindowId();
 
     /* Create window and return it's id */
-    int CreateWindow();
+	int CreateWindow(Core::Application* app);
 
 private:
     int m_nextWindowId;

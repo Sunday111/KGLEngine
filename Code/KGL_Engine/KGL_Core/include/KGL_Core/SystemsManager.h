@@ -9,7 +9,7 @@ namespace KGL { namespace Core {
 class KGL_CORE_API SystemsManager :
     public Object
 {
-	DECLARE_SUPPORT_RTTI(SystemsManager, Object)
+	DECLARE_CLASS_RTTI(SystemsManager, Object)
 
 public:
 	explicit SystemsManager();

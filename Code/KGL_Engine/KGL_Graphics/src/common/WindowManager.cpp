@@ -25,7 +25,7 @@ int WindowManager::GetCurrentWindowId()
     return m_d->GetCurrentWindowId();
 }
 
-int WindowManager::CreateWindow()
+int WindowManager::CreateWindow(Core::Application* app)
 {
     if (m_d == nullptr)
     {
@@ -33,7 +33,7 @@ int WindowManager::CreateWindow()
         return -1;
     }
 
-    return m_d->CreateWindow();
+    return m_d->CreateWindow(app);
 }
 
 } }

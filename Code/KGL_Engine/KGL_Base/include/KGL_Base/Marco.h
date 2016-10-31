@@ -39,77 +39,45 @@ pragma error "Already defined assertexpr"
 pragma error "Already defined InstanceCreatorInstantiation"
 #endif
 
-#ifndef InstanceCreatorInstantiationEx
-// version with custom construction
-#define InstanceCreatorInstantiationEx(Creator, Interface, pointerType, customFunction, argType)\
-	template<>\
-	typename Creator<Interface, pointerType, argType&&>::Pointer \
-	Creator<Interface, pointerType, argType&&>::CreateInstance(argType&& arg) \
-	{ \
-		return customFunction<pointerType>(std::forward<argType&&>(arg)); \
-	} \
-	template class Creator<Interface, pointerType, argType&&>
-#else
-pragma error "Already defined InstanceCreatorInstantiationEx"
-#endif
-
-#ifndef InstanceCreatorInstantiationBothPointers
-#define InstanceCreatorInstantiationBothPointers(Creator, Interface, Implementation, ...) \
-		InstanceCreatorInstantiation(Creator, Interface, Implementation, KGL::PointerType::Unique, __VA_ARGS__); \
-		InstanceCreatorInstantiation(Creator, Interface, Implementation, KGL::PointerType::Shared, __VA_ARGS__)
-#else
-pragma error "Already defined InstanceCreatorInstantiationBothPointers"
-#endif
-
-#ifndef InstanceCreatorInstantiationBothPointersEx
-#define InstanceCreatorInstantiationBothPointersEx(Creator, Interface, customFunction, argType) \
-		InstanceCreatorInstantiationEx(Creator, Interface, KGL::PointerType::Unique, customFunction, argType); \
-		InstanceCreatorInstantiationEx(Creator, Interface, KGL::PointerType::Shared, customFunction, argType)
-#else
-pragma error "Already defined InstanceCreatorInstantiationBothPointersEx"
-#endif
-
-
-#ifndef IMPLEMENT_INTERFACE_DTOR
-#define IMPLEMENT_INTERFACE_DTOR(type)\
-		type::~type() = default;
-#else
-pragma error "Already defined IMPLEMENT_INTERFACE_DTOR"
-#endif
-
-#ifndef DECLARE_SUPPORT_RTTI
-#define DECLARE_SUPPORT_RTTI(type, ...) \
+#ifndef DECLARE_CLASS_RTTI
+#define DECLARE_CLASS_RTTI(type, ...) \
         public: \
             int GetTypeId() const override; \
-            static int TypeId(); \
+            static const int typeId; \
             bool IsTypeOf(int typeId) const override;
 #else
-    pragma error "Already defined DECLARE_SUPPORT_RTTI"
+    pragma error "Already defined DECLARE_CLASS_RTTI"
 #endif
 
-#ifndef DEFINE_SUPPORT_RTTI
-    #define DEFINE_SUPPORT_RTTI(type, ...) \
-            int type::TypeId() \
+#ifndef DEFINE_RESOURCE_CLASS_RTTI
+    #define DEFINE_RESOURCE_CLASS_RTTI(type, tag, createFromFileFn, ...) \
+            const int type::typeId = []() \
             { \
-                static const int typeId = KGL::Core::TypeRegistry::GetInstance()->GetNextTypeId(); \
-                return typeId; \
-            } \
-            \
-            bool type::IsTypeOf(int typeId) const \
-            { \
-                const int thisTypeId = type::TypeId(); \
+                const int thisTypeId = KGL::Core::TypeRegistry::GetInstance()->GetNextTypeId(); \
                 auto pTr = KGL::Core::TypeRegistry::GetInstance(); \
                 if(!pTr->TypeRegistered(thisTypeId)) \
                 { \
                     std::vector<int> parents; \
                     KGL::Core::RttiHelper<type, __VA_ARGS__>::CreateIdArray(parents); \
-                    pTr->RegisterType(thisTypeId, std::move(parents)); \
+                    pTr->RegisterType(thisTypeId, tag, createFromFileFn, std::move(parents)); \
                 } \
-                return pTr->IsTypeOf(thisTypeId, typeId); \
+                return thisTypeId; \
+            }(); \
+            \
+            bool type::IsTypeOf(int id) const \
+            { \
+                return KGL::Core::TypeRegistry::GetInstance()->IsTypeOf(type::typeId, id); \
             } \
-            int type::GetTypeId() const { return type::TypeId(); }
+            int type::GetTypeId() const { return type::typeId; }
 #else
-    pragma error "Already defined DEFINE_SUPPORT_RTTI"
-#endif 
+    pragma error "Already defined DEFINE_RESOURCE_CLASS_RTTI"
+#endif
+
+#ifndef DEFINE_CLASS_RTTI
+    #define DEFINE_CLASS_RTTI(type, ...) \
+        DEFINE_RESOURCE_CLASS_RTTI(type, nullptr, nullptr, __VA_ARGS__)
+#else
+	pragma error "Already defined DEFINE_CLASS_RTTI"
+#endif
 
 #endif /* KGL_BASE_MACRO_H_INCLUDED */

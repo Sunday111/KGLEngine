@@ -7,7 +7,7 @@ namespace KGL { namespace Core {
 
 class KGL_CORE_API CoreModule : public Module
 {
-	DECLARE_SUPPORT_RTTI(CoreModule, Module)
+	DECLARE_CLASS_RTTI(CoreModule, Module)
 
 public:
 	~CoreModule();

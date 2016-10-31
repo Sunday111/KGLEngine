@@ -1,5 +1,8 @@
 #include <iostream>
 #include <KGL_Base/Marco.h>
+#include <KGL_Core/Application.h>
+#include <KGL_Core/ResourceManager.h>
+#include <KGL_Graphics/GraphicSystem.h>
 #include <KGL_Graphics/Render/Shaders/ShaderType.h>
 #include <KGL_Graphics/Render/Shaders/Shader.h>
 #include <KGL_Graphics/Render/Shaders/ShaderProgram.h>
@@ -30,7 +33,7 @@ decltype(auto) CreateShader(const char* file)
 
 }
 
-WindowImpl::WindowImpl(WindowManagerImpl* mgr) :
+WindowImpl::WindowImpl(WindowManagerImpl* mgr, Core::Application* app) :
     m_mgr(mgr),
     m_wnd(nullptr),
     m_id(-1)
@@ -56,8 +59,14 @@ WindowImpl::WindowImpl(WindowManagerImpl* mgr) :
         assert(false);
     }
 
-    auto vs = CreateShader<ShaderType::Vertex>("Data\\Shaders\\Vertex\\simplest.glsl");
-    auto fs = CreateShader<ShaderType::Fragment>("Data\\Shaders\\Fragment\\simplest.glsl");
+	auto resourceMgr = app->GetResouceManager();
+	assert(resourceMgr != nullptr);
+
+	auto res = resourceMgr->LoadResource("Data\\Resources\\Shaders\\Vertex\\Simplest.res");
+	Ptr<Shader<ShaderType::Vertex>> vs(static_cast<Shader<ShaderType::Vertex>*>(res.Get()));
+
+	res = resourceMgr->LoadResource("Data\\Resources\\Shaders\\Fragment\\Simplest.res");
+	Ptr<Shader<ShaderType::Fragment>> fs(static_cast<Shader<ShaderType::Fragment>*>(res.Get()));
 
 	/* Create shader program instance */
 	testShader = std::make_unique<ShaderProgram>();

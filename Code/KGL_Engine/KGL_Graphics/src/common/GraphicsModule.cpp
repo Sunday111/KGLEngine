@@ -2,7 +2,7 @@
 
 namespace KGL { namespace Graphics {
 
-DEFINE_SUPPORT_RTTI(GraphicsModule, Core::Module)
+DEFINE_CLASS_RTTI(GraphicsModule, Core::Module)
 
 class GraphicsModule::Impl
 {

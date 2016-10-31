@@ -1,9 +1,12 @@
+#include <KGL_Base/UnusedVar.h>
 #include <KGL_Core/RTTI.h>
 #include <KGL_Core/TypeRegistry.h>
 #include <KGL_Graphics/Render/Shaders/Shader.h>
 #include <cassert>
 #include <fstream>
 #include <filesystem>
+#include <sstream>
+#include <string>
 
 // GLEW
 #ifndef GLEW_STATIC
@@ -111,6 +114,31 @@ bool Shader<shaderType>::RecompileShaderWithCode(const char* code, std::ostream*
 }
 
 template<ShaderType shaderType>
+Ptr<Core::Object> Shader<shaderType>::CreateFromFile(std::ifstream& file)
+{
+	std::string tmp;
+
+	Ptr<Core::Object> result;
+
+	while (std::getline(file, tmp))
+	{
+		std::istringstream stream(tmp);
+
+		stream >> tmp;
+		
+		if (tmp == "Path")
+		{
+			stream >> tmp;
+			auto res = new Shader<shaderType>();
+			res->Compile(tmp.c_str(), nullptr, nullptr);
+			result = res;
+		}
+	}
+
+	return result;
+}
+
+template<ShaderType shaderType>
 bool Shader<shaderType>::Compile(const char* fileName, const char* additionalCode, std::ostream* logstream)
 {
 	using namespace std::tr2::sys;
@@ -192,11 +220,11 @@ int Shader<shaderType>::GetId() const
 	return m_d->m_id;
 }
 
+#define INSTANTIATE_SHADER(shaderType) \
+	DEFINE_RESOURCE_CLASS_RTTI(Shader<shaderType>, "Shader<"#shaderType##">", Shader<shaderType>::CreateFromFile, Object) \
+	template class Shader<shaderType>
 
-DEFINE_SUPPORT_RTTI(Shader<ShaderType::Vertex>, Object)
-template class Shader<ShaderType::Vertex>;
-
-DEFINE_SUPPORT_RTTI(Shader<ShaderType::Fragment>, Object)
-template class Shader<ShaderType::Fragment>;
+INSTANTIATE_SHADER(ShaderType::Vertex);
+INSTANTIATE_SHADER(ShaderType::Fragment);
 
 } }
