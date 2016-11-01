@@ -60,9 +60,8 @@ pragma error "Already defined DECLARE_CLASS_RTTI"
                 { \
                     std::vector<int> parents; \
                     auto fn = KGL::Core::Rtti::GetLoadFromFileMethod<type>(KGL::Core::Rtti::_special()); \
-                    const char* typeName = fn == nullptr ? nullptr : #type; \
                     KGL::Core::Rtti::RttiHelper<type, __VA_ARGS__>::CreateIdArray(parents); \
-                    pTr->RegisterType(thisTypeId, typeName, fn, std::move(parents)); \
+                    pTr->RegisterType(thisTypeId, #type, fn, std::move(parents)); \
                 } \
                 return thisTypeId; \
             }(); \

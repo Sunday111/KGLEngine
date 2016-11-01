@@ -48,7 +48,7 @@ const TypeInfo& TypeInfo::operator=(TypeInfo&& uref)
 bool TypeInfo::IsResource() const
 {
 	assert(m_d != nullptr);
-	return !m_d->m_tag.empty();
+	return m_d->m_createResourceFn != nullptr;
 }
 
 int TypeInfo::TypeId() const
