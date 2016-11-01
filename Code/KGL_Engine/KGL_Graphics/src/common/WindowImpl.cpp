@@ -62,11 +62,11 @@ WindowImpl::WindowImpl(WindowManagerImpl* mgr, Core::Application* app) :
 	auto resourceMgr = app->GetResouceManager();
 	assert(resourceMgr != nullptr);
 
-	auto res = resourceMgr->LoadResource("Data\\Resources\\Shaders\\Vertex\\Simplest.res");
-	Ptr<Shader<ShaderType::Vertex>> vs(static_cast<Shader<ShaderType::Vertex>*>(res.Get()));
+	auto vs(std::static_pointer_cast<Shader<ShaderType::Vertex>>(
+		resourceMgr->LoadResource("Data\\Resources\\Shaders\\Vertex\\Simplest.res")));
 
-	res = resourceMgr->LoadResource("Data\\Resources\\Shaders\\Fragment\\Simplest.res");
-	Ptr<Shader<ShaderType::Fragment>> fs(static_cast<Shader<ShaderType::Fragment>*>(res.Get()));
+	auto fs(std::static_pointer_cast<Shader<ShaderType::Fragment>>(
+		resourceMgr->LoadResource("Data\\Resources\\Shaders\\Fragment\\Simplest.res")));
 
 	/* Create shader program instance */
 	testShader = std::make_unique<ShaderProgram>();

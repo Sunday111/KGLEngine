@@ -179,10 +179,7 @@ private:
 	Ptr(const Ptr<U>& ip, StaticCastTag) :
 		m_p(static_cast<T*>(ip.m_p))
 	{
-		if (m_p != nullptr)
-		{
-			AddReference(m_p);
-		}
+		AddReference();
 	}
 
 	T* m_p;
