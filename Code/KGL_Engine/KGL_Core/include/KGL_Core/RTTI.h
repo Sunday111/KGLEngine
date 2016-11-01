@@ -11,9 +11,17 @@
 namespace KGL { namespace Core { namespace Rtti
 {
 
-template<typename Head, typename... Tail>
-struct RttiHelper
+template<typename... T>
+class Types
 {
+public:
+	enum { Count = sizeof...(T) };
+};
+
+template<typename Head, typename... Tail>
+class RttiHelper
+{
+public:
     static void CreateIdArray(std::vector<int>& out)
     {
         out.push_back(Head::TypeId());
@@ -23,8 +31,9 @@ struct RttiHelper
 
 
 template<typename Head>
-struct RttiHelper<Head>
+class RttiHelper<Head>
 {
+public:
     static void CreateIdArray(std::vector<int>& out)
     {
         out.push_back(Head::TypeId());

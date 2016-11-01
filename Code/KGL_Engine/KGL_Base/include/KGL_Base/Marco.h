@@ -59,6 +59,7 @@ pragma error "Already defined DECLARE_CLASS_RTTI"
                 if(!pTr->TypeRegistered(thisTypeId)) \
                 { \
                     std::vector<int> parents; \
+                    parents.reserve(KGL::Core::Rtti::Types<__VA_ARGS__>::Count); \
                     auto fn = KGL::Core::Rtti::GetLoadFromFileMethod<type>(KGL::Core::Rtti::_special()); \
                     KGL::Core::Rtti::RttiHelper<type, __VA_ARGS__>::CreateIdArray(parents); \
                     pTr->RegisterType(thisTypeId, #type, fn, std::move(parents)); \
