@@ -12,10 +12,9 @@
 // GLFW
 #include <GLFW/glfw3.h>
 
+DEFINE_CLASS_RTTI(KGL::Graphics::GraphicSystem, KGL::Core::System)
 
 namespace KGL { namespace Graphics {
-
-DEFINE_CLASS_RTTI(GraphicSystem, Core::System)
 
 class GraphicSystem::Impl
 {

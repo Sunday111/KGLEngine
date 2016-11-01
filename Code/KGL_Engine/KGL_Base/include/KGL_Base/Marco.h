@@ -46,11 +46,12 @@ pragma error "Already defined InstanceCreatorInstantiation"
             static const int typeId; \
             bool IsTypeOf(int typeId) const override;
 #else
-    pragma error "Already defined DECLARE_CLASS_RTTI"
+pragma error "Already defined DECLARE_CLASS_RTTI"
 #endif
 
-#ifndef DEFINE_RESOURCE_CLASS_RTTI
-    #define DEFINE_RESOURCE_CLASS_RTTI(type, tag, ...) \
+/* Use this macro in global namespace only */
+#ifndef DEFINE_CLASS_RTTI
+#define DEFINE_CLASS_RTTI(type, ...) \
             const int type::typeId = []() \
             { \
                 const int thisTypeId = KGL::Core::TypeRegistry::GetInstance()->GetNextTypeId(); \
@@ -58,9 +59,10 @@ pragma error "Already defined InstanceCreatorInstantiation"
                 if(!pTr->TypeRegistered(thisTypeId)) \
                 { \
                     std::vector<int> parents; \
+                    auto fn = KGL::Core::Rtti::GetLoadFromFileMethod<type>(KGL::Core::Rtti::_special()); \
+                    const char* typeName = fn == nullptr ? nullptr : #type; \
                     KGL::Core::Rtti::RttiHelper<type, __VA_ARGS__>::CreateIdArray(parents); \
-                    pTr->RegisterType(thisTypeId, tag, \
-                        KGL::Core::Rtti::GetLoadFromFileMethod<type>(KGL::Core::Rtti::_special()), std::move(parents)); \
+                    pTr->RegisterType(thisTypeId, typeName, fn, std::move(parents)); \
                 } \
                 return thisTypeId; \
             }(); \
@@ -71,14 +73,7 @@ pragma error "Already defined InstanceCreatorInstantiation"
             } \
             int type::GetTypeId() const { return type::typeId; }
 #else
-    pragma error "Already defined DEFINE_RESOURCE_CLASS_RTTI"
-#endif
-
-#ifndef DEFINE_CLASS_RTTI
-    #define DEFINE_CLASS_RTTI(type, ...) \
-        DEFINE_RESOURCE_CLASS_RTTI(type, nullptr, __VA_ARGS__)
-#else
-	pragma error "Already defined DEFINE_CLASS_RTTI"
+    pragma error "Already defined DEFINE_CLASS_RTTI"
 #endif
 
 #endif /* KGL_BASE_MACRO_H_INCLUDED */

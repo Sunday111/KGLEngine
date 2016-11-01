@@ -10,8 +10,9 @@
 #endif
 #include <GL/glew.h>
 
-namespace KGL {
-namespace Graphics {
+DEFINE_CLASS_RTTI(KGL::Graphics::ShaderProgram, KGL::Graphics::Object)
+
+namespace KGL { namespace Graphics {
 
 class ShaderProgram::Impl
 {
@@ -59,8 +60,6 @@ public:
 	Ptr<Shader<ShaderType::Vertex>> m_vertexShader;
 	Ptr<Shader<ShaderType::Fragment>> m_fragmentShader;
 };
-
-DEFINE_CLASS_RTTI(ShaderProgram, Object)
 
 ShaderProgram::ShaderProgram() :
 	m_d(new Impl)

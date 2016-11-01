@@ -14,6 +14,13 @@
 #endif
 #include <GL/glew.h>
 
+#define INSTANTIATE_SHADER(shaderType) \
+	DEFINE_CLASS_RTTI(KGL::Graphics::Shader<shaderType>, KGL::Graphics::Object) \
+	template class KGL::Graphics::Shader<shaderType>
+
+INSTANTIATE_SHADER(KGL::Graphics::ShaderType::Vertex);
+INSTANTIATE_SHADER(KGL::Graphics::ShaderType::Fragment);
+
 namespace KGL { namespace Graphics { namespace {
 
 template<ShaderType shaderType>
@@ -219,12 +226,5 @@ int Shader<shaderType>::GetId() const
 	assert(m_d != nullptr);
 	return m_d->m_id;
 }
-
-#define INSTANTIATE_SHADER(shaderType) \
-	DEFINE_RESOURCE_CLASS_RTTI(Shader<shaderType>, "Shader<"#shaderType##">", Object) \
-	template class Shader<shaderType>
-
-INSTANTIATE_SHADER(ShaderType::Vertex);
-INSTANTIATE_SHADER(ShaderType::Fragment);
 
 } }

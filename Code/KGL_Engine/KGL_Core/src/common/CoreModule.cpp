@@ -1,9 +1,9 @@
 #include <KGL_Core/CoreModule.h>
 #include <KGL_Core/RTTI.h>
 
-namespace KGL { namespace Core {
+DEFINE_CLASS_RTTI(KGL::Core::CoreModule, KGL::Core::Module)
 
-DEFINE_CLASS_RTTI(CoreModule, Module)
+namespace KGL { namespace Core {
 
 class CoreModule::Impl
 {

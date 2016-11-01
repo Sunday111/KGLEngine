@@ -5,6 +5,8 @@
 #include <KGL_Core/TypeRegistry.h>
 #include <KGL_Core/RTTI.h>
 
+DEFINE_CLASS_RTTI(KGL::Core::SystemsManager, KGL::Core::Object)
+
 namespace KGL { namespace Core {
 
 class SystemsManager::Impl
@@ -22,8 +24,6 @@ SystemsManager::~SystemsManager()
 	assert(m_d != nullptr);
 	delete m_d;
 }
-
-DEFINE_CLASS_RTTI(SystemsManager, Object)
 
 bool SystemsManager::RegisterSystem(std::unique_ptr<System> system)
 {

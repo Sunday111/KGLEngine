@@ -3,6 +3,8 @@
 #include <KGL_Core/RTTI.h>
 #include <unordered_map>
 
+DEFINE_CLASS_RTTI(KGL::Core::TypeRegistry, KGL::Core::Object)
+
 namespace KGL { namespace Core {
 
 class TypeInfo::Impl
@@ -87,9 +89,6 @@ public:
 	std::vector<TypeInfo> types;
 	int m_nextTypeId;
 };
-
-
-DEFINE_CLASS_RTTI(TypeRegistry, Object)
 
 TypeRegistry* TypeRegistry::GetInstance()
 {

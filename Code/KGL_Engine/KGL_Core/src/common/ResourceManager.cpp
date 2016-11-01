@@ -7,6 +7,8 @@
 #include <string>
 #include <vector>
 
+DEFINE_CLASS_RTTI(KGL::Core::ResourceManager, KGL::Core::Object)
+
 namespace KGL { namespace Core {
 
 namespace
@@ -156,8 +158,6 @@ public:
 
 	std::vector<Resource> m_resources;
 };
-
-DEFINE_CLASS_RTTI(ResourceManager, Object)
 
 ResourceManager::ResourceManager() :
 	m_d(new Impl)

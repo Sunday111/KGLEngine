@@ -6,6 +6,8 @@
 #include <KGL_Core/RTTI.h>
 #include <KGL_Core/SystemsManager.h>
 
+DEFINE_CLASS_RTTI(KGL::Core::Application, KGL::Core::Object)
+
 namespace KGL { namespace Core {
 
 class Application::Impl
@@ -15,8 +17,6 @@ public:
 	SystemsManager m_systemsManager;
 	std::vector<std::pair<bool, ApplicationListener*>> m_listeners;
 };
-
-DEFINE_CLASS_RTTI(Application, Object)
 
 Application::Application() :
     m_d(new Impl)

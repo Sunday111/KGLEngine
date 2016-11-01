@@ -1,8 +1,8 @@
 #include <KGL_Graphics/GraphicsModule.h>
 
-namespace KGL { namespace Graphics {
+DEFINE_CLASS_RTTI(KGL::Graphics::GraphicsModule, KGL::Core::Module)
 
-DEFINE_CLASS_RTTI(GraphicsModule, Core::Module)
+namespace KGL { namespace Graphics {
 
 class GraphicsModule::Impl
 {
