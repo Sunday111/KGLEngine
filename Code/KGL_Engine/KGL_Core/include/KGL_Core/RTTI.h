@@ -35,6 +35,8 @@ struct _general {};
 struct _special : public _general {};
 template<typename> struct _int { using type = int; };
 
+/* This function returns CreateFromFile static method
+ */
 template<typename T,
 	typename _int<decltype(T::LoadFromFile)>::type = 0>
 	TypeInfo::CreateFromFileFn GetLoadFromFileMethod(_special)
@@ -42,6 +44,9 @@ template<typename T,
 	return &T::LoadFromFile;
 }
 
+/* This function returns nullptr for type that
+ * hasn't CreateFromFile static method
+ */
 template<typename T>
 TypeInfo::CreateFromFileFn GetLoadFromFileMethod(_general)
 {
