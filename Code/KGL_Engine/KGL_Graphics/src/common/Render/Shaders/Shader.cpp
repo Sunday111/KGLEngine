@@ -114,7 +114,7 @@ bool Shader<shaderType>::RecompileShaderWithCode(const char* code, std::ostream*
 }
 
 template<ShaderType shaderType>
-Ptr<Core::Object> Shader<shaderType>::CreateFromFile(std::ifstream& file)
+Ptr<Core::Object> Shader<shaderType>::LoadFromFile(std::ifstream& file)
 {
 	std::string tmp;
 
@@ -221,7 +221,7 @@ int Shader<shaderType>::GetId() const
 }
 
 #define INSTANTIATE_SHADER(shaderType) \
-	DEFINE_RESOURCE_CLASS_RTTI(Shader<shaderType>, "Shader<"#shaderType##">", Shader<shaderType>::CreateFromFile, Object) \
+	DEFINE_RESOURCE_CLASS_RTTI(Shader<shaderType>, "Shader<"#shaderType##">", Object) \
 	template class Shader<shaderType>
 
 INSTANTIATE_SHADER(ShaderType::Vertex);

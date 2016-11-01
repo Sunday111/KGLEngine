@@ -8,7 +8,8 @@
 #include <unordered_map>
 
 
-namespace KGL { namespace Core {
+namespace KGL { namespace Core { namespace Rtti
+{
 
 template<typename Head, typename... Tail>
 struct RttiHelper
@@ -30,7 +31,24 @@ struct RttiHelper<Head>
     }
 };
 
-} }
+struct _general {};
+struct _special : public _general {};
+template<typename> struct _int { using type = int; };
+
+template<typename T,
+	typename _int<decltype(T::LoadFromFile)>::type = 0>
+	TypeInfo::CreateFromFileFn GetLoadFromFileMethod(_special)
+{
+	return &T::LoadFromFile;
+}
+
+template<typename T>
+TypeInfo::CreateFromFileFn GetLoadFromFileMethod(_general)
+{
+	return nullptr;
+}
+
+} } }
 
 
 #endif

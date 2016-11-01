@@ -50,7 +50,7 @@ pragma error "Already defined InstanceCreatorInstantiation"
 #endif
 
 #ifndef DEFINE_RESOURCE_CLASS_RTTI
-    #define DEFINE_RESOURCE_CLASS_RTTI(type, tag, createFromFileFn, ...) \
+    #define DEFINE_RESOURCE_CLASS_RTTI(type, tag, ...) \
             const int type::typeId = []() \
             { \
                 const int thisTypeId = KGL::Core::TypeRegistry::GetInstance()->GetNextTypeId(); \
@@ -58,8 +58,9 @@ pragma error "Already defined InstanceCreatorInstantiation"
                 if(!pTr->TypeRegistered(thisTypeId)) \
                 { \
                     std::vector<int> parents; \
-                    KGL::Core::RttiHelper<type, __VA_ARGS__>::CreateIdArray(parents); \
-                    pTr->RegisterType(thisTypeId, tag, createFromFileFn, std::move(parents)); \
+                    KGL::Core::Rtti::RttiHelper<type, __VA_ARGS__>::CreateIdArray(parents); \
+                    pTr->RegisterType(thisTypeId, tag, \
+                        KGL::Core::Rtti::GetLoadFromFileMethod<type>(KGL::Core::Rtti::_special()), std::move(parents)); \
                 } \
                 return thisTypeId; \
             }(); \
@@ -75,7 +76,7 @@ pragma error "Already defined InstanceCreatorInstantiation"
 
 #ifndef DEFINE_CLASS_RTTI
     #define DEFINE_CLASS_RTTI(type, ...) \
-        DEFINE_RESOURCE_CLASS_RTTI(type, nullptr, nullptr, __VA_ARGS__)
+        DEFINE_RESOURCE_CLASS_RTTI(type, nullptr, __VA_ARGS__)
 #else
 	pragma error "Already defined DEFINE_CLASS_RTTI"
 #endif

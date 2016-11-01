@@ -29,7 +29,7 @@ public:
 	int GetId() const;
 	bool Compile(const char* fileName, const char* additionalCode, std::ostream* logstream);
 	bool RecompileShaderWithCode(const char* code, std::ostream* logstream);
-	static Ptr<Core::Object> CreateFromFile(std::ifstream& stream);
+	static Ptr<Core::Object> LoadFromFile(std::ifstream& stream);
 
 private:
 	class Impl;

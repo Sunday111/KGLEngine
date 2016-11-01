@@ -38,6 +38,7 @@ public:
 
 int main(int argc, const char** argv)
 {
+
 	UnusedVar(argc, argv);
 	Core::Application app;
 
