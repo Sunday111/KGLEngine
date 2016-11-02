@@ -14,6 +14,12 @@ public:
 	explicit ResourceManager();
 	~ResourceManager();
 
+	template<class T>
+	inline Ptr<T> LoadResourceAs(const char* path)
+	{
+		return std::static_pointer_cast<T>(LoadResource(path));
+	}
+
 	Ptr<Object> LoadResource(const char* path);
 
 private:
