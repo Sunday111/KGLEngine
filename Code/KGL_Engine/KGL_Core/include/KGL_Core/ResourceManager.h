@@ -15,6 +15,7 @@ public:
 	~ResourceManager();
 
 	template<class T>
+	/* LoadResource will look simpler with this wrapper */
 	inline Ptr<T> LoadResourceAs(const char* path)
 	{
 		return std::static_pointer_cast<T>(LoadResource(path));

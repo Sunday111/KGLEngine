@@ -103,7 +103,7 @@ public:
 							continue;
 						}
 
-						if (std::strcmp(type.GetTypeTag(), tmp.data()) == 0)
+						if (type.GetTypeTag() == tmp.data())
 						{
 							auto fn = type.GetCreateFromFileFn();
 
