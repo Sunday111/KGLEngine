@@ -14,7 +14,6 @@ namespace KGL { namespace Core {
 namespace
 {
 
-
 class Resource
 {
 public:

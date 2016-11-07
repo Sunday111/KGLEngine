@@ -15,9 +15,13 @@ KGL_CORE_API int GetReferencesCount(const Object* p);
 class KGL_CORE_API Object
 {
 public:
+	Object(const Object&) = delete;
+
 	virtual int GetTypeId() const = 0;
 	virtual bool IsTypeOf(int typeId) const = 0;
 	virtual ~Object();
+
+	Object& operator= (const Object&) = delete;
 
 	static int TypeId();
 
