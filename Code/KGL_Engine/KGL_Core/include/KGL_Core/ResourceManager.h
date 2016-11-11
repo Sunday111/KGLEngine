@@ -21,7 +21,7 @@ public:
 		return std::static_pointer_cast<T>(LoadResource(path));
 	}
 
-	Ptr<Object> LoadResource(const char* path);
+	Ptr<Object> LoadResource(const char* format);
 
 private:
 	class Impl;

@@ -69,14 +69,18 @@ public:
 			path + std::strlen(path));
 	}
 
-	static Resource Create(const char* path)
+	static Resource Create(const char* format)
 	{
-		std::ifstream file(path);
+        Resource result;
+        std::string line, tmp;
 
-		Resource result;
+        const char* fileVarName = "file=\"";
+        const char* sourceVar = std::strstr(format, fileVarName)
+            + std::strlen(fileVarName);
 
-		std::string line;
-		std::string tmp;
+        std::string path(sourceVar, std::strchr(sourceVar, '\"'));
+
+        std::ifstream file(path);
 
 		if (file.good())
 		{
@@ -102,7 +106,7 @@ public:
 							continue;
 						}
 
-						if (type.GetTypeTag() == tmp.data())
+						if (type.GetTypeTag() == tmp)
 						{
 							auto fn = type.GetCreateFromFileFn();
 
@@ -112,7 +116,7 @@ public:
 
 							if (obj != nullptr)
 							{
-								result = Resource(path, obj);
+								result = Resource(format, obj);
 								break;
 							}
 						}
@@ -131,7 +135,6 @@ public:
 	}
 
 private:
-
 	std::string m_path;
 	Ptr<Object> m_object;
 };
@@ -168,18 +171,18 @@ ResourceManager::~ResourceManager()
 	delete m_d;
 }
 
-Ptr<Object> ResourceManager::LoadResource(const char* path)
+Ptr<Object> ResourceManager::LoadResource(const char* format)
 {
 	assert(m_d != nullptr);
 
-	auto res = m_d->FindResource(path);
+	auto res = m_d->FindResource(format);
 
 	if (res != nullptr)
 	{
 		return res->GetObject();
 	}
 
-	Resource loaded = Resource::Create(path);
+	Resource loaded = Resource::Create(format);
 
 	if (!loaded.Valid())
 	{

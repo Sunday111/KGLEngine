@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include <KGL_Base/Marco.h>
 #include <KGL_Core/Application.h>
 #include <KGL_Core/ResourceManager.h>
@@ -62,20 +63,28 @@ WindowImpl::WindowImpl(WindowManagerImpl* mgr, Core::Application* app) :
 	auto resourceMgr = app->GetResouceManager();
 	assert(resourceMgr != nullptr);
 
-	auto vs = resourceMgr->LoadResourceAs<Shader<ShaderType::Vertex>>(
-		"Data\\Resources\\Shaders\\Vertex\\Simplest.res");
+    std::stringstream stream;
 
-	auto fs = resourceMgr->LoadResourceAs<Shader<ShaderType::Fragment>>(
-		"Data\\Resources\\Shaders\\Fragment\\Simplest.res");
+    /* Create shader program instance */
+    testShader = std::make_unique<ShaderProgram>();
 
-	/* Create shader program instance */
-	testShader = std::make_unique<ShaderProgram>();
+    {
+        stream << "file=\"" << "Data\\Resources\\Shaders\\Vertex\\Simplest.res" << "\";";
+        stream << "window=" << m_id << ';';
 
-	/* Add vertex shader to shader program */
-	assertexpr(testShader->AddShader(vs, false));
+        auto vs = resourceMgr->LoadResourceAs<Shader<ShaderType::Vertex>>(stream.str().data());
 
-	/* Add fragment shader to shader program */
-	assertexpr(testShader->AddShader(fs, false));
+        assertexpr(testShader->AddShader(vs, false));
+    }
+
+    stream.str(std::string());
+
+    {
+        stream << "file=\"" << "Data\\Resources\\Shaders\\Fragment\\Simplest.res" << "\";";
+        stream << "window=" << m_id << ';';
+        auto fs = resourceMgr->LoadResourceAs<Shader<ShaderType::Fragment>>(stream.str().data());
+        assertexpr(testShader->AddShader(fs, false));
+    }
 
 	/* Link shaders into shader prgram */
 	assertexpr(testShader->Link(&std::cout));
