@@ -1,5 +1,4 @@
 *.metagen
-*.res
 Solutions/*
 !Solutions/*.sln
 !Solutions/*.bat
