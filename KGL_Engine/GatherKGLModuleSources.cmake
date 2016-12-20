@@ -1,14 +1,14 @@
-include(${TOP}/Build/Modules/GatherSources.cmake)
+include(${TOP}/CMakeModules/GatherSources.cmake)
 
 FUNCTION(GatherKGLModuleSources moduleName gathered)
 
     #Gather module headers
     MESSAGE(STATUS "Gathering public sources for ${moduleName}")
-    GatherSources(${TOP}/Code/KGL_Engine/${moduleName}/include modulePublicSources)
+    GatherSources(${TOP}/KGL_Engine/${moduleName}/include modulePublicSources)
 
     #Gather sources with platform independent code
     SET(moduleCommonPrivateSources)
-    SET(moduleCommonPrivateSourcesPath ${TOP}/Code/KGL_Engine/${moduleName}/src/common)
+    SET(moduleCommonPrivateSourcesPath ${TOP}/KGL_Engine/${moduleName}/src/common)
     IF(EXISTS ${moduleCommonPrivateSourcesPath})
         MESSAGE(STATUS "Gathering common private sources for ${moduleName}")
         GatherSources(${moduleCommonPrivateSourcesPath} moduleCommonPrivateSources)
@@ -18,7 +18,7 @@ FUNCTION(GatherKGLModuleSources moduleName gathered)
 
     #gather sources with platform specific code
     SET(modulePlatformSpecificPrivateSources)
-    SET(modulePlatformSpecificPrivateSourcesPath ${TOP}/Code/KGL_Engine/${moduleName}/src/OS_Specific/${SYSTEM_TYPE})
+    SET(modulePlatformSpecificPrivateSourcesPath ${TOP}/KGL_Engine/${moduleName}/src/OS_Specific/${SYSTEM_TYPE})
     IF(EXISTS ${modulePlatformSpecificPrivateSourcesPath})
         MESSAGE(STATUS "Gathering platform specific sources for ${moduleName}")
         GatherSources(${modulePlatformSpecificPrivateSourcesPath} modulePlatformSpecificPrivateSources)

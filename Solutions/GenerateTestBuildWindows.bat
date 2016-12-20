@@ -23,6 +23,6 @@ pushd TestBuild_%1
 set _TOP0=%cd%\..\..
 set _TOP=%_TOP0:\=/%
 
-cmake -G"%gnrt%" -DTOP:DIR="%_TOP%" "%_TOP%/Build/Code/Projects/TestProject/" -DBUILD_ARCHITECTURE="%arch%"
+cmake -G"%gnrt%" -DTOP:DIR="%_TOP%" "%_TOP%/Projects/TestProject/" -DBUILD_ARCHITECTURE="%arch%"
 
 popd

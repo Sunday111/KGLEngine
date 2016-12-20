@@ -36,17 +36,18 @@ public:
 	}
 };
 
-int main(int argc, const char** argv)
+extern "C"
 {
+    int __declspec(dllexport) __cdecl KGL_Run()
+    {
+        Core::Application app;
 
-	UnusedVar(argc, argv);
-	Core::Application app;
+        auto listener = new AppListener();
 
-    auto listener = new AppListener();
+        app.AddListener(listener, true);
+        app.Initialize();
 
-	app.AddListener(listener, true);
-	app.Initialize();
-
-	while (app.Update());
-	return 0;
+        while (app.Update());
+        return 0;
+    }
 }
