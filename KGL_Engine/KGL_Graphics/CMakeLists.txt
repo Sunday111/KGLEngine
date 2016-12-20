@@ -2,7 +2,7 @@ include(${TOP}/KGL_Engine/GatherKGLModuleSources.cmake)
 
 set(ModuleName KGL_Graphics)
 set(MODULE_NAME KGL_GRAPHICS)
-configure_file("${TOP}/Common.h.in" "${CMAKE_CURRENT_BINARY_DIR}/${ModuleName}/Common.h")
+configure_file("${TOP}/KGL_Engine/Common.h.in" "${CMAKE_CURRENT_BINARY_DIR}/${ModuleName}/Common.h")
 
 GatherKGLModuleSources(${ModuleName} moduleSources)
 
