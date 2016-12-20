@@ -1,6 +1,6 @@
 FUNCTION(AddModuleSubdirectory name)
     message(STATUS "Configure ${name}")
-    add_subdirectory(${TOP}/KGL_Engine/${name} ${CMAKE_BINARY_DIR}/Deps/KGL_Engine/${name})
+    add_subdirectory(${TOP}/KGL_Engine/${name}/build/ ${CMAKE_BINARY_DIR}/Deps/KGL_Engine/${name})
 ENDFUNCTION()
 
 FUNCTION(ConfigureKGL modules)
@@ -9,7 +9,7 @@ FUNCTION(ConfigureKGL modules)
     set_property(GLOBAL PROPERTY USE_FOLDERS ON)
     
     FOREACH(module ${modules})
-        set(depsPath ${TOP}/KGL_Engine/${module})
+        set(depsPath ${TOP}/KGL_Engine/${module}/build/)
         
         #Look for module's file with external dependencies
         set(ExternDepsPath ${depsPath}/ExternDeps.txt)
