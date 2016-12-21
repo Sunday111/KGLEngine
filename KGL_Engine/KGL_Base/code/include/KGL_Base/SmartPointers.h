@@ -7,8 +7,8 @@ namespace KGL {
 
 enum class PointerType
 {
-	Shared,
-	Unique
+    Shared,
+    Unique
 };
 
 template<class T, PointerType pt>
@@ -18,26 +18,26 @@ template<class T>
 class PointerTypeHelper<T, PointerType::Shared>
 {
 public:
-	using Pointer = std::shared_ptr<T>;
+    using Pointer = std::shared_ptr<T>;
 
-	template<typename... U>
-	static Pointer Create(U&&... args)
-	{
-		return std::make_shared<T>(std::forward<U>(args)...);
-	}
+    template<typename... U>
+    static Pointer Create(U&&... args)
+    {
+        return std::make_shared<T>(std::forward<U>(args)...);
+    }
 };
 
 template<class T>
 class PointerTypeHelper<T, PointerType::Unique>
 {
 public:
-	using Pointer = std::unique_ptr<T>;
+    using Pointer = std::unique_ptr<T>;
 
-	template<typename... U>
-	static Pointer Create(U&&... args)
-	{
-		return std::make_unique<T>(std::forward<U>(args)...);
-	}
+    template<typename... U>
+    static Pointer Create(U&&... args)
+    {
+        return std::make_unique<T>(std::forward<U>(args)...);
+    }
 };
 
 }

@@ -10,17 +10,17 @@ namespace KGL { namespace Graphics {
 class GraphicsModule : public Core::Module
 {
 public:
-	~GraphicsModule();
+    ~GraphicsModule();
 
-	int GetModuleId() override;
-	static GraphicsModule* Instance();
+    int GetModuleId() override;
+    static GraphicsModule* Instance();
 
     DECLARE_CLASS_RTTI(GraphicsModule, Core::Module)
 private:
-	GraphicsModule();
+    GraphicsModule();
 
-	class Impl;
-	Impl* m_d;
+    class Impl;
+    Impl* m_d;
 };
 
 } }

@@ -10,35 +10,35 @@ class ResourceManager;
 class SystemsManager;
 
 class KGL_CORE_API Application :
-	public Object
+    public Object
 {
-	DECLARE_CLASS_RTTI(Application, Object)
+    DECLARE_CLASS_RTTI(Application, Object)
 
 public:
-	explicit Application();
-	~Application();
+    explicit Application();
+    ~Application();
 
-	/* Update all systems of application
-	* Return false if need exit of application failed
-	*/
-	virtual bool Update();
+    /* Update all systems of application
+    * Return false if need exit of application failed
+    */
+    virtual bool Update();
 
-	/* Add application listener
-	* Returns false if such a listener is already added
-	* If boo variable is true, Application will delete listener in destructor
-	*/
-	bool AddListener(ApplicationListener* listener, bool destroy);
+    /* Add application listener
+    * Returns false if such a listener is already added
+    * If boo variable is true, Application will delete listener in destructor
+    */
+    bool AddListener(ApplicationListener* listener, bool destroy);
 
-	SystemsManager* GetSystemsManager();
+    SystemsManager* GetSystemsManager();
 
-	ResourceManager* GetResouceManager();
+    ResourceManager* GetResouceManager();
 
-	void Initialize();
+    void Initialize();
 
 
 private:
-	class Impl;
-	Impl* m_d;
+    class Impl;
+    Impl* m_d;
 };
 
 } }

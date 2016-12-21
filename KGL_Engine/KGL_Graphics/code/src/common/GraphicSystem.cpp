@@ -19,17 +19,17 @@ namespace KGL { namespace Graphics {
 class GraphicSystem::Impl
 {
 public:
-	~Impl()
-	{
-		glfwTerminate();
-	}
+    ~Impl()
+    {
+        glfwTerminate();
+    }
 
-	WindowManager m_windowManager;
-	std::vector<Ptr<ShaderProgram>> m_shaderPrograms;
+    WindowManager m_windowManager;
+    std::vector<Ptr<ShaderProgram>> m_shaderPrograms;
 };
 
 GraphicSystem::GraphicSystem() :
-	m_d(new Impl)
+    m_d(new Impl)
 {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -42,26 +42,26 @@ GraphicSystem::GraphicSystem() :
 
 GraphicSystem::~GraphicSystem()
 {
-	assert(m_d != nullptr);
-	delete m_d;
+    assert(m_d != nullptr);
+    delete m_d;
 }
 
 bool GraphicSystem::Update()
 {
-	assert(m_d != nullptr);
+    assert(m_d != nullptr);
     return m_d->m_windowManager.GetImpl()->Update();
 }
 
 void GraphicSystem::AddShaderProgram(const Ptr<ShaderProgram>& shaderProgram)
 {
-	assert(m_d != nullptr);
-	m_d->m_shaderPrograms.push_back(shaderProgram);
+    assert(m_d != nullptr);
+    m_d->m_shaderPrograms.push_back(shaderProgram);
 }
 
 WindowManager* GraphicSystem::GetWindowManager()
 {
-	assert(m_d != nullptr);
-	return &m_d->m_windowManager;
+    assert(m_d != nullptr);
+    return &m_d->m_windowManager;
 }
 
 } }

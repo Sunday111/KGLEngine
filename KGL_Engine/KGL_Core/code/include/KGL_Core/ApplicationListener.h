@@ -10,8 +10,8 @@ class Application;
 class KGL_CORE_API ApplicationListener
 {
 public:
-	virtual void OnInitialize(Application*) = 0;
-	virtual ~ApplicationListener() = default;
+    virtual void OnInitialize(Application*) = 0;
+    virtual ~ApplicationListener() = default;
 };
 
 } }

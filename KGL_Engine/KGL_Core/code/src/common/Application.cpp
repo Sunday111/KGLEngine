@@ -13,9 +13,9 @@ namespace KGL { namespace Core {
 class Application::Impl
 {
 public:
-	ResourceManager m_resourceManager;
-	SystemsManager m_systemsManager;
-	std::vector<std::pair<bool, ApplicationListener*>> m_listeners;
+    ResourceManager m_resourceManager;
+    SystemsManager m_systemsManager;
+    std::vector<std::pair<bool, ApplicationListener*>> m_listeners;
 };
 
 Application::Application() :
@@ -24,63 +24,63 @@ Application::Application() :
 
 Application::~Application()
 {
-	assert(m_d != nullptr);
+    assert(m_d != nullptr);
 
-	for (auto& l : m_d->m_listeners)
-	{
-		if (l.first)
-		{
-			SAFE_DELETE(l.second);
-		}
-	}
+    for (auto& l : m_d->m_listeners)
+    {
+        if (l.first)
+        {
+            SAFE_DELETE(l.second);
+        }
+    }
 
-	delete m_d;
+    delete m_d;
 }
 
 SystemsManager* Application::GetSystemsManager()
 {
-	assert(m_d != nullptr);
-	return &m_d->m_systemsManager;
+    assert(m_d != nullptr);
+    return &m_d->m_systemsManager;
 }
 
 ResourceManager* Application::GetResouceManager()
 {
-	assert(m_d != nullptr);
-	return &m_d->m_resourceManager;
+    assert(m_d != nullptr);
+    return &m_d->m_resourceManager;
 }
 
 bool Application::Update()
 {
-	assert(m_d != nullptr);
-	return m_d->m_systemsManager.Update();
+    assert(m_d != nullptr);
+    return m_d->m_systemsManager.Update();
 }
 
 bool Application::AddListener(ApplicationListener* listener, bool destroy)
 {
-	assert(m_d != nullptr);
+    assert(m_d != nullptr);
 
-	for (auto& l : m_d->m_listeners)
-	{
-		if (l.second == listener)
-		{
-			return false;
-		}
-	}
+    for (auto& l : m_d->m_listeners)
+    {
+        if (l.second == listener)
+        {
+            return false;
+        }
+    }
 
-	m_d->m_listeners.push_back(std::make_pair(destroy, listener));
+    m_d->m_listeners.push_back(std::make_pair(destroy, listener));
 
-	return true;
+    return true;
 }
 
 void Application::Initialize()
 {
-	assert(m_d != nullptr);
+    assert(m_d != nullptr);
 
-	for (auto k : m_d->m_listeners)
-	{
-		assert(k.second != nullptr);
-		k.second->OnInitialize(this);
-	}
+    for (auto k : m_d->m_listeners)
+    {
+        assert(k.second != nullptr);
+        k.second->OnInitialize(this);
+    }
 }
 
 } }

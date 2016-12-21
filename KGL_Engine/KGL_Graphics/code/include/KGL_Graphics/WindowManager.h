@@ -29,7 +29,7 @@ public:
     int GetCurrentWindowId();
 
     /* Create window and return it's id */
-	int CreateWindow(Core::Application* app);
+    int CreateWindow(Core::Application* app);
 
 private:
     int m_nextWindowId;

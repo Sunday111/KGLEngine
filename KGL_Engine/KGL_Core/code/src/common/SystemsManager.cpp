@@ -12,48 +12,48 @@ namespace KGL { namespace Core {
 class SystemsManager::Impl
 {
 public:
-	std::vector<std::unique_ptr<System>> m_systems;
+    std::vector<std::unique_ptr<System>> m_systems;
 };
 
 SystemsManager::SystemsManager() :
-	m_d(new Impl)
+    m_d(new Impl)
 {}
 
 SystemsManager::~SystemsManager()
 {
-	assert(m_d != nullptr);
-	delete m_d;
+    assert(m_d != nullptr);
+    delete m_d;
 }
 
 bool SystemsManager::RegisterSystem(std::unique_ptr<System> system)
 {
-	assert(m_d != nullptr);
+    assert(m_d != nullptr);
 
-	for (auto& s : m_d->m_systems)
-	{
-		if (s == system)
-		{
-			return false;
-		}
-	}
+    for (auto& s : m_d->m_systems)
+    {
+        if (s == system)
+        {
+            return false;
+        }
+    }
 
-	m_d->m_systems.push_back(std::move(system));
-	return true;
+    m_d->m_systems.push_back(std::move(system));
+    return true;
 }
 
 bool SystemsManager::Update()
 {
-	assert(m_d != nullptr);
+    assert(m_d != nullptr);
 
-	for (auto& s : m_d->m_systems)
-	{
-		if (!s->Update())
-		{
-			return false;
-		}
-	}
+    for (auto& s : m_d->m_systems)
+    {
+        if (!s->Update())
+        {
+            return false;
+        }
+    }
 
-	return true;
+    return true;
 }
 
 } }

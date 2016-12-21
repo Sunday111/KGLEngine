@@ -9,7 +9,7 @@ class KGL_CORE_API Module :
     public Object
 {
 public:
-	virtual int GetModuleId() = 0;
+    virtual int GetModuleId() = 0;
 };
 
 } }

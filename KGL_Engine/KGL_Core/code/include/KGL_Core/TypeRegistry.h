@@ -12,57 +12,57 @@ namespace KGL { namespace Core {
 class KGL_CORE_API TypeInfo
 {
 public:
-	using CreateFromFileFn = Ptr<Object>(*)(std::ifstream& filename);
+    using CreateFromFileFn = Ptr<Object>(*)(std::ifstream& filename);
 
-	explicit TypeInfo(int id, CreateFromFileFn createFromFile,
-		const char* tag, std::vector<int>&& parentTypes);
+    explicit TypeInfo(int id, CreateFromFileFn createFromFile,
+        const char* tag, std::vector<int>&& parentTypes);
 
-	TypeInfo(TypeInfo&& uref);
+    TypeInfo(TypeInfo&& uref);
 
-	TypeInfo(const TypeInfo&) = delete;
+    TypeInfo(const TypeInfo&) = delete;
 
-	const TypeInfo& operator=(TypeInfo&& uref);
-	const TypeInfo& operator=(const TypeInfo& ref) = delete;
+    const TypeInfo& operator=(TypeInfo&& uref);
+    const TypeInfo& operator=(const TypeInfo& ref) = delete;
 
-	bool IsResource() const;
-	int TypeId() const;
+    bool IsResource() const;
+    int TypeId() const;
 
-	ArrayView<const int> ParentTypes() const;
+    ArrayView<const int> ParentTypes() const;
 
-	operator int() const;
+    operator int() const;
 
-	const char* GetTypeTag() const;
+    const char* GetTypeTag() const;
 
-	CreateFromFileFn GetCreateFromFileFn() const;
+    CreateFromFileFn GetCreateFromFileFn() const;
 
 private:
-	class Impl;
-	Impl* m_d;
+    class Impl;
+    Impl* m_d;
 };
 
 class KGL_CORE_API TypeRegistry : public Object
 {
-	DECLARE_CLASS_RTTI(TypeRegistry, Object)
+    DECLARE_CLASS_RTTI(TypeRegistry, Object)
 
 public:
 
-	static TypeRegistry* GetInstance();
+    static TypeRegistry* GetInstance();
 
-	~TypeRegistry();
+    ~TypeRegistry();
 
     bool TypeRegistered(int typeId) const;
     void RegisterType(int typeId, const char* typetag, TypeInfo::CreateFromFileFn createFromFile, std::vector<int>&& parents);
     bool IsTypeOf(int targetTypeId, int checkFor) const;
     int GetNextTypeId();
-	ArrayView<const TypeInfo> GetTypes() const;
-	const TypeInfo* GetTypeById(int id) const;
+    ArrayView<const TypeInfo> GetTypes() const;
+    const TypeInfo* GetTypeById(int id) const;
 
 protected:
-	explicit TypeRegistry();
+    explicit TypeRegistry();
 
 private:
-	class Impl;
-	Impl* m_d;
+    class Impl;
+    Impl* m_d;
 };
 
 } }

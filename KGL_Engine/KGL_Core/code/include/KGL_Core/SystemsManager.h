@@ -9,18 +9,18 @@ namespace KGL { namespace Core {
 class KGL_CORE_API SystemsManager :
     public Object
 {
-	DECLARE_CLASS_RTTI(SystemsManager, Object)
+    DECLARE_CLASS_RTTI(SystemsManager, Object)
 
 public:
-	explicit SystemsManager();
-	~SystemsManager();
+    explicit SystemsManager();
+    ~SystemsManager();
 
-	virtual bool RegisterSystem(std::unique_ptr<System> system);
-	virtual bool Update();
+    virtual bool RegisterSystem(std::unique_ptr<System> system);
+    virtual bool Update();
 
 private:
-	class Impl;
-	Impl* m_d;
+    class Impl;
+    Impl* m_d;
 };
 
 } }

@@ -17,127 +17,127 @@ namespace KGL { namespace Graphics {
 class ShaderProgram::Impl
 {
 public:
-	Impl() :
-		m_id(glCreateProgram()),
-		m_linked(false)
-	{}
+    Impl() :
+        m_id(glCreateProgram()),
+        m_linked(false)
+    {}
 
-	~Impl()
-	{
-		glDeleteProgram(m_id);
-	}
+    ~Impl()
+    {
+        glDeleteProgram(m_id);
+    }
 
-	template<ShaderType st>
-	Ptr<Shader<st>>& GetShader();
+    template<ShaderType st>
+    Ptr<Shader<st>>& GetShader();
 
-	template<>
-	Ptr<Shader<ShaderType::Vertex>>& GetShader()
-	{
-		return m_vertexShader;
-	}
+    template<>
+    Ptr<Shader<ShaderType::Vertex>>& GetShader()
+    {
+        return m_vertexShader;
+    }
 
-	template<>
-	Ptr<Shader<ShaderType::Fragment>>& GetShader()
-	{
-		return m_fragmentShader;
-	}
+    template<>
+    Ptr<Shader<ShaderType::Fragment>>& GetShader()
+    {
+        return m_fragmentShader;
+    }
 
-	template<ShaderType st>
-	bool Attach()
-	{
-		auto& sh = GetShader<st>();
-		if (sh == nullptr)
-		{
-			return false;
-		}
+    template<ShaderType st>
+    bool Attach()
+    {
+        auto& sh = GetShader<st>();
+        if (sh == nullptr)
+        {
+            return false;
+        }
 
-		glAttachShader(m_id, sh->GetId());
-		return true;
-	}
+        glAttachShader(m_id, sh->GetId());
+        return true;
+    }
 
-	int m_id;
-	bool m_linked;
-	Ptr<Shader<ShaderType::Vertex>> m_vertexShader;
-	Ptr<Shader<ShaderType::Fragment>> m_fragmentShader;
+    int m_id;
+    bool m_linked;
+    Ptr<Shader<ShaderType::Vertex>> m_vertexShader;
+    Ptr<Shader<ShaderType::Fragment>> m_fragmentShader;
 };
 
 ShaderProgram::ShaderProgram() :
-	m_d(new Impl)
+    m_d(new Impl)
 {}
 
 ShaderProgram::~ShaderProgram()
 {
-	assert(m_d != nullptr);
-	delete m_d;
+    assert(m_d != nullptr);
+    delete m_d;
 }
 
 int ShaderProgram::GetId() const
 {
-	assert(m_d != nullptr);
-	return m_d->m_id;
+    assert(m_d != nullptr);
+    return m_d->m_id;
 }
 
 template<ShaderType st>
 bool ShaderProgram::AddShader(Ptr<Shader<st>> shader, bool replace)
 {
-	assert(m_d != nullptr);
+    assert(m_d != nullptr);
 
-	auto& sh = m_d->GetShader<st>();
+    auto& sh = m_d->GetShader<st>();
 
-	if (sh == nullptr || replace)
-	{
-		sh = shader;
-		return true;
-	}
+    if (sh == nullptr || replace)
+    {
+        sh = shader;
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 bool ShaderProgram::Link(std::ostream* logstream)
 {
-	assert(m_d != nullptr);
+    assert(m_d != nullptr);
 
-	m_d->m_linked = false;
+    m_d->m_linked = false;
 
-	static_assert((int)(ShaderType::__last) == 2,
-		"Extend here for new shader types");
+    static_assert((int)(ShaderType::__last) == 2,
+        "Extend here for new shader types");
 
-	m_d->Attach<ShaderType::Vertex>();
-	m_d->Attach<ShaderType::Fragment>();
+    m_d->Attach<ShaderType::Vertex>();
+    m_d->Attach<ShaderType::Fragment>();
 
-	glLinkProgram(m_d->m_id);
+    glLinkProgram(m_d->m_id);
 
-	GLint success;
-	glGetProgramiv(m_d->m_id, GL_LINK_STATUS, &success);
+    GLint success;
+    glGetProgramiv(m_d->m_id, GL_LINK_STATUS, &success);
 
-	m_d->m_linked = success == 1;
+    m_d->m_linked = success == 1;
 
-	if (!m_d->m_linked) {
-		if (logstream != nullptr)
-		{
-			GLchar infoLog[512];
-			glGetProgramInfoLog(m_d->m_id, 512, NULL, infoLog);
-			*logstream << "ERROR::SHADER_PROGRAM::" << m_d->m_id
-				<< "::LINK_FAILED\n" << infoLog << std::endl;
-		}
-	}
+    if (!m_d->m_linked) {
+        if (logstream != nullptr)
+        {
+            GLchar infoLog[512];
+            glGetProgramInfoLog(m_d->m_id, 512, NULL, infoLog);
+            *logstream << "ERROR::SHADER_PROGRAM::" << m_d->m_id
+                << "::LINK_FAILED\n" << infoLog << std::endl;
+        }
+    }
 
-	return m_d->m_linked;
+    return m_d->m_linked;
 }
 
 bool ShaderProgram::Use()
 {
-	if (m_d->m_linked)
-	{
-		glUseProgram(m_d->m_id);
-	}
+    if (m_d->m_linked)
+    {
+        glUseProgram(m_d->m_id);
+    }
 
-	return m_d->m_linked;
+    return m_d->m_linked;
 }
 
 int ShaderProgram::GetVariableLocation(const char* name)
 {
-	return glGetUniformLocation(m_d->m_id, name);
+    return glGetUniformLocation(m_d->m_id, name);
 }
 
 #define INSTANTIATE_ADD_SHADER(shaderType)\

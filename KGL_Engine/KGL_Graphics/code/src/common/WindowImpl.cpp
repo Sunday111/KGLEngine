@@ -27,7 +27,7 @@ namespace
 template<ShaderType st>
 decltype(auto) CreateShader(const char* file)
 {
-	auto shader = Ptr<Shader<st>>(new Shader<st>());
+    auto shader = Ptr<Shader<st>>(new Shader<st>());
     assertexpr(shader->Compile(file, nullptr, &std::cout));
     return shader;
 }
@@ -60,8 +60,8 @@ WindowImpl::WindowImpl(WindowManagerImpl* mgr, Core::Application* app) :
         assert(false);
     }
 
-	auto resourceMgr = app->GetResouceManager();
-	assert(resourceMgr != nullptr);
+    auto resourceMgr = app->GetResouceManager();
+    assert(resourceMgr != nullptr);
 
     std::stringstream stream;
 
@@ -86,8 +86,8 @@ WindowImpl::WindowImpl(WindowManagerImpl* mgr, Core::Application* app) :
         assertexpr(testShader->AddShader(fs, false));
     }
 
-	/* Link shaders into shader prgram */
-	assertexpr(testShader->Link(&std::cout));
+    /* Link shaders into shader prgram */
+    assertexpr(testShader->Link(&std::cout));
 
     GLfloat vertices[] = {
         0.5f,  0.5f, 0.0f,  // Top Right

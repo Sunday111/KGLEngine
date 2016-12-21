@@ -7,23 +7,23 @@ namespace KGL { namespace Core {
 
 class KGL_CORE_API CoreModule : public Module
 {
-	DECLARE_CLASS_RTTI(CoreModule, Module)
+    DECLARE_CLASS_RTTI(CoreModule, Module)
 
 public:
-	~CoreModule();
+    ~CoreModule();
 
-	/* Returns next module id and increments it */
-	virtual int GetNextModuleId();
-	int GetModuleId() override;
+    /* Returns next module id and increments it */
+    virtual int GetNextModuleId();
+    int GetModuleId() override;
 
-	static CoreModule* GetInstance();
+    static CoreModule* GetInstance();
 
 protected:
-	explicit CoreModule();
+    explicit CoreModule();
 
 private:
-	class Impl;
-	Impl* m_d;
+    class Impl;
+    Impl* m_d;
 };
 
 } }

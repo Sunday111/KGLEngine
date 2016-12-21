@@ -15,26 +15,26 @@ KGL_CORE_API int GetReferencesCount(const Object* p);
 class KGL_CORE_API Object
 {
 public:
-	Object(const Object&) = delete;
+    Object(const Object&) = delete;
 
-	virtual int GetTypeId() const = 0;
-	virtual bool IsTypeOf(int typeId) const = 0;
-	virtual ~Object();
+    virtual int GetTypeId() const = 0;
+    virtual bool IsTypeOf(int typeId) const = 0;
+    virtual ~Object();
 
-	Object& operator= (const Object&) = delete;
+    Object& operator= (const Object&) = delete;
 
-	static int TypeId();
+    static int TypeId();
 
 protected:
-	explicit Object();
+    explicit Object();
 
 private:
-	friend void KGL_CORE_API AddReference(const Object* p);
-	friend int KGL_CORE_API RemoveReference(const Object* p);
-	friend int KGL_CORE_API GetReferencesCount(const Object* p);
+    friend void KGL_CORE_API AddReference(const Object* p);
+    friend int KGL_CORE_API RemoveReference(const Object* p);
+    friend int KGL_CORE_API GetReferencesCount(const Object* p);
 
-	class Impl;
-	Impl* m_d;
+    class Impl;
+    Impl* m_d;
 };
 
 } }

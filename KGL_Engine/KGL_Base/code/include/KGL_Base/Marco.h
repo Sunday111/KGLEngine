@@ -4,7 +4,7 @@
 #include <cassert>
 
 #ifndef SAFE_DELETE
-	#define SAFE_DELETE(ptr) { if(ptr != nullptr) delete ptr; }
+    #define SAFE_DELETE(ptr) { if(ptr != nullptr) delete ptr; }
 #else
 pragma error "Already defined SAFE_DELETE"
 #endif
@@ -28,13 +28,13 @@ pragma error "Already defined assertexpr"
 #ifndef InstanceCreatorInstantiation
 // default version
 #define InstanceCreatorInstantiation(Creator, Interface, Implementation, pointerType, ...)\
-	template<>\
-	typename Creator<Interface, pointerType>::Pointer \
-	Creator<Interface, pointerType>::CreateInstance() \
-	{ \
-		return KGL::PointerTypeHelper<Implementation, pointerType>::Create(__VA_ARGS__); \
-	} \
-	template class Creator<Interface, pointerType>
+    template<>\
+    typename Creator<Interface, pointerType>::Pointer \
+    Creator<Interface, pointerType>::CreateInstance() \
+    { \
+        return KGL::PointerTypeHelper<Implementation, pointerType>::Create(__VA_ARGS__); \
+    } \
+    template class Creator<Interface, pointerType>
 #else
 pragma error "Already defined InstanceCreatorInstantiation"
 #endif

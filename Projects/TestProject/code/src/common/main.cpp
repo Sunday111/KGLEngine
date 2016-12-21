@@ -23,17 +23,17 @@ class AppListener :
     public ApplicationListener
 {
 public:
-	void OnInitialize(Core::Application* app) override
-	{
-		auto gs = std::make_unique<Graphics::GraphicSystem>();
+    void OnInitialize(Core::Application* app) override
+    {
+        auto gs = std::make_unique<Graphics::GraphicSystem>();
 
-		for (int i = 0; i < 2; ++i)
-		{
-			gs->GetWindowManager()->CreateWindow(app);
-		}
+        for (int i = 0; i < 2; ++i)
+        {
+            gs->GetWindowManager()->CreateWindow(app);
+        }
 
-		app->GetSystemsManager()->RegisterSystem(std::move(gs));
-	}
+        app->GetSystemsManager()->RegisterSystem(std::move(gs));
+    }
 };
 
 extern "C"

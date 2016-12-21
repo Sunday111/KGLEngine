@@ -12,19 +12,19 @@ class WindowManager;
 
 class KGL_GRAPHICS_API GraphicSystem : public Core::System
 {
-	DECLARE_CLASS_RTTI(GraphicSystem, Core::System)
+    DECLARE_CLASS_RTTI(GraphicSystem, Core::System)
 
 public:
-	GraphicSystem();
-	~GraphicSystem();
+    GraphicSystem();
+    ~GraphicSystem();
 
-	bool Update() override;
+    bool Update() override;
     void AddShaderProgram(const Ptr<ShaderProgram>& shaderProgram);
     WindowManager* GetWindowManager();
 
 private:
-	class Impl;
-	Impl* m_d;
+    class Impl;
+    Impl* m_d;
 };
 
 

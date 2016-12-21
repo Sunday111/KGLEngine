@@ -12,21 +12,21 @@ namespace KGL { namespace Graphics {
 template<ShaderType shaderType>
 class KGL_GRAPHICS_API Shader : public Object
 {
-	DECLARE_CLASS_RTTI(Shader<shaderType>, Object)
+    DECLARE_CLASS_RTTI(Shader<shaderType>, Object)
 
 public:
     static Ptr<Core::Object> LoadFromFile(std::ifstream& stream);
 
-	Shader();
-	~Shader();
+    Shader();
+    ~Shader();
 
-	int GetId() const;
-	bool Compile(const char* fileName, const char* additionalCode, std::ostream* logstream);
-	bool RecompileShaderWithCode(const char* code, std::ostream* logstream);
+    int GetId() const;
+    bool Compile(const char* fileName, const char* additionalCode, std::ostream* logstream);
+    bool RecompileShaderWithCode(const char* code, std::ostream* logstream);
 
 private:
-	class Impl;
-	Impl* m_d;
+    class Impl;
+    Impl* m_d;
 };
 
 } }

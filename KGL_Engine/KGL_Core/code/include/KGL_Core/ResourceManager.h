@@ -8,24 +8,24 @@ namespace KGL { namespace Core {
 
 class KGL_CORE_API ResourceManager : public Object
 {
-	DECLARE_CLASS_RTTI(ResourceManager, Object);
+    DECLARE_CLASS_RTTI(ResourceManager, Object);
 
 public:
-	explicit ResourceManager();
-	~ResourceManager();
+    explicit ResourceManager();
+    ~ResourceManager();
 
-	template<class T>
-	/* LoadResource will look simpler with this wrapper */
-	inline Ptr<T> LoadResourceAs(const char* path)
-	{
-		return std::static_pointer_cast<T>(LoadResource(path));
-	}
+    template<class T>
+    /* LoadResource will look simpler with this wrapper */
+    inline Ptr<T> LoadResourceAs(const char* path)
+    {
+        return std::static_pointer_cast<T>(LoadResource(path));
+    }
 
-	Ptr<Object> LoadResource(const char* format);
+    Ptr<Object> LoadResource(const char* format);
 
 private:
-	class Impl;
-	Impl* m_d;
+    class Impl;
+    Impl* m_d;
 };
 
 } }

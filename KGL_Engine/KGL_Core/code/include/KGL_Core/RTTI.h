@@ -15,7 +15,7 @@ template<typename... T>
 class Types
 {
 public:
-	enum { Count = sizeof...(T) };
+    enum { Count = sizeof...(T) };
 };
 
 template<typename Head, typename... Tail>
@@ -47,10 +47,10 @@ template<typename> struct _int { using type = int; };
 /* This function returns CreateFromFile static method
  */
 template<typename T,
-	typename _int<decltype(T::LoadFromFile)>::type = 0>
-	TypeInfo::CreateFromFileFn GetLoadFromFileMethod(_special)
+    typename _int<decltype(T::LoadFromFile)>::type = 0>
+    TypeInfo::CreateFromFileFn GetLoadFromFileMethod(_special)
 {
-	return &T::LoadFromFile;
+    return &T::LoadFromFile;
 }
 
 /* This function returns nullptr for type that
@@ -59,7 +59,7 @@ template<typename T,
 template<typename T>
 TypeInfo::CreateFromFileFn GetLoadFromFileMethod(_general)
 {
-	return nullptr;
+    return nullptr;
 }
 
 } } }

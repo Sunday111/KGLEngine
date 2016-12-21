@@ -13,8 +13,8 @@ class KGL_GRAPHICS_API Object :
     public Core::Object
 {
 public:
-	Object();
-	Object(const Object&) = delete;
+    Object();
+    Object(const Object&) = delete;
 
     DECLARE_CLASS_RTTI(Graphics::Object)
 };
