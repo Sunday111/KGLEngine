@@ -1,13 +1,10 @@
-include(${TOP}/KGL_Engine/GatherKGLModuleSources.cmake)
+include(${TOP}/CMakeModules/GatherKGLTargetSources.cmake)
 
 set(ModuleName KGL_Launcher)
 
-GatherKGLModuleSources(${ModuleName} moduleSources)
+GatherKGLTargetSources(${ModuleName} MODULE moduleSources)
 add_executable(${ModuleName} ${moduleSources})
 
-target_include_directories(${ModuleName} PUBLIC
-    ${TOP}/KGL_Engine/${ModuleName}/include/
-    ${CMAKE_CURRENT_BINARY_DIR})
 target_compile_options(${ModuleName} PUBLIC ${compileOptions})
 target_compile_definitions(${ModuleName} PRIVATE -D${CMAKE_CXX_COMPILER_ID})
 

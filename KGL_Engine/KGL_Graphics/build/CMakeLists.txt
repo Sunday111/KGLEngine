@@ -1,19 +1,19 @@
-include(${TOP}/KGL_Engine/GatherKGLModuleSources.cmake)
+include (${TOP}/CMakeModules/GatherKGLTargetSources.cmake)
 
 set(ModuleName KGL_Graphics)
 set(MODULE_NAME KGL_GRAPHICS)
 configure_file("${TOP}/KGL_Engine/Common.h.in" "${CMAKE_CURRENT_BINARY_DIR}/${ModuleName}/Common.h")
 
-GatherKGLModuleSources(${ModuleName} moduleSources)
+GatherKGLTargetSources(${ModuleName} MODULE moduleSources)
 
 add_library(${ModuleName} SHARED ${moduleSources})
 
 target_include_directories(${ModuleName} PUBLIC
     ${TOP}/ThirdParty/glew/include/
-    ${TOP}/KGL_Engine/KGL_Base/include/
-    ${TOP}/KGL_Engine/KGL_Core/include/
-    ${TOP}/KGL_Engine/${ModuleName}/include/
-    ${TOP}/KGL_Engine/${ModuleName}/src/common/
+    ${TOP}/KGL_Engine/KGL_Base/code/include/
+    ${TOP}/KGL_Engine/KGL_Core/code/include/
+    ${TOP}/KGL_Engine/${ModuleName}/code/include/
+    ${TOP}/KGL_Engine/${ModuleName}/code/src/common/
     ${CMAKE_CURRENT_BINARY_DIR})
 target_compile_options(${ModuleName} PUBLIC ${compileOptions})
 target_compile_definitions(${ModuleName} PRIVATE -D${MODULE_NAME}_SHARED -D${CMAKE_CXX_COMPILER_ID})

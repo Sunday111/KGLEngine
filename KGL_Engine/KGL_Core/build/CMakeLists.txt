@@ -1,15 +1,15 @@
-include(${TOP}/KGL_Engine/GatherKGLModuleSources.cmake)
+include (${TOP}/CMakeModules/GatherKGLTargetSources.cmake)
 
 set(ModuleName KGL_Core)
 set(MODULE_NAME KGL_CORE)
 configure_file("${TOP}/KGL_Engine/Common.h.in" "${CMAKE_CURRENT_BINARY_DIR}/${ModuleName}/Common.h")
 
-GatherKGLModuleSources(${ModuleName} moduleSources)
+GatherKGLTargetSources(${ModuleName} MODULE moduleSources)
 add_library(${ModuleName} SHARED ${moduleSources})
 
 target_include_directories(${ModuleName} PUBLIC
-    ${TOP}/KGL_Engine/KGL_Base/include/
-    ${TOP}/KGL_Engine/${ModuleName}/include/
+    ${TOP}/KGL_Engine/KGL_Base/code/include/
+    ${TOP}/KGL_Engine/${ModuleName}/code/include/
     ${CMAKE_CURRENT_BINARY_DIR})
 target_compile_options(${ModuleName} PUBLIC ${compileOptions})
 target_compile_definitions(${ModuleName} PRIVATE -D${MODULE_NAME}_SHARED -D${CMAKE_CXX_COMPILER_ID})

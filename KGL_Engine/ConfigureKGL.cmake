@@ -1,14 +1,9 @@
-FUNCTION(AddModuleSubdirectory name)
-    message(STATUS "Configure ${name}")
-    add_subdirectory(${TOP}/KGL_Engine/${name}/build/ ${CMAKE_BINARY_DIR}/Deps/KGL_Engine/${name})
-ENDFUNCTION()
-
-FUNCTION(ConfigureKGL modules)
+FUNCTION(ConfigureKGL modules includeDirs linkLibs)
     set(ExternDeps)
     set(EngineDeps)
     set_property(GLOBAL PROPERTY USE_FOLDERS ON)
     
-    FOREACH(module ${modules})
+    FOREACH(module ${modules})        
         set(depsPath ${TOP}/KGL_Engine/${module}/build/)
         
         #Look for module's file with external dependencies
@@ -23,7 +18,7 @@ FUNCTION(ConfigureKGL modules)
         
         #Look for module's engine dependencies
         set(EngineDepsPath ${depsPath}/EngineDeps.txt)
-        if(EXISTS ${EngineDepsPath})        
+        if(EXISTS ${EngineDepsPath})
             file(READ ${EngineDepsPath} contents)
             
             foreach(engineDep ${contents})
@@ -34,8 +29,13 @@ FUNCTION(ConfigureKGL modules)
         list(APPEND EngineDeps ${module})
     ENDFOREACH()
     
-    list(REMOVE_DUPLICATES ExternDeps)
+    message(STATUS "EngineDeps: ${EngineDeps}")
+    
+    #Manage every external dependency in the list if it is not empty
     if(ExternDeps)
+        #Remove duplicates from external dependencies list
+        list(REMOVE_DUPLICATES ExternDeps)
+        
         message(STATUS "Configure KGL engine external dependencies")
 
         foreach(externDep ${ExternDeps})
@@ -43,12 +43,32 @@ FUNCTION(ConfigureKGL modules)
         endforeach()
     endif()
     
-    list(REMOVE_DUPLICATES EngineDeps)
+    #Manage every engine dependency in the list if it is not empty
     if(EngineDeps)
-        message(STATUS "Configure KGL engine used modules ")
+        #Remove duplicates from engine dependencies list
+        list(REMOVE_DUPLICATES EngineDeps)
+        
+        message(STATUS "Configure KGL engine used modules")
+        message(STATUS "")
     
         foreach(engineDep ${EngineDeps})
-            AddModuleSubdirectory(${engineDep})
+            message(STATUS "Configuring ${engineDep}")
+            
+            set(engineDepPath ${TOP}/KGL_Engine/${engineDep})
+            set(engineDepInclude ${engineDepPath}/code/include)
+            set(engineDepBuild ${engineDepPath}/build)
+            
+            if(NOT ${engineDep} STREQUAL KGL_Launcher AND EXISTS ${engineDepInclude})
+                list(APPEND _includeDirs ${engineDepInclude})
+                list(APPEND _linkLibs ${engineDep})
+            endif()
+            
+            add_subdirectory(${engineDepBuild} ${CMAKE_BINARY_DIR}/Deps/KGL_Engine/${engineDep})
+            
+            message(STATUS "")
         endforeach()
+        
+        set(${includeDirs} ${_includeDirs} PARENT_SCOPE)
+        set(${linkLibs} ${_linkLibs} PARENT_SCOPE)
     endif()
 ENDFUNCTION()
