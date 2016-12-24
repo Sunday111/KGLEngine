@@ -27,7 +27,10 @@ FUNCTION(GenerateKGLProject projectName)
         file(READ ${projectEngineDeps} projectDeps)
         
         #Manage KGL engine dependencies
-        ConfigureKGL("${projectDeps}" KGLInclude KGLLibraries)
+        ConfigureKGL(
+            MODULES "${projectDeps}"
+            INCLUDES KGLInclude
+            LIBRARIES KGLLibraries)
         
         target_include_directories(${projectName} PUBLIC ${KGLInclude})    
         target_link_libraries (${projectName} ${KGLLibraries})

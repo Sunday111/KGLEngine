@@ -1,46 +1,53 @@
-FUNCTION(ConfigureKGL modules includeDirs linkLibs)
+include(${TOP}/CMakeModules/ReadKGLTargetDependencies.cmake)
+
+FUNCTION(ConfigureKGL)
+    cmake_parse_arguments(
+        PARSED_ARGS           # prefix of output variables
+        ""                    # list of names of the boolean arguments (only defined ones will be true)
+        "INCLUDES;LIBRARIES"  # list of names of mono-valued arguments
+        "MODULES"             # list of names of multi-valued arguments (output variables are lists)
+        ${ARGN}               # arguments of the function to parse, here we take the all original ones
+    )
+    
+    # note: if it remains unparsed arguments, here, they can be found in variable PARSED_ARGS_UNPARSED_ARGUMENTS
+    if(NOT PARSED_ARGS_MODULES)
+        message(FATAL_ERROR "You must provide modules to configure")
+    endif()
+    
+    if(NOT PARSED_ARGS_INCLUDES)
+        message(FATAL_ERROR "You must specify variable to retrieve the list of directories to include")
+    endif()
+    
+    if(NOT PARSED_ARGS_LIBRARIES)
+        message(FATAL_ERROR "You must specify variable to retrieve the list of libraries to link")
+    endif()
+
     set(ExternDeps)
     set(EngineDeps)
     set_property(GLOBAL PROPERTY USE_FOLDERS ON)
     
-    FOREACH(module ${modules})        
-        set(depsPath ${TOP}/KGL_Engine/${module}/build/)
+    FOREACH(module ${PARSED_ARGS_MODULES})
+        ReadKGLTargetDependencies(
+            TARGET_NAME ${module}
+            TARGET_TYPE MODULE
+        )
         
-        #Look for module's file with external dependencies
-        set(ExternDepsPath ${depsPath}/ExternDeps.txt)
-        if(EXISTS ${ExternDepsPath})
-            file(READ ${ExternDepsPath} contents)
-            
-            foreach(externDep ${contents})
-                list(APPEND ExternDeps ${externDep})
-            endforeach()
-        endif()
-        
-        #Look for module's engine dependencies
-        set(EngineDepsPath ${depsPath}/EngineDeps.txt)
-        if(EXISTS ${EngineDepsPath})
-            file(READ ${EngineDepsPath} contents)
-            
-            foreach(engineDep ${contents})
-                list(APPEND EngineDeps ${engineDep})
-            endforeach()
-        endif()
-        
+        list(APPEND ExternDeps ${${module}_EXTERN_DEPS})
+        list(APPEND EngineDeps ${${module}_ENGINE_DEPS})
         list(APPEND EngineDeps ${module})
     ENDFOREACH()
-    
-    message(STATUS "EngineDeps: ${EngineDeps}")
     
     #Manage every external dependency in the list if it is not empty
     if(ExternDeps)
         #Remove duplicates from external dependencies list
         list(REMOVE_DUPLICATES ExternDeps)
         
-        message(STATUS "Configure KGL engine external dependencies")
-
+        message(STATUS "Configuring external dependencies...")
         foreach(externDep ${ExternDeps})
             include(${TOP}/ThirdParty/${externDep}.cmake)
         endforeach()
+        
+        message(STATUS "")
     endif()
     
     #Manage every engine dependency in the list if it is not empty
@@ -48,11 +55,10 @@ FUNCTION(ConfigureKGL modules includeDirs linkLibs)
         #Remove duplicates from engine dependencies list
         list(REMOVE_DUPLICATES EngineDeps)
         
-        message(STATUS "Configure KGL engine used modules")
-        message(STATUS "")
+        message(STATUS "Configuring engine dependencies...")
     
         foreach(engineDep ${EngineDeps})
-            message(STATUS "Configuring ${engineDep}")
+            message(STATUS "Configuring ${engineDep}...")
             
             set(engineDepPath ${TOP}/KGL_Engine/${engineDep})
             set(engineDepInclude ${engineDepPath}/code/include)
@@ -64,11 +70,9 @@ FUNCTION(ConfigureKGL modules includeDirs linkLibs)
             endif()
             
             add_subdirectory(${engineDepBuild} ${CMAKE_BINARY_DIR}/Deps/KGL_Engine/${engineDep})
-            
-            message(STATUS "")
         endforeach()
         
-        set(${includeDirs} ${_includeDirs} PARENT_SCOPE)
-        set(${linkLibs} ${_linkLibs} PARENT_SCOPE)
+        set(${PARSED_ARGS_INCLUDES} ${_includeDirs} PARENT_SCOPE)
+        set(${PARSED_ARGS_LIBRARIES} ${_linkLibs} PARENT_SCOPE)
     endif()
 ENDFUNCTION()

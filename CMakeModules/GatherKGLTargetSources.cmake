@@ -23,6 +23,8 @@ FUNCTION(GatherKGLTargetSources targetName targetType gathered)
     
     set(targetCodePath ${targetsPath}/${targetName}/code)
     
+    message(STATUS "Gathering sources for ${targetName}")
+    
     GatherInSpecificFolder(
         ${targetName}
         ${targetCodePath}/include
@@ -46,5 +48,7 @@ FUNCTION(GatherKGLTargetSources targetName targetType gathered)
         ${targetCommonPrivateSources}
         ${targetPlatformSpecificPrivateSources}
         PARENT_SCOPE)
+    
+    message(STATUS "")
 
 ENDFUNCTION()
