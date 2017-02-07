@@ -1,6 +1,7 @@
 #include <algorithm>
 #include "WindowImpl.h"
 #include "WindowManagerImpl.h"
+#include <KGL_Graphics/Render/RenderContext.h>
 
 // GLEW
 #ifndef GLEW_STATIC
@@ -58,10 +59,33 @@ bool WindowManagerImpl::Update()
     return true;
 }
 
-int WindowManagerImpl::CreateWindow(Core::Application* app)
+int WindowManagerImpl::CreateWindow(Core::Application* app, int windowSharedContext)
 {
-    m_windows.push_back(std::make_unique<WindowImpl>(this, app));
+    Ptr<RenderContext> ctx;
+
+    if(windowSharedContext == -1)
+    {
+        auto wnd = GetWindow(windowSharedContext);
+
+        if(wnd == nullptr)
+        {
+            return -1;
+        }
+
+        ctx = wnd->GetContext();
+    }
+    else
+    {
+        ctx = CreateRenderContext();
+    }
+
+    m_windows.push_back(std::make_unique<WindowImpl>(this, app, ctx));
     return m_windows.back()->GetId();
+}
+
+KGL::Ptr<RenderContext> WindowManagerImpl::CreateRenderContext()
+{
+    return new RenderContext(GenerateRenderContextId());
 }
 
 WindowImpl* WindowManagerImpl::GetWindow(int id)

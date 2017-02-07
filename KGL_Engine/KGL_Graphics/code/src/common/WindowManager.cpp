@@ -1,6 +1,7 @@
 #include <cassert>
 #include <KGL_Base/Marco.h>
-#include "KGL_Graphics/WindowManager.h"
+#include <KGL_Graphics/WindowManager.h>
+#include <KGL_Graphics/Render/RenderContext.h>
 #include "WindowManagerImpl.h"
 
 namespace KGL { namespace Graphics {
@@ -27,13 +28,14 @@ int WindowManager::GetCurrentWindowId()
 
 int WindowManager::CreateWindow(Core::Application* app)
 {
-    if (m_d == nullptr)
-    {
-        assert(false);
-        return -1;
-    }
-
+    assert(m_d != nullptr);
     return m_d->CreateWindow(app);
+}
+
+Ptr<RenderContext> WindowManager::CreateRenderContext()
+{
+    assert(m_d != nullptr);
+    return m_d->CreateRenderContext();
 }
 
 } }

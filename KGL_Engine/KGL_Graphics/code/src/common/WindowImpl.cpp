@@ -4,6 +4,7 @@
 #include <KGL_Core/Application.h>
 #include <KGL_Core/ResourceManager.h>
 #include <KGL_Graphics/GraphicSystem.h>
+#include <KGL_Graphics/Render/RenderContext.h>
 #include <KGL_Graphics/Render/Shaders/ShaderType.h>
 #include <KGL_Graphics/Render/Shaders/Shader.h>
 #include <KGL_Graphics/Render/Shaders/ShaderProgram.h>
@@ -34,10 +35,11 @@ decltype(auto) CreateShader(const char* file)
 
 }
 
-WindowImpl::WindowImpl(WindowManagerImpl* mgr, Core::Application* app) :
+WindowImpl::WindowImpl(WindowManagerImpl* mgr, Core::Application* app, Ptr<RenderContext> context) :
     m_mgr(mgr),
     m_wnd(nullptr),
-    m_id(-1)
+    m_id(-1),
+    m_context(context)
 {
     assert(m_mgr != nullptr);
 

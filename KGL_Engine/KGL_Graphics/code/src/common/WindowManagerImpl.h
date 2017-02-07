@@ -1,7 +1,8 @@
 #ifndef KGL_GRAPHICS_WINDOW_MANAGER_IMPL_H_INCLUDED
 #define KGL_GRAPHICS_WINDOW_MANAGER_IMPL_H_INCLUDED
 
-#include "KGL_Graphics/WindowManager.h"
+#include <KGL_Base/Ptr.h>
+#include <KGL_Graphics/WindowManager.h>
 #include <memory>
 #include <vector>
 
@@ -14,6 +15,7 @@ class Application;
 namespace KGL { namespace Graphics {
 
 class WindowImpl;
+class RenderContext;
 
 class WindowManagerImpl
 {
@@ -37,7 +39,13 @@ public:
         return m_nextWindowId++;
     }
 
-    int CreateWindow(Core::Application* app);
+    int GenerateRenderContextId()
+    {
+        return m_nextRenderContextId++;
+    }
+
+    int CreateWindow(Core::Application* app, int windowSharedContext = -1);
+    KGL::Ptr<RenderContext> CreateRenderContext();
 
     size_t GetWindowsCount() const
     {
@@ -48,6 +56,7 @@ public:
 
 private:
     int m_nextWindowId;
+    int m_nextRenderContextId;
     int m_currentWindowId;
     std::vector<std::unique_ptr<WindowImpl>> m_windows;
 };

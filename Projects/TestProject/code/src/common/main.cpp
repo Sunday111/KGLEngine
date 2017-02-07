@@ -29,7 +29,10 @@ public:
 
         for (int i = 0; i < 2; ++i)
         {
-            gs->GetWindowManager()->CreateWindow(app);
+            auto widnowManager = gs->GetWindowManager();
+            assert(widnowManager != nullptr);
+
+            const int windowId = widnowManager->CreateWindow(app);
         }
 
         app->GetSystemsManager()->RegisterSystem(std::move(gs));
