@@ -14,13 +14,16 @@ class KGL_GRAPHICS_API RenderContext :
     DECLARE_CLASS_RTTI(RenderContext, Object)
 
 public:
-    RenderContext(int id);
+    RenderContext();
     RenderContext(const RenderContext&) = delete;
     RenderContext(RenderContext&& uref);
     ~RenderContext();
 
     RenderContextImpl* GetImpl() const { return m_d; }
-    int GetId() const;
+
+    void MakeCurrent() const;
+    bool ShouldClose() const;
+    void SwapBuffers() const;
 
 private:
 

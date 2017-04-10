@@ -15,7 +15,7 @@ public:
 
 Object::~Object()
 {
-    SAFE_DELETE(m_d);
+    SafeDelete(m_d);
 }
 
 int Object::TypeId()

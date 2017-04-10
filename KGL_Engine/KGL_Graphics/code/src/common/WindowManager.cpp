@@ -18,7 +18,7 @@ WindowManager::WindowManager(WindowManager&& uref) :
 
 WindowManager::~WindowManager()
 {
-    SAFE_DELETE(m_d);
+    SafeDelete(m_d);
 }
 
 int WindowManager::GetCurrentWindowId()

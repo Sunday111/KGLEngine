@@ -36,9 +36,9 @@ public:
 
 private:
     int m_id;
-    GLFWwindow* m_wnd;
     WindowManagerImpl* m_mgr;
     std::set<WindowListener*> m_listeners;
+    GLFWwindow* m_window;
     Ptr<RenderContext> m_context;
 
     std::unique_ptr<ShaderProgram> testShader;

@@ -65,6 +65,10 @@ int WindowManagerImpl::CreateWindow(Core::Application* app, int windowSharedCont
 
     if(windowSharedContext == -1)
     {
+        ctx = CreateRenderContext();
+    }
+    else
+    {
         auto wnd = GetWindow(windowSharedContext);
 
         if(wnd == nullptr)
@@ -74,10 +78,6 @@ int WindowManagerImpl::CreateWindow(Core::Application* app, int windowSharedCont
 
         ctx = wnd->GetContext();
     }
-    else
-    {
-        ctx = CreateRenderContext();
-    }
 
     m_windows.push_back(std::make_unique<WindowImpl>(this, app, ctx));
     return m_windows.back()->GetId();
@@ -85,7 +85,7 @@ int WindowManagerImpl::CreateWindow(Core::Application* app, int windowSharedCont
 
 KGL::Ptr<RenderContext> WindowManagerImpl::CreateRenderContext()
 {
-    return new RenderContext(GenerateRenderContextId());
+    return new RenderContext();
 }
 
 WindowImpl* WindowManagerImpl::GetWindow(int id)

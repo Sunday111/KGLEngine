@@ -11,6 +11,9 @@
 #include "WindowManagerImpl.h"
 #include "WindowImpl.h"
 
+#include "Render/GlfwUtils.h"
+#include "Render/RenderContextImpl.h"
+
 // GLEW
 #ifndef GLEW_STATIC
 #define GLEW_STATIC
@@ -37,7 +40,7 @@ decltype(auto) CreateShader(const char* file)
 
 WindowImpl::WindowImpl(WindowManagerImpl* mgr, Core::Application* app, Ptr<RenderContext> context) :
     m_mgr(mgr),
-    m_wnd(nullptr),
+    m_window(nullptr),
     m_id(-1),
     m_context(context)
 {
@@ -45,14 +48,22 @@ WindowImpl::WindowImpl(WindowManagerImpl* mgr, Core::Application* app, Ptr<Rende
 
     m_id = m_mgr->GenerateWindowId();
 
-    m_wnd = glfwCreateWindow(800, 600, "LearnOpenGL", nullptr, nullptr);
-    if (m_wnd == nullptr)
+    if(m_context == nullptr)
+    {
+        m_context = new RenderContext;
+    }
+
+    m_window = CreateWindow(
+        WindowHint::Visible | WindowHint::Resizable | WindowHint::Decorated,
+        800, 600, m_context->GetImpl()->wnd, "LearnOpenGL");
+
+    if (m_window == nullptr)
     {
         std::cerr << "Failed to create GLFW window" << std::endl;
         assert(false);
         return;
     }
-    glfwMakeContextCurrent(m_wnd);
+    glfwMakeContextCurrent(m_window);
 
     const auto glewInitResult = glewInit();
     if (glewInitResult != GLEW_OK)
@@ -134,9 +145,9 @@ WindowImpl::WindowImpl(WindowManagerImpl* mgr, Core::Application* app, Ptr<Rende
 
 WindowImpl::~WindowImpl()
 {
-    if (m_wnd != nullptr)
+    if (m_window != nullptr)
     {
-        glfwDestroyWindow(m_wnd);
+        glfwDestroyWindow(m_window);
     }
 }
 
@@ -152,15 +163,15 @@ bool WindowImpl::RemoveListener(WindowListener* listener)
 
 bool WindowImpl::ShouldClose() const
 {
-    glfwMakeContextCurrent(m_wnd);
+    glfwMakeContextCurrent(m_window);
     m_mgr->SetCurrentWindow(m_id);
-    auto result = glfwWindowShouldClose(m_wnd);
+    auto result = glfwWindowShouldClose(m_window);
     return result != 0;
 }
 
 void WindowImpl::Update() const
 {
-    glfwMakeContextCurrent(m_wnd);
+    glfwMakeContextCurrent(m_window);
     m_mgr->SetCurrentWindow(m_id);
 
     // Render
@@ -176,7 +187,7 @@ void WindowImpl::Update() const
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 
-    glfwSwapBuffers(m_wnd);  // make this loop through all current windows??
+    glfwSwapBuffers(m_window);  // make this loop through all current windows??
 }
 
 } }

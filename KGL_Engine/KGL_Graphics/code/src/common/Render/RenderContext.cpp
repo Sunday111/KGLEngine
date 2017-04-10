@@ -1,27 +1,32 @@
 #include <KGL_Base/Marco.h>
 #include <KGL_Graphics/Render/RenderContext.h>
+#include "RenderContextImpl.h"
 
 DEFINE_CLASS_RTTI(KGL::Graphics::RenderContext, KGL::Graphics::Object)
 
 namespace KGL { namespace Graphics {
 
-class RenderContextImpl
-{
-public:
-    int contextId;
-};
-
-int RenderContext::GetId() const
+void RenderContext::MakeCurrent() const
 {
     assert(m_d != nullptr);
-    return m_d->contextId;
+    glfwMakeContextCurrent(m_d->wnd);
 }
 
-RenderContext::RenderContext(int id) :
-    m_d(new RenderContextImpl)
+bool RenderContext::ShouldClose() const
 {
-    m_d->contextId = id;
+    assert(m_d != nullptr);
+    return glfwWindowShouldClose(m_d->wnd) != 0;
 }
+
+void RenderContext::SwapBuffers() const
+{
+    assert(m_d != nullptr);
+    glfwSwapBuffers(m_d->wnd);
+}
+
+RenderContext::RenderContext() :
+    m_d(new RenderContextImpl())
+{}
 
 RenderContext::RenderContext(RenderContext&& uref) :
     m_d(uref.m_d)
@@ -31,7 +36,7 @@ RenderContext::RenderContext(RenderContext&& uref) :
 
 RenderContext::~RenderContext()
 {
-    SAFE_DELETE(m_d);
+    SafeDelete(m_d);
 }
 
 } }

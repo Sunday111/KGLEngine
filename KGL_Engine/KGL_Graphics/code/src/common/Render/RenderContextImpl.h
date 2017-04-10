@@ -1,0 +1,24 @@
+#pragma once
+
+#include "GlfwUtils.h"
+
+namespace KGL { namespace Graphics {
+
+class RenderContextImpl
+{
+public:
+    RenderContextImpl() :
+        // In fact render context is an empty window
+        wnd(CreateWindow(WindowHint::Empty, 100, 100, nullptr, "KGL Render Context"))
+    {
+    }
+
+    ~RenderContextImpl()
+    {
+        glfwDestroyWindow(wnd);
+    }
+
+    GLFWwindow* wnd;
+};
+
+} }

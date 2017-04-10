@@ -46,7 +46,7 @@ Model3d::Model3d(Model3d&& uref) :
 
 Model3d::~Model3d()
 {
-    SAFE_DELETE(m_d);
+    SafeDelete(m_d);
 }
 
 Model3dImpl* Model3d::GetImpl()
@@ -68,7 +68,7 @@ const std::shared_ptr<VertexBlob>& Model3d::GetVertexBlob() const
 
 Model3d& Model3d::operator=(Model3d&& uref)
 {
-    SAFE_DELETE(m_d);
+    SafeDelete(m_d);
     m_d = uref.m_d;
     uref.m_d = nullptr;
     return *this;

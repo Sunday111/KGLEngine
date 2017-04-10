@@ -3,17 +3,23 @@
 
 #include <cassert>
 
-#ifndef SAFE_DELETE
-    #define SAFE_DELETE(ptr) { if(ptr != nullptr) delete ptr; }
-#else
-pragma error "Already defined SAFE_DELETE"
-#endif
+template<typename T>
+inline void SafeDelete(T* ptr)
+{
+    if(ptr != nullptr)
+    {
+        delete ptr;
+    }
+}
 
-#ifndef SAFE_ARRAY_DELETE
-#define SAFE_ARRAY_DELETE(ptr) { if(ptr != nullptr) delete [] ptr; }
-#else
-pragma error "Already defined SAFE_ARRAY_DELETE"
-#endif
+template<typename T>
+inline void SafeArrayDelete(T* ptr)
+{
+    if(ptr != nullptr)
+    {
+        delete [] ptr;
+    }
+}
 
 #ifndef assertexpr
 #ifdef _DEBUG

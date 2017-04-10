@@ -30,7 +30,7 @@ Application::~Application()
     {
         if (l.first)
         {
-            SAFE_DELETE(l.second);
+            SafeDelete(l.second);
         }
     }
 
