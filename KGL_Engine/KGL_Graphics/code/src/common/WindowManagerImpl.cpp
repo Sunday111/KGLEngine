@@ -59,28 +59,26 @@ bool WindowManagerImpl::Update()
     return true;
 }
 
-int WindowManagerImpl::CreateWindow(Core::Application* app, int windowSharedContext)
+int WindowManagerImpl::CreateWindow(Core::Application* app, Ptr<RenderContext> renderContext)
 {
-    Ptr<RenderContext> ctx;
-
-    if(windowSharedContext == -1)
-    {
-        ctx = CreateRenderContext();
-    }
-    else
-    {
-        auto wnd = GetWindow(windowSharedContext);
-
-        if(wnd == nullptr)
-        {
-            return -1;
-        }
-
-        ctx = wnd->GetContext();
-    }
-
-    m_windows.push_back(std::make_unique<WindowImpl>(this, app, ctx));
+    m_windows.push_back(std::make_unique<WindowImpl>(this, app, renderContext));
     return m_windows.back()->GetId();
+}
+
+int WindowManagerImpl::CreateWindow(Core::Application* app, int sharedWindowContext)
+{
+    Ptr<RenderContext> renderContext;
+
+    for(auto& wnd : m_windows)
+    {
+        if(wnd->GetId() == sharedWindowContext)
+        {
+            renderContext = wnd->GetContext();
+            break;
+        }
+    }
+
+    return CreateWindow(app, renderContext);
 }
 
 KGL::Ptr<RenderContext> WindowManagerImpl::CreateRenderContext()

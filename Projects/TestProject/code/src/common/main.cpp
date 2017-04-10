@@ -9,6 +9,7 @@
 #include <KGL_Core/SystemsManager.h>
 #include <KGL_Graphics/GraphicSystem.h>
 #include <KGL_Graphics/WindowManager.h>
+#include <KGL_Graphics/Render/RenderContext.h>
 #include <iostream>
 #include <memory>
 #include <string.h>
@@ -27,13 +28,11 @@ public:
     {
         auto gs = std::make_unique<Graphics::GraphicSystem>();
 
-        for (int i = 0; i < 2; ++i)
-        {
-            auto widnowManager = gs->GetWindowManager();
-            assert(widnowManager != nullptr);
+        auto widnowManager = gs->GetWindowManager();
+        assert(widnowManager != nullptr);
 
-            const int windowId = widnowManager->CreateWindow(app);
-        }
+        const int window_0 = widnowManager->CreateWindow(app, -1);
+        const int window_1 = widnowManager->CreateWindow(app, window_0);
 
         app->GetSystemsManager()->RegisterSystem(std::move(gs));
     }

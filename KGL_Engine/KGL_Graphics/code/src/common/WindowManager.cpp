@@ -26,10 +26,16 @@ int WindowManager::GetCurrentWindowId()
     return m_d->GetCurrentWindowId();
 }
 
-int WindowManager::CreateWindow(Core::Application* app)
+int WindowManager::CreateWindow(Core::Application* app, int sharedWindowContext)
 {
     assert(m_d != nullptr);
-    return m_d->CreateWindow(app);
+    return m_d->CreateWindow(app, sharedWindowContext);
+}
+
+int WindowManager::CreateWindow(Core::Application* app, Ptr<RenderContext> renderContext)
+{
+    assert(m_d != nullptr);
+    return m_d->CreateWindow(app, renderContext);
 }
 
 Ptr<RenderContext> WindowManager::CreateRenderContext()

@@ -38,8 +38,8 @@ public:
     {
         return m_nextWindowId++;
     }
-
-    int CreateWindow(Core::Application* app, int windowSharedContext = -1);
+    int CreateWindow(Core::Application* app, int sharedWindowContext);
+    int CreateWindow(Core::Application* app, Ptr<RenderContext> renderContext);
     KGL::Ptr<RenderContext> CreateRenderContext();
 
     size_t GetWindowsCount() const

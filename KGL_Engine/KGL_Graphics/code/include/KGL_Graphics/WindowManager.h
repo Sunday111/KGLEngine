@@ -29,9 +29,8 @@ public:
     WindowManagerImpl* GetImpl() const { return m_d; }
     int GetCurrentWindowId();
 
-    /* Create window and return it's id */
-    int CreateWindow(Core::Application* app);
-    int CreateWindow(Core::Application* app, RenderContext* renderContext);
+    int CreateWindow(Core::Application* app, int sharedWindowContext = -1);
+    int CreateWindow(Core::Application* app, Ptr<RenderContext> renderContext = nullptr);
     
     Ptr<RenderContext> CreateRenderContext();
 
