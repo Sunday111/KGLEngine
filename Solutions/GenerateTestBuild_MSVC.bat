@@ -5,7 +5,19 @@ IF [%1] EQU [] (
     exit /b
 )
 
-set gnrt=Visual Studio 14 2015
+IF [%2] EQU [] (
+    echo Visual studio toolset version is not specified
+    exit /b
+)
+
+IF [%3] EQU [] (
+    echo Visual studio toolset year is not specified
+    exit /b
+)
+
+set gnrtVer=%2
+set gnrtYear=%3
+set gnrt=Visual Studio %gnrtVer% %gnrtYear%
 
 if %1 EQU 32 (
     set arch=X32
@@ -17,8 +29,10 @@ if %1 EQU 32 (
     exit /b
 ))
 
-if not exist TestBuild_%1 mkdir TestBuild_%1
-pushd TestBuild_%1
+set folderName=TestBuild_%1_%gnrtVer%_%gnrtYear%
+
+if not exist %folderName% mkdir %folderName%
+pushd %folderName%
 
 set _TOP0=%cd%\..\..
 set _TOP=%_TOP0:\=/%
