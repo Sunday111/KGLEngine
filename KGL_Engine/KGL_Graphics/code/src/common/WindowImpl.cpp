@@ -102,13 +102,31 @@ WindowImpl::WindowImpl(WindowManagerImpl* mgr, Core::Application* app, Ptr<Rende
     /* Link shaders into shader prgram */
     assertexpr(testShader->Link(&std::cout));
 
-    auto k = std::pow(1.2f, m_id);
+    testShader->Use();
+    auto loc = testShader->GetVariableLocation("gu_color");
+
+    if(loc != -1)
+    {
+        float r = 1.0f;
+        float g = 0.0f;
+        float b = 0.0f;
+
+        if(m_id)
+        {
+            std::swap(r, g);
+        }
+        glUniform3f(loc, r, g, b);
+    }
+    else
+    {
+        assert(false);
+    }
 
     GLfloat vertices[] = {
-         0.5f * k,  0.5f * k, 0.0f,  // Top Right
-         0.5f * k, -0.5f * k, 0.0f,  // Bottom Right
-        -0.5f * k, -0.5f * k, 0.0f,  // Bottom Left
-        -0.5f * k,  0.5f * k, 0.0f   // Top Left 
+         0.5f,  0.5f, 0.0f,  // Top Right
+         0.5f, -0.5f, 0.0f,  // Bottom Right
+        -0.5f, -0.5f, 0.0f,  // Bottom Left
+        -0.5f,  0.5f, 0.0f   // Top Left 
     };
 
     GLuint indices[] = {  // Note that we start from 0!
