@@ -15,6 +15,7 @@
 namespace KGL { namespace Graphics {
 
 WindowManagerImpl::WindowManagerImpl() :
+    m_nextRenderContextId(0),
     m_nextWindowId(0),
     m_currentWindowId(NoCurrentWindow)
 {}
@@ -83,7 +84,7 @@ int WindowManagerImpl::CreateWindow(Core::Application* app, int sharedWindowCont
 
 KGL::Ptr<RenderContext> WindowManagerImpl::CreateRenderContext()
 {
-    return new RenderContext();
+    return new RenderContext(GenerateRenderContextId());
 }
 
 WindowImpl* WindowManagerImpl::GetWindow(int id)

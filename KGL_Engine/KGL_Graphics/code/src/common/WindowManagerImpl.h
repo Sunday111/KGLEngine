@@ -38,6 +38,10 @@ public:
     {
         return m_nextWindowId++;
     }
+    int GenerateRenderContextId()
+    {
+        return m_nextRenderContextId++;
+    }
     int CreateWindow(Core::Application* app, int sharedWindowContext);
     int CreateWindow(Core::Application* app, Ptr<RenderContext> renderContext);
     KGL::Ptr<RenderContext> CreateRenderContext();
@@ -50,6 +54,7 @@ public:
     WindowImpl* GetWindow(int id);
 
 private:
+    int m_nextRenderContextId;
     int m_nextWindowId;
     int m_currentWindowId;
     std::vector<std::unique_ptr<WindowImpl>> m_windows;

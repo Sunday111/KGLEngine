@@ -24,8 +24,13 @@ void RenderContext::SwapBuffers() const
     glfwSwapBuffers(m_d->wnd);
 }
 
-RenderContext::RenderContext() :
-    m_d(new RenderContextImpl())
+int RenderContext::GetId() const
+{
+    return m_d->id;
+}
+
+RenderContext::RenderContext(int id) :
+    m_d(new RenderContextImpl(id))
 {}
 
 RenderContext::RenderContext(RenderContext&& uref) :

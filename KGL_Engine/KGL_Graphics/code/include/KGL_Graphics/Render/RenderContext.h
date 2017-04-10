@@ -14,7 +14,7 @@ class KGL_GRAPHICS_API RenderContext :
     DECLARE_CLASS_RTTI(RenderContext, Object)
 
 public:
-    RenderContext();
+    RenderContext(int id);
     RenderContext(const RenderContext&) = delete;
     RenderContext(RenderContext&& uref);
     ~RenderContext();
@@ -24,6 +24,7 @@ public:
     void MakeCurrent() const;
     bool ShouldClose() const;
     void SwapBuffers() const;
+    int GetId() const;
 
 private:
 

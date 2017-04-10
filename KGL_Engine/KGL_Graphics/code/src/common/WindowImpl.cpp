@@ -50,7 +50,7 @@ WindowImpl::WindowImpl(WindowManagerImpl* mgr, Core::Application* app, Ptr<Rende
 
     if(m_context == nullptr)
     {
-        m_context = new RenderContext;
+        m_context = m_mgr->CreateRenderContext();
     }
 
     m_window = CreateWindow(
@@ -83,7 +83,7 @@ WindowImpl::WindowImpl(WindowManagerImpl* mgr, Core::Application* app, Ptr<Rende
 
     {
         stream << "file=\"" << "Data\\Resources\\Shaders\\Vertex\\Simplest.res" << "\";";
-        stream << "window=" << m_id << ';';
+        stream << "render_context=" << m_context->GetId() << ';';
 
         auto vs = resourceMgr->LoadResourceAs<Shader<ShaderType::Vertex>>(stream.str().data());
 
@@ -94,7 +94,7 @@ WindowImpl::WindowImpl(WindowManagerImpl* mgr, Core::Application* app, Ptr<Rende
 
     {
         stream << "file=\"" << "Data\\Resources\\Shaders\\Fragment\\Simplest.res" << "\";";
-        stream << "window=" << m_id << ';';
+        stream << "render_context=" << m_context->GetId() << ';';
         auto fs = resourceMgr->LoadResourceAs<Shader<ShaderType::Fragment>>(stream.str().data());
         assertexpr(testShader->AddShader(fs, false));
     }
@@ -102,11 +102,13 @@ WindowImpl::WindowImpl(WindowManagerImpl* mgr, Core::Application* app, Ptr<Rende
     /* Link shaders into shader prgram */
     assertexpr(testShader->Link(&std::cout));
 
+    auto k = std::pow(1.2f, m_id);
+
     GLfloat vertices[] = {
-        0.5f,  0.5f, 0.0f,  // Top Right
-        0.5f, -0.5f, 0.0f,  // Bottom Right
-        -0.5f, -0.5f, 0.0f,  // Bottom Left
-        -0.5f,  0.5f, 0.0f   // Top Left 
+         0.5f * k,  0.5f * k, 0.0f,  // Top Right
+         0.5f * k, -0.5f * k, 0.0f,  // Bottom Right
+        -0.5f * k, -0.5f * k, 0.0f,  // Bottom Left
+        -0.5f * k,  0.5f * k, 0.0f   // Top Left 
     };
 
     GLuint indices[] = {  // Note that we start from 0!

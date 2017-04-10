@@ -7,7 +7,8 @@ namespace KGL { namespace Graphics {
 class RenderContextImpl
 {
 public:
-    RenderContextImpl() :
+    RenderContextImpl(int id_) :
+        id(id_),
         // In fact render context is an empty window
         wnd(CreateWindow(WindowHint::Empty, 100, 100, nullptr, "KGL Render Context"))
     {
@@ -18,6 +19,7 @@ public:
         glfwDestroyWindow(wnd);
     }
 
+    int id;
     GLFWwindow* wnd;
 };
 
